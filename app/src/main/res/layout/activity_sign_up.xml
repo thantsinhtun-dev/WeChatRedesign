@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/margin_xxlarge"
+    android:background="@drawable/background_signup"
+    tools:context=".ui.activities.SignUpActivity">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgBack"
+        android:layout_width="@dimen/margin_xxlarge"
+        android:layout_height="@dimen/margin_xxlarge"
+        android:padding="@dimen/padding_backImage"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:layout_marginVertical="@dimen/margin_medium"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgBack"
+        android:layout_marginHorizontal="@dimen/margin_xlarge"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/lbl_hi"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_heading_2x" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/lbl_create_a_new_account"
+            android:textColor="@color/colorSmallText"
+            android:textSize="@dimen/text_regular_2x" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llWelcome"
+        android:layout_marginHorizontal="@dimen/margin_xlarge"
+        android:layout_marginTop="@dimen/margin_xxlarge"
+        android:hint="@string/lbl_enter_your_name"
+        android:textColor="@color/colorPrimaryLight"
+        app:hintTextColor="@color/colorSecondaryText">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:inputType="text"
+            android:paddingStart="0dp"
+            android:paddingTop="@dimen/margin_xlarge"
+            android:paddingEnd="0dp"
+            android:paddingBottom="@dimen/margin_small"
+            tools:ignore="RtlSymmetry" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lblDob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tilName"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_marginTop="@dimen/margin_large"
+        android:fontFamily="@font/poppins_regular"
+        android:text="@string/lbl_date_of_birth"
+        android:textSize="@dimen/text_small" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spDay"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="100dp"
+        android:layout_height="@dimen/height_spinner"
+        android:layout_below="@id/lblDob"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:autofillHints="phone"
+        android:background="@drawable/shadow_otp"
+        android:dropDownHeight="100dp"
+        android:entries="@array/Days"
+        android:paddingStart="@dimen/margin_medium_2"
+        android:textAlignment="textStart" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/spDay"
+        android:layout_alignEnd="@id/spDay"
+        android:layout_alignBottom="@id/spDay"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        app:srcCompat="@drawable/ic_drop_down_24" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spMonth"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_spinner"
+        android:layout_below="@id/lblDob"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_toStartOf="@id/spYear"
+        android:layout_toEndOf="@id/spDay"
+        android:background="@drawable/shadow_otp"
+        android:entries="@array/Days"
+
+        android:paddingStart="@dimen/margin_medium_2"
+        android:textAlignment="textStart" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/spMonth"
+        android:layout_alignEnd="@id/spMonth"
+        android:layout_alignBottom="@id/spMonth"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        app:srcCompat="@drawable/ic_drop_down_24" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spYear"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="120dp"
+        android:layout_height="@dimen/height_spinner"
+        android:layout_below="@id/lblDob"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_large"
+        android:background="@drawable/shadow_otp"
+        android:entries="@array/Days"
+        android:paddingStart="@dimen/margin_medium_2"
+        android:textAlignment="textStart" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/spYear"
+        android:layout_alignEnd="@id/spYear"
+        android:layout_alignBottom="@id/spYear"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        app:srcCompat="@drawable/ic_drop_down_24" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lblGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spDay"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_marginTop="@dimen/margin_large"
+        android:fontFamily="@font/poppins_regular"
+        android:text="@string/lbl_gender"
+        android:textSize="@dimen/text_small" />
+
+    <RadioGroup
+        android:id="@+id/rdGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblGender"
+        android:layout_marginHorizontal="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_small"
+        android:orientation="horizontal">
+
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rdMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/lbl_male"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rdFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium_3"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/lbl_female"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rdOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/lbl_other"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+
+    </RadioGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rdGroup"
+        android:layout_marginHorizontal="@dimen/margin_xlarge"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:hint="@string/hint_enter_your_password"
+        android:textColor="@color/colorPrimaryLight"
+        app:hintTextColor="@color/colorSecondaryText">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:inputType="textPassword"
+            android:paddingStart="0dp"
+            android:paddingTop="@dimen/margin_xlarge"
+            android:paddingEnd="0dp"
+            android:paddingBottom="@dimen/margin_small"
+            tools:ignore="RtlSymmetry" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/llCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tilPassword"
+        android:layout_marginHorizontal="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_medium_2">
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbAgreeTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_light"
+            android:text="@string/lbl_agree_to"
+            android:textColor="@color/colorSmallText"
+            android:textSize="@dimen/text_small" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/lbl_term_and_service"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="@dimen/text_small" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSignup"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="@dimen/width_btn"
+        android:layout_height="@dimen/height_btn"
+        android:layout_below="@id/llCheckBox"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_xxlarge"
+        android:text="@string/lbl_sign_up"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_regular"
+        android:textStyle="bold"
+        app:backgroundTint="@color/colorPrimary"
+        app:cornerRadius="@dimen/margin_medium"
+        app:rippleColor="@color/colorPrimaryDark" />
+
+</RelativeLayout>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.LandingActivity">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_logo"
+        android:layout_width="@dimen/width_logo"
+        android:layout_height="@dimen/height_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_top_landing_logo"
+        app:srcCompat="@drawable/ic_logo" />
+
+    <LinearLayout
+        android:id="@+id/ll_landing"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/margin_xxlarge"
+        android:layout_above="@id/ll_landing_btn"
+        android:layout_marginBottom="@dimen/margin_xxlarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="@dimen/text_regular_2x"
+            android:text="@string/lbl_landing_text1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="@dimen/text_small"
+            android:text="@string/lbl_landing_text2" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_landing_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="80dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSignup"
+            android:text="@string/lbl_sign_up"
+            android:textAllCaps="false"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/poppins_bold"
+            app:strokeColor="@color/colorPrimary"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            app:cornerRadius="@dimen/margin_medium"
+            android:textSize="@dimen/text_regular"
+            android:textStyle="bold"
+            android:layout_width="@dimen/width_btn"
+            android:layout_height="@dimen/height_btn"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogin"
+            android:text="@string/lbl_login"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/colorPrimary"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:textAllCaps="false"
+            app:cornerRadius="@dimen/margin_medium"
+            app:rippleColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/text_regular"
+            android:textStyle="bold"
+            android:layout_width="@dimen/width_btn"
+            android:layout_height="@dimen/height_btn"/>
+    </LinearLayout>
+</RelativeLayout>

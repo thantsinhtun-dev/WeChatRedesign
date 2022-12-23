@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.VerificationActivity">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgBack"
+        android:layout_width="@dimen/margin_xxlarge"
+        android:layout_height="@dimen/margin_xxlarge"
+        android:padding="@dimen/padding_backImage"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:layout_marginVertical="@dimen/margin_medium"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgBack"
+        android:layout_marginHorizontal="@dimen/margin_xlarge"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/lbl_hi"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_heading_2x" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/lbl_create_a_new_account"
+            android:textColor="@color/colorSmallText"
+            android:textSize="@dimen/text_regular_2x" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgWelcome"
+        android:layout_width="@dimen/width_welcome_img"
+        android:layout_height="@dimen/height_welcome_img"
+        android:layout_below="@id/llWelcome"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_xxlarge"
+        app:srcCompat="@drawable/ic_verification" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgWelcome"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_toStartOf="@id/btnGetOtp"
+        android:hint="@string/hint_enter_your_phone_number"
+        android:paddingBottom="@dimen/margin_small"
+        app:hintTextColor="@color/colorSecondaryText"
+        app:mainHintTextSize="@dimen/text_small">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:inputType="phone"
+            android:paddingStart="0dp"
+            android:paddingTop="@dimen/margin_xlarge"
+            android:paddingEnd="0dp"
+            android:paddingBottom="@dimen/margin_small"
+            android:textColor="@color/colorPrimaryLight"
+            tools:ignore="RtlSymmetry" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGetOtp"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="@dimen/width_otp_btn"
+        android:layout_height="@dimen/height_btn"
+        android:layout_alignBottom="@id/tilPhone"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_xlarge"
+        android:padding="10dp"
+        android:text="@string/lbl_get_otp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:rippleColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/text_regular"
+        android:textStyle="bold"
+        app:backgroundTint="@color/colorPrimary"
+        app:cornerRadius="@dimen/margin_medium" />
+
+    <com.chaos.view.PinView
+        android:id="@+id/otp"
+        style="@style/PinWidget.PinView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tilPhone"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:cursorVisible="true"
+        android:inputType="number"
+        android:itemBackground="@drawable/background_otp"
+        android:padding="@dimen/margin_medium"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cursorColor="@color/colorAccent"
+        app:cursorWidth="2dp"
+        app:itemCount="4"
+        app:itemHeight="55dp"
+        app:itemRadius="4dp"
+        app:itemSpacing="@dimen/margin_medium_3"
+        app:itemWidth="55dp"
+        app:lineColor="@color/colorTransparent"
+        app:lineWidth="0dp"
+        app:viewType="rectangle" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llResendCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_below="@id/otp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/lbl_don_t_receive_the_otp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/lbl_resend_code" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnVerify"
+        android:layout_below="@id/llResendCode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:text="@string/lbl_verify"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:textAllCaps="false"
+        app:cornerRadius="@dimen/margin_medium"
+        android:textSize="@dimen/text_regular"
+        app:rippleColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:layout_width="@dimen/width_btn"
+        android:layout_height="@dimen/height_btn"/>
+</RelativeLayout>

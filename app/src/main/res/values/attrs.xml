@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomTextInputLayout">
+        <attr name="mainHintTextSize" format="dimension" />
+    </declare-styleable>
+
+</resources>
