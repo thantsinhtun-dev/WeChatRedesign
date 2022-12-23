@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:background="@drawable/background_dialog"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/margin_medium_3"
+    android:paddingVertical="@dimen/margin_large"
+    >
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lblTitle"
+        android:text="@string/lbl_error"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/poppins_medium"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_regular_3x"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lblBody"
+        android:layout_marginVertical="@dimen/margin_medium"
+        android:text="@string/lbl_oops_something_went_wrong_please_try_again_later"
+        android:layout_marginHorizontal="@dimen/margin_xxlarge"
+        android:textAlignment="center"
+        android:layout_below="@id/lblTitle"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="@dimen/text_regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnOK"
+        android:text="@string/lbl_ok"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_marginHorizontal="@dimen/margin_xxlarge"
+        android:layout_below="@id/lblBody"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"/>
+
+</RelativeLayout>

@@ -66,6 +66,7 @@ class SignUpPresenterImpl : ViewModel(), SignUpPresenter {
     }
 
     override fun onTapSignUp() {
+        mView?.navigateToVerification(name,selectedDay.plus("/").plus(selectedMonth).plus("/").plus(selectedYear),selectedGender,password)
     }
 
     override fun onTapBack() {

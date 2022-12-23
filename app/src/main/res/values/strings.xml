@@ -24,6 +24,10 @@
     <string name="lbl_agree_to_term_and_service">Agree To Term And Service</string>
     <string name="lbl_agree_to">Agree To</string>
     <string name="lbl_term_and_service">Term And Service</string>
+    <string name="lbl_ok">OK</string>
+    <string name="lbl_oops_something_went_wrong_please_try_again_later">Oops, something went wrong, please try again later</string>
+    <string name="lbl_error">Error !</string>
+    <string name="lbl_code_sent">Code was sent !</string>
 
     <array name="Days">
         <item>2022</item>

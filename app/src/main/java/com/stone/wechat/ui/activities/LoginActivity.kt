@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.stone.wechat.R
 import com.stone.wechat.mvp.presenters.LoginPresenter
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_login.editPhone
 import kotlinx.android.synthetic.main.activity_login.imgBack
 import kotlinx.android.synthetic.main.activity_verification.*
 
-class LoginActivity : AppCompatActivity() ,LoginView{
+class LoginActivity : BaseActivity() ,LoginView{
     private lateinit var mPresenter:LoginPresenter
     companion object{
         fun getIntent(context: Context):Intent{
@@ -41,36 +42,25 @@ class LoginActivity : AppCompatActivity() ,LoginView{
 
     private fun setUpListener() {
         btnLogin.setOnClickListener {
+            showLoadingView()
             mPresenter.onTapLogin()
         }
         imgBack.setOnClickListener { mPresenter.onTapBackButton() }
     }
 
     private fun setUpEditText() {
-        editPhone.addTextChangedListener(object :TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                mPresenter.onChangePhoneNumber(p0.toString())
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-        })
-        editPassword.addTextChangedListener(object :TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                mPresenter.onChangePassword(p0.toString())
-            }
-            override fun afterTextChanged(p0: Editable?) {
-            }
-        })
+        editPhone.addTextChangedListener {
+            mPresenter.onChangePhoneNumber(it.toString())
+        }
+        editPassword.addTextChangedListener{
+            mPresenter.onChangePassword(it.toString())
+        }
     }
 
     override fun navigateToMainActivity() {
+        hideLoadingView()
+        startActivity(MainActivity.getIntent(this))
+        finish()
 
     }
 
@@ -85,6 +75,11 @@ class LoginActivity : AppCompatActivity() ,LoginView{
             btnLogin.isEnabled = false
             btnLogin.alpha = 0.5f
         }
+    }
+
+    override fun showErrorMessage(title: String, body: String) {
+        hideLoadingView()
+        showFailureDialog(title, body)
     }
 
     override fun showError(error: String) {

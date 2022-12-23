@@ -9,13 +9,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.stone.wechat.R
 import com.stone.wechat.mvp.presenters.VerificationPresenter
 import com.stone.wechat.mvp.presenters.VerificationPresenterImpl
 import com.stone.wechat.mvp.views.VerificationView
 import kotlinx.android.synthetic.main.activity_verification.*
 
-class VerificationActivity : AppCompatActivity(), VerificationView{
+class VerificationActivity : BaseActivity(), VerificationView{
 
     private var name:String = ""
     private var password:String =""
@@ -52,6 +53,7 @@ class VerificationActivity : AppCompatActivity(), VerificationView{
         setUpListener()
 
         mPresenter.onUIReady(this)
+        editPhone.setText("+959779094484")
 
 
 
@@ -64,10 +66,16 @@ class VerificationActivity : AppCompatActivity(), VerificationView{
 
     private fun setUpListener() {
         btnGetOtp.setOnClickListener {
-            mPresenter.onTapGetOtp(editPhone.toString())
+            showLoadingView()
+            mPresenter.onTapGetOtp(editPhone.text.toString(),this)
+
         }
+
         btnVerify.setOnClickListener {
-            mPresenter.onTapVerify(otp.toString())
+            showLoadingView()
+            mPresenter.onTapVerify(name,editPhone.text.toString(),dob,gender,password,otp.text.toString())
+
+
         }
         imgBack.setOnClickListener { mPresenter.onTapBackButton() }
     }
@@ -82,6 +90,9 @@ class VerificationActivity : AppCompatActivity(), VerificationView{
     }
 
     override fun navigateToMainActivity() {
+        hideLoadingView()
+        startActivity(MainActivity.getIntent(this))
+        finish()
     }
 
     override fun activateOTPButton(activate: Boolean) {
@@ -95,6 +106,7 @@ class VerificationActivity : AppCompatActivity(), VerificationView{
     }
 
     override fun activateVerifyButton(activate: Boolean) {
+        hideLoadingView()
         if(activate){
             btnVerify.isEnabled = true
             btnVerify.alpha = 1f
@@ -104,8 +116,17 @@ class VerificationActivity : AppCompatActivity(), VerificationView{
         }
     }
 
-    override fun showError(error: String) {
+    override fun showErrorMessage(title: String, body: String) {
+        hideLoadingView()
+        showFailureDialog(title,body)
+    }
 
+    override fun showMessage(message: String) {
+        hideLoadingView()
+        Snackbar.make(btnVerify.rootView,message,Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun showError(error: String) {
     }
 
     override fun onTapBack() {

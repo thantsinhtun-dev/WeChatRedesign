@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.stone.wechat.R
 import com.stone.wechat.mvp.presenters.SignUpPresenter
@@ -150,32 +151,12 @@ class SignUpActivity : AppCompatActivity(), SignUpView {
     }
 
     private fun setUpEditText() {
-        editName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                mPresenter.onChangeName(p0.toString())
-                Toast.makeText(applicationContext,p0.toString() , Toast.LENGTH_SHORT).show()
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-        })
-        editPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                mPresenter.onChangePassword(p0.toString())
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-        })
+        editName.addTextChangedListener {
+            mPresenter.onChangeName(it.toString())
+        }
+        editPassword.addTextChangedListener {
+            mPresenter.onChangePassword(it.toString())
+        }
 
     }
 
@@ -185,7 +166,7 @@ class SignUpActivity : AppCompatActivity(), SignUpView {
         gender: String,
         password: String
     ) {
-        TODO("Not yet implemented")
+        startActivity(VerificationActivity.getIntent(this,name,password,dob,gender))
     }
 
     override fun navigateToLandingScreen() {

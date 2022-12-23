@@ -3,11 +3,15 @@ package com.stone.wechat.mvp.presenters
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.stone.wechat.mvp.views.LoginView
+import com.stone.wechat.networks.CloudFireStoreApi
+import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl
 
 class LoginPresenterImpl : ViewModel(), LoginPresenter {
     private var mView: LoginView? = null
     private var phone: String = ""
     private var password: String = ""
+
+    private val mFireStoreApi: CloudFireStoreApi = CloudFireStoreFirebaseApiImpl
     override fun initView(view: LoginView) {
         mView = view
     }
@@ -23,7 +27,14 @@ class LoginPresenterImpl : ViewModel(), LoginPresenter {
     }
 
     override fun onTapLogin() {
-
+        mFireStoreApi.login(phone, password,
+            onSuccess = {
+                mView?.navigateToMainActivity()
+            },
+            onFailure = {
+                mView?.showErrorMessage("Error !",it)
+            }
+        )
     }
 
     override fun onTapForgetPassword() {

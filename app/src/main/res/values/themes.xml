@@ -21,5 +21,20 @@
         <item name="android:textSize">12sp</item>
         <item name="android:labelTextSize">12sp</item>
     </style>
+    <style name="Theme_Dialog_NoTitle" parent="Theme.AppCompat.Light">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <style name="ThemeLoadingDialog" parent="Theme_Dialog_NoTitle">
+        <item name="android:windowBackground">@color/colorTransparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+    <style name="ThemeDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@color/colorTransparent</item>
+        <item name="android:background">@color/colorTransparent</item>
+    </style>
 
 </resources>
