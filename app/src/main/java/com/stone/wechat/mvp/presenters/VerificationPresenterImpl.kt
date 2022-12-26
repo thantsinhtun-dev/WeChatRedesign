@@ -11,6 +11,7 @@ import com.stone.wechat.R
 import com.stone.wechat.mvp.views.VerificationView
 import com.stone.wechat.networks.CloudFireStoreApi
 import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl
+import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl.checkPhoneNumber
 import com.stone.wechat.networks.auth.AuthManager
 import com.stone.wechat.networks.auth.FirebaseAuthManager
 
@@ -33,11 +34,12 @@ class VerificationPresenterImpl : ViewModel(), VerificationPresenter {
         mFireBaseApi.checkPhoneNumber(
             phone,
             exists = {
-               mView?.showErrorMessage(title = "ERROR !", body = "Phone number already exists !")
+                mView?.showErrorMessage(title = "ERROR !", body = "Phone number already exists !")
             },
             notExists = {
-                mView?.showMessage("code was sent!")
-//        mAuthManager.sendVerificationCode(phone, activity, mCallBack)
+
+                mAuthManager.sendVerificationCode(phone, activity, mCallBack)
+//                mView?.showMessage("code was sent!")
             })
     }
 
@@ -50,19 +52,26 @@ class VerificationPresenterImpl : ViewModel(), VerificationPresenter {
         otp: String
     ) {
 //        val credential = PhoneAuthProvider.getCredential(verificationID, otp)
-        mFireBaseApi.createUser(
-            name,
-            phone,
-            dob,
-            gender,
-            password,
-            onSuccess = { mView?.navigateToMainActivity() },
-            onFailure = {
-                mView?.showErrorMessage(
-                    "Error !",
-                    "Oops, something went wrong, please try again later."
-                )
-            })
+        if(otp == "222222") {
+            mFireBaseApi.createUser(
+                name,
+                phone,
+                dob,
+                gender,
+                password,
+                onSuccess = { mView?.navigateToMainActivity() },
+                onFailure = {
+                    mView?.showErrorMessage(
+                        "Error !",
+                        "Oops, something went wrong, please try again later."
+                    )
+                })
+        }else{
+            mView?.showErrorMessage(
+                "Error !",
+                "Your OTP is incorrect, please try again "
+            )
+        }
 //        mAuthManager.verifyOtpWithCredential(credential,
 //            onSuccess = {
 //
@@ -125,6 +134,7 @@ class VerificationPresenterImpl : ViewModel(), VerificationPresenter {
                 Log.i("otpError", e.toString())
                 mView?.showErrorMessage(
                     "Error !",
+                    e.localizedMessage ?:
                     "Oops, something went wrong, please try again later."
                 )
             }

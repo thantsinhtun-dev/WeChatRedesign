@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_medium_2"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/rlHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_large"
+        >
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="@dimen/margin_xxlarge"
+            android:layout_height="@dimen/margin_xxlarge"
+            app:shapeAppearanceOverlay="@style/ImageView.Corner.medium"
+            app:srcCompat="@drawable/ic_avator" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium_2"
+            android:layout_toEndOf="@+id/imgProfile"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lblUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Mical"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_regular_2x" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lblMomentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20 min ago" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/margin_xxlarge"
+            android:layout_height="@dimen/margin_xxlarge"
+            android:layout_alignParentEnd="true"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:padding="@dimen/margin_medium"
+            app:srcCompat="@drawable/ic_more_horiz_24" />
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lblMomentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlHeader"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginHorizontal="@dimen/margin_large"
+        android:text="Hello"
+        android:textColor="@color/colorPrimary"
+        app:fontFamily="@font/poppins_regular" />
+    <LinearLayout
+        android:id="@+id/llContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblMomentText"
+        android:orientation="horizontal">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMomentContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:paddingStart="@dimen/margin_large"
+            android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:ignore="RtlSymmetry" />
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/playerMoment"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:resize_mode="zoom" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:background="@color/colorPrimaryDark"
+            android:id="@+id/imgMoment"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            app:shapeAppearanceOverlay="@style/ImageView.Corner.small"
+            android:scaleType="centerCrop"
+            />
+    </LinearLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/rlMomentReaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llContent"
+        android:layout_marginVertical="@dimen/margin_medium"
+        android:layout_marginHorizontal="@dimen/margin_large"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgMomentLike"
+            android:layout_width="@dimen/margin_xlarge"
+            android:layout_height="@dimen/margin_xlarge"
+            android:padding="@dimen/margin_small"
+            app:srcCompat="@drawable/ic_disable_like"
+            android:clickable="true"
+            android:background="?selectableItemBackgroundBorderless"
+            />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/lblMomentLikeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_xlarge"
+            android:layout_toEndOf="@id/imgMomentLike"
+            android:text="3"
+            android:includeFontPadding="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_regular_2x"
+            app:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgMomentComment"
+            android:layout_width="@dimen/margin_xlarge"
+            android:layout_height="@dimen/margin_xlarge"
+            android:layout_toStartOf="@id/lblMomentCommentCount"
+            app:srcCompat="@drawable/ic_comment_dots"
+            android:clickable="true"
+            android:background="?selectableItemBackgroundBorderless"
+            />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/lblMomentCommentCount"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_xlarge"
+            android:layout_toStartOf="@id/imgMomentBookMark"
+            android:layout_marginEnd="@dimen/margin_medium_2"
+            android:text="3"
+            android:includeFontPadding="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_regular_2x"
+            app:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgMomentBookMark"
+            android:layout_width="@dimen/margin_xlarge"
+            android:layout_height="@dimen/margin_xlarge"
+            android:padding="@dimen/margin_small"
+            android:layout_alignParentEnd="true"
+            android:clickable="true"
+            android:background="?selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_disable_book_mark"
+            />
+    </RelativeLayout>
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimaryLight"
+        android:layout_height="0.5dp"/>
+
+</RelativeLayout>

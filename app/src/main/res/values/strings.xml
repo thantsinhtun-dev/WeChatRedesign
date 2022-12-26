@@ -28,8 +28,19 @@
     <string name="lbl_oops_something_went_wrong_please_try_again_later">Oops, something went wrong, please try again later</string>
     <string name="lbl_error">Error !</string>
     <string name="lbl_code_sent">Code was sent !</string>
+    <string name="lbl_moment">Moment</string>
+    <string name="lbl_moments">Moments</string>
+    <string name="lbl_chat">Chat</string>
+    <string name="lbl_contacts">Contacts</string>
+    <string name="lbl_me">Me</string>
+    <string name="lbl_settings">Settings</string>
 
     <array name="Days">
         <item>2022</item>
     </array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lbl_create">Create</string>
+    <string name="lbl_new_moment">New Moment</string>
+    <string name="hint_what_s_in_your_mind">What\'s in your mind?</string>
 </resources>

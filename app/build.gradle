@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace 'com.stone.wechat'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.stone.wechat"
         minSdk 27
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -41,6 +41,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
@@ -52,4 +53,20 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-messaging-ktx'
+
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+
+    // rxkotlin
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+    implementation("io.reactivex.rxjava3:rxkotlin:3.0.1")
+
+    // exoplayer
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.2'
+
+    // time ago
+    implementation 'com.github.shamalka:Pretty-TimeAgo-android-library:1.1.0'
+
 }

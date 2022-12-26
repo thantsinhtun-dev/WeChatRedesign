@@ -1,5 +1,8 @@
 package com.stone.wechat.networks
 
+import com.stone.wechat.data.vos.MomentFileVO
+import com.stone.wechat.data.vos.MomentVO
+
 interface CloudFireStoreApi {
     fun createUser(
         name: String,
@@ -21,6 +24,16 @@ interface CloudFireStoreApi {
         phone: String, password: String,
         onSuccess: () -> Unit,
         onFailure: (message:String) -> Unit
+    )
+    fun createMoment(
+        momentText:String,
+        momentContents:List<MomentFileVO>,
+        onSuccess: () -> Unit,
+        onFailure: (errorMessage:String) -> Unit
+    )
+    fun getMoments(
+        onSuccess: (List<MomentVO>) -> Unit,
+        onFailure: (errorMessage:String) -> Unit
     )
 
 }

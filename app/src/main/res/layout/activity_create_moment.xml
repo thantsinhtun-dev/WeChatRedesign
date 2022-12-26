@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/margin_medium_2"
+    tools:context=".ui.activities.CreateMomentActivity">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgBack"
+        android:layout_width="@dimen/margin_xxlarge"
+        android:layout_height="@dimen/margin_xxlarge"
+        android:padding="@dimen/margin_medium_2"
+        android:clickable="true"
+        android:background="?selectableItemBackgroundBorderless"
+        app:srcCompat="@drawable/ic_dismiss" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/margin_xxlarge"
+        android:layout_toStartOf="@id/btnCreateMoment"
+        android:layout_toEndOf="@id/imgBack"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="@string/lbl_new_moment"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_heading_1x" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCreateMoment"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_btn"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:fontFamily="@font/poppins_medium"
+        android:padding="@dimen/margin_small"
+        android:text="@string/lbl_create"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_regular"
+        android:textStyle="bold"
+        app:rippleColor="@color/colorPrimaryDark"
+        app:backgroundTint="@color/colorPrimary"
+        app:cornerRadius="@dimen/margin_medium" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="@dimen/create_moment_profile_sixe"
+        android:layout_height="@dimen/create_moment_profile_sixe"
+        android:layout_below="@id/imgBack"
+        android:layout_marginVertical="@dimen/margin_medium_3"
+        android:layout_marginStart="@dimen/margin_medium_3"
+        app:shapeAppearanceOverlay="@style/ImageView.Corner.medium"
+        app:srcCompat="@drawable/ic_avator" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lblUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imgProfile"
+        android:layout_alignBottom="@id/imgProfile"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_toEndOf="@id/imgProfile"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:text="Mical"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_regular_2x"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editMoment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgProfile"
+        android:layout_above="@id/horizontalScroll"
+        android:layout_marginHorizontal="@dimen/margin_medium_3"
+        android:gravity="top"
+        android:background="@color/colorTransparent"
+        android:hint="@string/hint_what_s_in_your_mind"
+        android:textSize="@dimen/text_regular_2x"
+        android:textColor="@color/colorPrimary"
+        />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginVertical="@dimen/margin_medium_2"
+        >
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMomentFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:clipToPadding="true"
+                android:layout_marginStart="@dimen/margin_medium"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/view_holder_add_moment_content"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgAddContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_small"
+                app:srcCompat="@drawable/ic_add_content"
+                />
+        </LinearLayout>
+    </HorizontalScrollView>
+</RelativeLayout>
