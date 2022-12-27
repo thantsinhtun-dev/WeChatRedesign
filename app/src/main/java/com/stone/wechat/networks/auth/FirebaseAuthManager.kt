@@ -7,6 +7,8 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
+import com.google.firebase.firestore.auth.User
+import com.stone.wechat.networks.auth.FirebaseAuthManager.mFirebaseAuth
 import java.util.concurrent.TimeUnit
 
 
@@ -35,15 +37,75 @@ object FirebaseAuthManager : AuthManager{
     ) {
         mFirebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener {
-                if (it.isSuccessful && it.isComplete){
-                    Log.i("uid",it.result.user?.uid.toString())
-                    onSuccess(it.result.user?.uid.toString() ?: "")
-                }else {
+                try {
+                    if (it.result.additionalUserInfo?.isNewUser == false) {
+                        onError("User already exist")
+                    } else {
+                        if (it.isSuccessful && it.isComplete) {
+                            Log.i("uid", it.result.user?.uid.toString())
+                            onSuccess(it.result.user?.uid.toString() ?: "")
+
+                        } else {
+                            onError("OTP is incorrect")
+                        }
+                    }
+                }catch (e:java.lang.Exception){
                     onError("OTP is incorrect")
                 }
             }
             .addOnFailureListener {
                 onError("OTP is incorrect")
+            }
+    }
+
+    override fun checkCurrentUser(
+        onSuccess: (String) -> Unit,
+        onError: (errorMessage: String?) -> Unit
+    ) {
+        val user = mFirebaseAuth.currentUser
+        if (user != null){
+            onSuccess("exists")
+        }else{
+            onError("not exists")
+        }
+    }
+
+    override fun createUserWithEmail(
+        phone: String,
+        password: String,
+        onSuccess: (String) -> Unit,
+        onError: (errorMessage: String?) -> Unit
+    ) {
+        mFirebaseAuth.signOut()
+        mFirebaseAuth.createUserWithEmailAndPassword(phone.plus("@gmail.com"),password)
+            .addOnCompleteListener {
+                if (it.isSuccessful && it.isComplete) {
+                    Log.i("uid", it.result.user?.uid.toString())
+                    Log.i("user_info",it.result.user?.email + password)
+                    onSuccess(it.result.user?.uid.toString() ?: "")
+
+                }
+            }.addOnFailureListener {
+                onError(it.localizedMessage)
+            }
+    }
+
+    override fun loginWithEmail(
+        phone: String,
+        password: String,
+        onSuccess: (String) -> Unit,
+        onError: (errorMessage: String?) -> Unit
+    ) {
+        Log.i("user_info",phone.plus("@gmail.com") + password)
+        mFirebaseAuth.signInWithEmailAndPassword(phone.plus("@gmail.com"),password)
+            .addOnCompleteListener {
+                if (it.isSuccessful && it.isComplete) {
+                    Log.i("uid", it.result.user?.uid.toString())
+                    onSuccess(it.result.user?.uid.toString() ?: "")
+
+                }
+            }.addOnFailureListener {
+                onError(it.localizedMessage)
             }
     }
 //    private val mCallBack: OnVerificationStateChangedCallbacks =

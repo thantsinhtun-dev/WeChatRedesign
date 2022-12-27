@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.stone.wechat.mvp.views.LoginView
 import com.stone.wechat.networks.CloudFireStoreApi
 import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl
+import com.stone.wechat.networks.auth.AuthManager
+import com.stone.wechat.networks.auth.FirebaseAuthManager
 
 class LoginPresenterImpl : ViewModel(), LoginPresenter {
     private var mView: LoginView? = null
@@ -12,6 +14,8 @@ class LoginPresenterImpl : ViewModel(), LoginPresenter {
     private var password: String = ""
 
     private val mFireStoreApi: CloudFireStoreApi = CloudFireStoreFirebaseApiImpl
+    private var mAuthManager: AuthManager = FirebaseAuthManager
+
     override fun initView(view: LoginView) {
         mView = view
     }
@@ -27,14 +31,21 @@ class LoginPresenterImpl : ViewModel(), LoginPresenter {
     }
 
     override fun onTapLogin() {
-        mFireStoreApi.login(phone, password,
+        mAuthManager.loginWithEmail(phone,password,
             onSuccess = {
                 mView?.navigateToMainActivity()
             },
-            onFailure = {
-                mView?.showErrorMessage("Error !",it)
-            }
-        )
+            onError = {
+                mView?.showErrorMessage("Error !",it ?: "Oops somethings wrong")
+            })
+//        mFireStoreApi.login(phone, password,
+//            onSuccess = {
+//
+//            },
+//            onFailure = {
+//
+//            }
+//        )
     }
 
     override fun onTapForgetPassword() {

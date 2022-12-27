@@ -37,7 +37,7 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
             "profile" to "",
             "qrCode" to System.currentTimeMillis().toString().plus(phone),
             )
-        Firebase.firestore.collection("users").document(phone).set(user).addOnSuccessListener {
+        Firebase.firestore.collection("users").document(userId).set(user).addOnSuccessListener {
             onSuccess()
 
         }.addOnFailureListener {
@@ -64,7 +64,9 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
     ) {
         val document = Firebase.firestore.collection("users").document(phone)
         document.get().addOnSuccessListener { snap ->
-            if (snap.exists()) if (snap.get("password") == password) onSuccess() else onFailure("Incorrect Password")
+            if (snap.exists()) {
+                if (snap.get("password") == password) onSuccess() else onFailure("Incorrect Password")
+            }
             else onFailure("Incorrect Phone or Password")
         }.addOnFailureListener {
             onFailure(it.localizedMessage ?: "Something wrong")
@@ -130,9 +132,9 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
                     for (document in result) {
                         val data = document.data
                         val momentVO = MomentVO(
-                            id = "",
-                            name = data?.get("name") as String,
-                            time = data?.get("time") as Long,
+                            userId = "",
+                            userName = data?.get("name") as String,
+                            time = data["time"] as Long,
                             isMovie = data["isMovie"] as Boolean,
                             momentText = data["momentText"] as String,
                             content = data["contentList"] as List<String>?,

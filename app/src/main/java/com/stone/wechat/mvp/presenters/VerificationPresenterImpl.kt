@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.stone.wechat.mvp.views.VerificationView
@@ -29,15 +30,15 @@ class VerificationPresenterImpl : ViewModel(), VerificationPresenter {
 
     override fun onTapGetOtp(activity: AppCompatActivity) {
 
-        mFireBaseApi.checkPhoneNumber(
-            this.phone,
-            exists = {
-                mView?.showErrorMessage(title = "ERROR !", body = "Phone number already exists !")
-            },
-            notExists = {
+//        mFireBaseApi.checkPhoneNumber(
+//            this.phone,
+//            exists = {
+//                mView?.showErrorMessage(title = "ERROR !", body = "Phone number already exists !")
+//            },
+//            notExists = {
                 mAuthManager.sendVerificationCode(this.phone, activity, mCallBack)
 //                mView?.showMessage("code was sent!")
-            })
+//            })
     }
 
     override fun onTapVerify(otp: String) {

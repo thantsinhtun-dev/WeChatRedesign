@@ -36,7 +36,7 @@ class MomentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         itemView.imgMoment.visibility = View.GONE
 
 
-        itemView.lblUserName.text = mData.name
+        itemView.lblUserName.text = mData.userName
         itemView.lblMomentText.text = mData.momentText
         itemView.lblMomentTime.text = PrettyTimeAgo.getTimeAgo(mData.time)
 

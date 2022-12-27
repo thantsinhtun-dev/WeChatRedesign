@@ -5,11 +5,14 @@ import androidx.lifecycle.ViewModel
 import com.stone.wechat.mvp.views.SignUpView
 import com.stone.wechat.networks.CloudFireStoreApi
 import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl
+import com.stone.wechat.networks.auth.AuthManager
+import com.stone.wechat.networks.auth.FirebaseAuthManager
 
 class SignUpPresenterImpl : ViewModel(), SignUpPresenter {
 
     private var mView: SignUpView? = null
     private var mFireBaseApi: CloudFireStoreApi = CloudFireStoreFirebaseApiImpl
+    private var mAuthManager: AuthManager = FirebaseAuthManager
 
 
     private var selectedDay: String = ""
@@ -72,20 +75,28 @@ class SignUpPresenterImpl : ViewModel(), SignUpPresenter {
 
     override fun onTapSignUp(phone: String, userId: String) {
 //        mView?.navigateToVerification(name,selectedDay.plus("/").plus(selectedMonth).plus("/").plus(selectedYear),selectedGender,password)
-        mFireBaseApi.createUser(
-            userId,
-            name,
-            phone,
-            selectedDay.plus("/").plus(selectedMonth).plus("/").plus(selectedYear),
-            selectedGender,
-            password,
+        mAuthManager.createUserWithEmail(phone, password,
             onSuccess = {
-                mView?.navigateToMainActivity()
+                mFireBaseApi.createUser(
+                    it,
+                    name,
+                    phone,
+                    selectedDay.plus("/").plus(selectedMonth).plus("/").plus(selectedYear),
+                    selectedGender,
+                    password,
+                    onSuccess = {
+                        mView?.navigateToMainActivity()
+                    },
+                    onFailure = {
+                        mView?.showError(it)
+                    }
+                )
             },
-            onFailure = {
-                mView?.showError(it)
-            }
-        )
+            onError = {
+                mView?.showError(it ?: "error")
+            })
+
+
     }
 
     override fun onTapBack() {

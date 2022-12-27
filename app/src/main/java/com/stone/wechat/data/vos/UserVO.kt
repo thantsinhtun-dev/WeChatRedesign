@@ -5,5 +5,8 @@ data class UserVO(
     var phone:String? = "",
     var dob:String? = "",
     var gender:String? = "",
-    var password:String? = ""
+    var password:String? = "",
+    var userId:String? = "",
+    var qrCode:String? = "",
+    var profile:String? = ""
 )

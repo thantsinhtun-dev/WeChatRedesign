@@ -12,14 +12,17 @@ import kotlinx.android.synthetic.main.activity_landing.*
 
 class LandingActivity : AppCompatActivity(),LandingView {
     private lateinit var mPresenter: LandingPresenter
+    private var keepSplashScreen = true
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+        splashScreen.setKeepOnScreenCondition{keepSplashScreen}
 
         setContentView(R.layout.activity_landing)
 
         setUpPresenter()
         setUpListener()
+        mPresenter.onUIReady(this)
     }
 
     private fun setUpListener() {
@@ -38,6 +41,14 @@ class LandingActivity : AppCompatActivity(),LandingView {
 
     override fun navigateToLogin() {
         startActivity(LoginActivity.getIntent(this))
+    }
+
+    override fun userAlreadyExists() {
+        startActivity(MainActivity.getIntent(this))
+    }
+
+    override fun userDoesNotExists() {
+        keepSplashScreen = false
     }
 
     override fun showError(error: String) {
