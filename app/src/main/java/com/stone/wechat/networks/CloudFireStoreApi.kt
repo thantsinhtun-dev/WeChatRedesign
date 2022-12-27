@@ -5,13 +5,14 @@ import com.stone.wechat.data.vos.MomentVO
 
 interface CloudFireStoreApi {
     fun createUser(
+        userId:String,
         name: String,
         phone: String,
         dob: String,
         gender: String,
         password: String,
         onSuccess: () -> Unit,
-        onFailure: () -> Unit
+        onFailure: (String) -> Unit
     )
 
     fun checkPhoneNumber(

@@ -3,10 +3,15 @@ package com.stone.wechat.mvp.presenters
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.stone.wechat.mvp.views.SignUpView
+import com.stone.wechat.networks.CloudFireStoreApi
+import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl
 
 class SignUpPresenterImpl : ViewModel(), SignUpPresenter {
 
     private var mView: SignUpView? = null
+    private var mFireBaseApi: CloudFireStoreApi = CloudFireStoreFirebaseApiImpl
+
+
     private var selectedDay: String = ""
     private var selectedMonth: String = ""
     private var selectedYear: String = ""
@@ -65,8 +70,22 @@ class SignUpPresenterImpl : ViewModel(), SignUpPresenter {
         checkValidUserInput()
     }
 
-    override fun onTapSignUp() {
-        mView?.navigateToVerification(name,selectedDay.plus("/").plus(selectedMonth).plus("/").plus(selectedYear),selectedGender,password)
+    override fun onTapSignUp(phone: String, userId: String) {
+//        mView?.navigateToVerification(name,selectedDay.plus("/").plus(selectedMonth).plus("/").plus(selectedYear),selectedGender,password)
+        mFireBaseApi.createUser(
+            userId,
+            name,
+            phone,
+            selectedDay.plus("/").plus(selectedMonth).plus("/").plus(selectedYear),
+            selectedGender,
+            password,
+            onSuccess = {
+                mView?.navigateToMainActivity()
+            },
+            onFailure = {
+                mView?.showError(it)
+            }
+        )
     }
 
     override fun onTapBack() {

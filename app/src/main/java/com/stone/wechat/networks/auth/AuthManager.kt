@@ -6,5 +6,5 @@ import com.google.firebase.auth.PhoneAuthProvider
 
 interface AuthManager {
     fun sendVerificationCode(number:String,activity:AppCompatActivity,mCallBack: PhoneAuthProvider.OnVerificationStateChangedCallbacks)
-    fun verifyOtpWithCredential(credential: PhoneAuthCredential, onSuccess:()->Unit, onError:(errorMessage:String?)->Unit)
+    fun verifyOtpWithCredential(credential: PhoneAuthCredential, onSuccess:(String)->Unit, onError:(errorMessage:String?)->Unit)
 }

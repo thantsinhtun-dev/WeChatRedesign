@@ -11,6 +11,6 @@ interface SignUpPresenter :BasePresenter{
     fun onSelectDay(day:String)
     fun onSelectMonth(month:String)
     fun onSelectYear(year:String)
-    fun onTapSignUp()
+    fun onTapSignUp(phone: String, userId: String)
     fun onTapBack()
 }

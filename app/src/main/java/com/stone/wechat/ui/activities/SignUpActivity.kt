@@ -3,12 +3,9 @@ package com.stone.wechat.ui.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.stone.wechat.R
@@ -18,22 +15,32 @@ import com.stone.wechat.mvp.views.SignUpView
 import com.stone.wechat.viewPods.CustomDropDown
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.activity_sign_up.imgBack
-import kotlinx.android.synthetic.main.activity_verification.*
 
 
-class SignUpActivity : AppCompatActivity(), SignUpView {
+class SignUpActivity : BaseActivity(), SignUpView {
 
     private lateinit var mPresenter: SignUpPresenter
 
+    private var phone:String = ""
+    private var userId:String = ""
     companion object{
-        fun getIntent(context: Context):Intent{
-            return Intent(context,SignUpActivity::class.java)
+        private const val EXTRA_PHONE = "EXTRA_PHONE"
+        private const val EXTRA_USERID = "EXTRA_USERID"
+        fun getIntent(context: Context,phone: String,userId:String):Intent{
+            val intent = Intent(context,SignUpActivity::class.java)
+            intent.putExtra(EXTRA_PHONE,phone)
+            intent.putExtra(EXTRA_USERID,userId)
+            return intent
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+
+
+        phone = intent.getStringExtra(EXTRA_PHONE).toString()
+        userId = intent.getStringExtra(EXTRA_USERID).toString()
 
         setUpPresenter()
         setUpSpinner()
@@ -45,7 +52,8 @@ class SignUpActivity : AppCompatActivity(), SignUpView {
 
     private fun setUpListener() {
         btnSignup.setOnClickListener {
-            mPresenter.onTapSignUp()
+            showLoadingView()
+            mPresenter.onTapSignUp(phone,userId)
         }
         imgBack.setOnClickListener { mPresenter.onTapBackButton() }
     }
@@ -129,15 +137,12 @@ class SignUpActivity : AppCompatActivity(), SignUpView {
             when (id) {
                 R.id.rdMale -> {
                     mPresenter.onChangeGender("Male")
-                    Toast.makeText(this, "male", Toast.LENGTH_SHORT).show()
                 }
                 R.id.rdFemale -> {
                     mPresenter.onChangeGender("Female")
-                    Toast.makeText(this, "female", Toast.LENGTH_SHORT).show()
                 }
                 R.id.rdOther -> {
                     mPresenter.onChangeGender("Other")
-                    Toast.makeText(this, "other", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -160,13 +165,9 @@ class SignUpActivity : AppCompatActivity(), SignUpView {
 
     }
 
-    override fun navigateToVerification(
-        name: String,
-        dob: String,
-        gender: String,
-        password: String
-    ) {
-        startActivity(VerificationActivity.getIntent(this,name,password,dob,gender))
+    override fun navigateToMainActivity() {
+        hideLoadingView()
+        startActivity(MainActivity.getIntent(this))
     }
 
     override fun navigateToLandingScreen() {
@@ -187,6 +188,8 @@ class SignUpActivity : AppCompatActivity(), SignUpView {
     }
 
     override fun showError(error: String) {
+        hideLoadingView()
+        showFailureDialog("ERROR !",error)
     }
 
     override fun onTapBack() {

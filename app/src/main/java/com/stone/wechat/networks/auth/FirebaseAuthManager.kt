@@ -1,5 +1,6 @@
 package com.stone.wechat.networks.auth
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
@@ -29,16 +30,20 @@ object FirebaseAuthManager : AuthManager{
 
     override fun verifyOtpWithCredential(
         credential: PhoneAuthCredential,
-        onSuccess: () -> Unit,
+        onSuccess: (String) -> Unit,
         onError: (errorMessage: String?) -> Unit
     ) {
         mFirebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener {
-                if (it.isSuccessful){
-                    onSuccess()
+                if (it.isSuccessful && it.isComplete){
+                    Log.i("uid",it.result.user?.uid.toString())
+                    onSuccess(it.result.user?.uid.toString() ?: "")
                 }else {
-                    onError(it.exception?.localizedMessage)
+                    onError("OTP is incorrect")
                 }
+            }
+            .addOnFailureListener {
+                onError("OTP is incorrect")
             }
     }
 //    private val mCallBack: OnVerificationStateChangedCallbacks =

@@ -2,6 +2,7 @@ package com.stone.wechat.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import com.stone.wechat.R
 import com.stone.wechat.mvp.presenters.LandingPresenter
@@ -12,7 +13,9 @@ import kotlinx.android.synthetic.main.activity_landing.*
 class LandingActivity : AppCompatActivity(),LandingView {
     private lateinit var mPresenter: LandingPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_landing)
 
         setUpPresenter()
@@ -30,7 +33,7 @@ class LandingActivity : AppCompatActivity(),LandingView {
     }
 
     override fun navigateToSignUp() {
-        startActivity(SignUpActivity.getIntent(this))
+        startActivity(VerificationActivity.getIntent(this))
     }
 
     override fun navigateToLogin() {

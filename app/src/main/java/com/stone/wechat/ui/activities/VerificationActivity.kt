@@ -2,11 +2,7 @@ package com.stone.wechat.ui.activities
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextWatcher
-import android.view.View
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
@@ -38,6 +34,9 @@ class VerificationActivity : BaseActivity(), VerificationView{
             intent.putExtra(EXTRA_GENDER,gender)
             return intent
         }
+        fun getIntent(context: Context): Intent {
+            return Intent(context, VerificationActivity::class.java)
+        }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +52,7 @@ class VerificationActivity : BaseActivity(), VerificationView{
         setUpListener()
 
         mPresenter.onUIReady(this)
-        editPhone.setText("+959779094484")
+        editPhone.setText("09779094484")
 
 
 
@@ -67,13 +66,13 @@ class VerificationActivity : BaseActivity(), VerificationView{
     private fun setUpListener() {
         btnGetOtp.setOnClickListener {
             showLoadingView()
-            mPresenter.onTapGetOtp(editPhone.text.toString(),this)
+            mPresenter.onTapGetOtp(this)
 
         }
 
         btnVerify.setOnClickListener {
             showLoadingView()
-            mPresenter.onTapVerify(name,editPhone.text.toString(),dob,gender,password,otp.text.toString())
+            mPresenter.onTapVerify(otp.text.toString())
 
 
         }
@@ -89,9 +88,9 @@ class VerificationActivity : BaseActivity(), VerificationView{
         }
     }
 
-    override fun navigateToMainActivity() {
+    override fun navigateToSignUpActivity(phone: String, userId: String) {
         hideLoadingView()
-        startActivity(MainActivity.getIntent(this))
+        startActivity(SignUpActivity.getIntent(this,phone,userId))
         finish()
     }
 

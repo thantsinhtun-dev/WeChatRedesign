@@ -7,11 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import com.stone.wechat.R
 import com.stone.wechat.mvp.views.VerificationView
 import com.stone.wechat.networks.CloudFireStoreApi
 import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl
-import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl.checkPhoneNumber
 import com.stone.wechat.networks.auth.AuthManager
 import com.stone.wechat.networks.auth.FirebaseAuthManager
 
@@ -23,69 +21,62 @@ class VerificationPresenterImpl : ViewModel(), VerificationPresenter {
     private var phone: String = ""
     private var otp: String = ""
 
-    private var verificationID = ""
+    private var verificationID = "kjkjkj"
 
     override fun initView(view: VerificationView) {
         mView = view
     }
 
-    override fun onTapGetOtp(phone: String, activity: AppCompatActivity) {
-        Log.i("phoneNumber", phone)
+    override fun onTapGetOtp(activity: AppCompatActivity) {
+
         mFireBaseApi.checkPhoneNumber(
-            phone,
+            this.phone,
             exists = {
                 mView?.showErrorMessage(title = "ERROR !", body = "Phone number already exists !")
             },
             notExists = {
-
-                mAuthManager.sendVerificationCode(phone, activity, mCallBack)
+                mAuthManager.sendVerificationCode(this.phone, activity, mCallBack)
 //                mView?.showMessage("code was sent!")
             })
     }
 
-    override fun onTapVerify(
-        name: String,
-        phone: String,
-        dob: String,
-        gender: String,
-        password: String,
-        otp: String
-    ) {
-//        val credential = PhoneAuthProvider.getCredential(verificationID, otp)
-        if(otp == "222222") {
-            mFireBaseApi.createUser(
-                name,
-                phone,
-                dob,
-                gender,
-                password,
-                onSuccess = { mView?.navigateToMainActivity() },
-                onFailure = {
-                    mView?.showErrorMessage(
-                        "Error !",
-                        "Oops, something went wrong, please try again later."
-                    )
-                })
-        }else{
-            mView?.showErrorMessage(
-                "Error !",
-                "Your OTP is incorrect, please try again "
-            )
-        }
-//        mAuthManager.verifyOtpWithCredential(credential,
+    override fun onTapVerify(otp: String) {
+        val credential = PhoneAuthProvider.getCredential(verificationID, otp)
+
+        mAuthManager.verifyOtpWithCredential(credential,
+            onSuccess = {
+                mView?.navigateToSignUpActivity(phone,it)
+            },
+            onError = {
+                mView?.showErrorMessage("Error !", it.toString() ?: "Opt is incorrect !")
+            }
+        )
+//        mFireBaseApi.createUser(
+//            name,
+//            phone,
+//            dob,
+//            gender,
+//            password,
 //            onSuccess = {
 //
-//
 //            },
-//            onError = {
-//                mView?.showErrorMessage("Error !", it.toString() ?: "Opt is incorrect !")
-//            }
-//        )
+//            onFailure = {
+//                mView?.showErrorMessage(
+//                    "Error !",
+//                    "Phone number already exists!"
+//                )
+//            })
+
+
     }
 
     override fun onChangePhoneNumber(phone: String) {
-
         this.phone = phone
+        if(this.phone[0].toString()=="0"){
+            this.phone = this.phone.replaceRange(0,1,"+95")
+        }
+        Log.i("phone_number",this.phone)
+
         checkPhoneNumber()
     }
 
@@ -134,8 +125,7 @@ class VerificationPresenterImpl : ViewModel(), VerificationPresenter {
                 Log.i("otpError", e.toString())
                 mView?.showErrorMessage(
                     "Error !",
-                    e.localizedMessage ?:
-                    "Oops, something went wrong, please try again later."
+                    e.localizedMessage ?: "Oops, something went wrong, please try again later."
                 )
             }
         }

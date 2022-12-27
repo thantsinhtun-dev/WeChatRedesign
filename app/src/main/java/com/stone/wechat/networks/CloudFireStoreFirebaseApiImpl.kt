@@ -18,40 +18,43 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
     private val storageReference = storage.reference
 
     override fun createUser(
+        userId: String,
         name: String,
         phone: String,
         dob: String,
         gender: String,
         password: String,
         onSuccess: () -> Unit,
-        onFailure: () -> Unit
+        onFailure: (String) -> Unit
     ) {
         val user = hashMapOf(
+            "userId" to userId,
             "name" to name,
             "phone" to phone,
             "dob" to dob,
             "gender" to gender,
-            "password" to password
-        )
+            "password" to password,
+            "profile" to "",
+            "qrCode" to System.currentTimeMillis().toString().plus(phone),
+            )
         Firebase.firestore.collection("users").document(phone).set(user).addOnSuccessListener {
             onSuccess()
 
         }.addOnFailureListener {
-            onFailure()
-
+            onFailure(it.localizedMessage ?: "Oops somethings wrong, plz try again later")
         }
     }
 
     override fun checkPhoneNumber(phone: String, exists: () -> Unit, notExists: () -> Unit) {
-        val document = Firebase.firestore.collection("users").document(phone)
-        document.get().addOnSuccessListener { snap ->
-            if (snap?.exists() == true) {
-                exists()
-            } else {
-                notExists()
-            }
+        Firebase.firestore.collection("users").document(phone)
+            .get().addOnSuccessListener { snap ->
+                if (snap?.exists() == true) {
+                    exists()
+                } else {
+                    notExists()
+                }
 
-        }
+            }
 
 
     }
@@ -120,11 +123,11 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
             .orderBy("time", Query.Direction.DESCENDING)
             .addSnapshotListener { snap, error ->
                 error?.let {
-                    onFailure( it.message ?: "Please check connection")
+                    onFailure(it.message ?: "Please check connection")
                 } ?: run {
-                    val momentList:MutableList<MomentVO> = mutableListOf()
+                    val momentList: MutableList<MomentVO> = mutableListOf()
                     val result = snap?.documents ?: arrayListOf()
-                    for (document in result){
+                    for (document in result) {
                         val data = document.data
                         val momentVO = MomentVO(
                             id = "",
@@ -185,7 +188,6 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
                 }
             }
         }
-
 
 
     }
