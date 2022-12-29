@@ -50,4 +50,5 @@
     <dimen name="padding_backImage">12dp</dimen>
     <dimen name="height_toolBar">70dp</dimen>
     <dimen name="create_moment_profile_sixe">50dp</dimen>
+    <dimen name="profile_image_size">120dp</dimen>
 </resources>

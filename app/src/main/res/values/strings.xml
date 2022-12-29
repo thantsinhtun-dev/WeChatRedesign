@@ -43,4 +43,7 @@
     <string name="lbl_create">Create</string>
     <string name="lbl_new_moment">New Moment</string>
     <string name="hint_what_s_in_your_mind">What\'s in your mind?</string>
+    <string name="lbl_bookmarked_moments"><u>Bookmarked Moments</u></string>
+    <string name="lbl_cancel">Cancel</string>
+    <string name="lbl_save">Save</string>
 </resources>

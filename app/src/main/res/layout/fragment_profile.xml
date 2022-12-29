@@ -1,14 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragments.ProfileFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context=".ui.fragments.ProfileFragment">
 
-</FrameLayout>
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarMoment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_toolBar"
+                android:background="@color/white">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/lbl_me"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_heading_2x" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btnProfileEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="@dimen/margin_medium_3"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/ic_edit" />
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlProfileCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/appBarMoment"
+            android:layout_marginHorizontal="@dimen/margin_medium_2"
+            android:background="@drawable/background_profile"
+            android:padding="@dimen/margin_card_medium_2"
+
+            >
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="@dimen/profile_image_size"
+                android:layout_height="@dimen/profile_image_size"
+                app:shapeAppearanceOverlay="@style/ImageView.Corner.medium"
+                app:srcCompat="@drawable/ic_avator" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgUploadProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/imgProfile"
+                android:layout_alignBottom="@id/imgProfile"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                app:srcCompat="@drawable/ic_upload_profile" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgQr"
+                android:layout_width="@dimen/margin_xxlarge"
+                android:layout_height="@dimen/margin_xxlarge"
+                android:layout_alignEnd="@id/imgProfile"
+                android:layout_alignBottom="@id/imgProfile"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                app:srcCompat="@drawable/ic_qr" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_toEndOf="@id/imgProfile"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/lblUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Mical"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_regular_3x" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_phone" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/lblPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="0988888"
+                        android:textColor="@color/white"
+
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/margin_medium">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_dob" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/lblDob"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="1999-06-05"
+                        android:textColor="@color/white"
+
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_gender" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/lblGender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Male"
+                        android:textColor="@color/white"
+
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/lblBookMarked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlProfileCard"
+            android:layout_marginHorizontal="@dimen/margin_medium_2"
+            android:layout_marginVertical="@dimen/margin_medium_2"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/lbl_bookmarked_moments"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_regular_3x"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBookMarkMoment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lblBookMarked"
+            android:clipToPadding="false"
+            android:paddingStart="@dimen/margin_medium_2"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/view_holder_moments"/>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>
