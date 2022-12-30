@@ -1,20 +1,30 @@
 package com.stone.wechat.mvp.presenters
 
+import android.content.Context
+import android.util.Log
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.rxjava3.RxDataStore
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
+import com.stone.wechat.data.models.AuthModel
+import com.stone.wechat.data.models.AuthModelImpl
+import com.stone.wechat.data.vos.UserVO
 import com.stone.wechat.mvp.views.LoginView
-import com.stone.wechat.networks.CloudFireStoreApi
-import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl
-import com.stone.wechat.networks.auth.AuthManager
-import com.stone.wechat.networks.auth.FirebaseAuthManager
+import com.stone.wechat.networks.*
+import com.stone.wechat.utils.DataStoreUtils.userDataStore
+import com.stone.wechat.utils.DataStoreUtils.writeToRxDatastore
 
 class LoginPresenterImpl : ViewModel(), LoginPresenter {
     private var mView: LoginView? = null
     private var phone: String = ""
     private var password: String = ""
 
-    private val mFireStoreApi: CloudFireStoreApi = CloudFireStoreFirebaseApiImpl
-    private var mAuthManager: AuthManager = FirebaseAuthManager
+    var dataStore: RxDataStore<Preferences>? = null
+
+
+    //    private val mFireStoreApi: CloudFireStoreApi = CloudFireStoreFirebaseApiImpl
+//    private var mAuthManager: AuthManager = FirebaseAuthManager
+    private var mAuthModel:AuthModel = AuthModelImpl
 
     override fun initView(view: LoginView) {
         mView = view
@@ -31,28 +41,30 @@ class LoginPresenterImpl : ViewModel(), LoginPresenter {
     }
 
     override fun onTapLogin() {
-        mAuthManager.loginWithEmail(phone,password,
+        mAuthModel.loginWithEmail(phone,password,
             onSuccess = {
+                Log.d("rx_read", it.toString())
+
+                saveUserToDatastore(it)
                 mView?.navigateToMainActivity()
             },
             onError = {
-                mView?.showErrorMessage("Error !",it ?: "Oops somethings wrong")
+                mView?.showErrorMessage("Error !",it ?: "Oops somethings")
             })
-//        mFireStoreApi.login(phone, password,
-//            onSuccess = {
-//
-//            },
-//            onFailure = {
-//
-//            }
-//        )
+
     }
 
     override fun onTapForgetPassword() {
     }
 
-    override fun onUIReady(owner: LifecycleOwner) {
+    override fun onUIReady(context: Context, lifecycleOwner: LifecycleOwner) {
         checkPhoneNumber()
+        dataStore = context.userDataStore
+
+    }
+
+    override fun onUIReady(owner: LifecycleOwner) {
+
     }
 
     override fun onTapBackButton() {
@@ -61,5 +73,18 @@ class LoginPresenterImpl : ViewModel(), LoginPresenter {
 
     private fun checkPhoneNumber() {
         mView?.activateLoginButton(phone.isNotEmpty() && password.isNotEmpty())
+    }
+
+    private fun saveUserToDatastore(
+       userVO: UserVO
+    ) {
+        dataStore?.writeToRxDatastore(FIRE_STORE_USER_VO_USERID, userVO.userId ?: "jkjkjk")
+        dataStore?.writeToRxDatastore(FIRE_STORE_USER_VO_NAME, userVO.name ?:"")
+        dataStore?.writeToRxDatastore(FIRE_STORE_USER_VO_PHONE, userVO.phone ?: "")
+        dataStore?.writeToRxDatastore(FIRE_STORE_USER_VO_DOB, userVO.dob?:"")
+        dataStore?.writeToRxDatastore(FIRE_STORE_USER_VO_GENDER, userVO.gender?:"")
+        dataStore?.writeToRxDatastore(FIRE_STORE_USER_VO_PROFILE, userVO.profile?:"")
+        dataStore?.writeToRxDatastore(FIRE_STORE_USER_VO_QRCODE, userVO.qrCode?:"")
+
     }
 }

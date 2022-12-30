@@ -32,7 +32,7 @@ class LoginActivity : BaseActivity() ,LoginView{
         setUpEditText()
         setUpListener()
 
-        mPresenter.onUIReady(this)
+        mPresenter.onUIReady(this,this)
     }
 
     private fun setUpPresenter() {

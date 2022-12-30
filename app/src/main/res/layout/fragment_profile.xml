@@ -56,6 +56,7 @@
                 android:id="@+id/imgProfile"
                 android:layout_width="@dimen/profile_image_size"
                 android:layout_height="@dimen/profile_image_size"
+                android:padding="@dimen/margin_small"
                 app:shapeAppearanceOverlay="@style/ImageView.Corner.medium"
                 app:srcCompat="@drawable/ic_avator" />
 
@@ -65,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@id/imgProfile"
                 android:layout_alignBottom="@id/imgProfile"
+                android:layout_marginHorizontal="@dimen/margin_small"
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
                 app:srcCompat="@drawable/ic_upload_profile" />

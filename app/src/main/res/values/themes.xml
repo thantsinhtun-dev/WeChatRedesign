@@ -51,7 +51,6 @@
     </style>
     <style name="ImageView.Corner.medium" parent="">
         <item name="cornerSize">50%</item>
-        <item name="cornerFamily">rounded</item>
     </style>
     <style name="Theme.CustomSplashScreenTheme" parent="Theme.SplashScreen.IconBackground">
         <item name="android:windowLightStatusBar">true</item>
