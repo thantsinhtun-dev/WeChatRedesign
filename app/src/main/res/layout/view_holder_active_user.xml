@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginHorizontal="@dimen/margin_medium"
+    android:layout_marginVertical="@dimen/margin_medium"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgUser"
+        android:layout_width="@dimen/margin_xxlarge"
+        android:layout_height="@dimen/margin_xxlarge"
+        app:shapeAppearance="@style/ImageView.Corner.medium"
+        app:srcCompat="@drawable/ic_avator"
+        />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_active"
+        android:layout_alignEnd="@id/imgUser"
+        android:layout_alignBottom="@id/imgUser"
+        />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lblUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgUser"
+        android:layout_alignStart="@id/imgUser"
+        android:layout_alignEnd="@id/imgUser"
+        android:layout_marginTop="@dimen/margin_small"
+        android:gravity="center"
+        android:text="Mical"
+        android:textSize="@dimen/text_smaller"
+        android:fontFamily="@font/poppins_regular"
+        />
+
+</RelativeLayout>

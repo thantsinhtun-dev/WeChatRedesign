@@ -46,4 +46,11 @@
     <string name="lbl_bookmarked_moments"><u>Bookmarked Moments</u></string>
     <string name="lbl_cancel">Cancel</string>
     <string name="lbl_save">Save</string>
+    <string name="lbl_chats">Chats</string>
+    <string name="lbl_active_now">Active Now</string>
+    <string name="hint_type_a_message">Type a message</string>
+    <string name="lbl_new_group">New Group</string>
+    <string name="lbl_group_name">Group Name</string>
+    <string name="lbl_tap_to_scan">Tap to Scan</string>
+    <string name="lbl_share_qr">Scan the QR code to add your friend in contact.</string>
 </resources>

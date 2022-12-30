@@ -1,14 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragments.ContactFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarMoment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_toolBar"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/lblContacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/poppins_bold"
+                    android:includeFontPadding="false"
+                    android:text="@string/lbl_contacts"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_heading_2x" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/lblContactsCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/lblContacts"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:layout_toEndOf="@id/lblContacts"
+                    android:fontFamily="@font/poppins_bold"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="(6)"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_small" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgAddUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="@dimen/margin_medium_3"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/ic_add_user" />
+            </RelativeLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlSearch"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_xxlarge"
+        android:layout_below="@id/appBarMoment"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginVertical="@dimen/margin_medium"
+        android:background="@drawable/background_search">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgSearch"
+            android:layout_width="@dimen/margin_xxlarge"
+            android:layout_height="@dimen/margin_xxlarge"
+            android:padding="@dimen/margin_medium"
+            app:srcCompat="@drawable/ic_search_no_bg" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_xxlarge"
+            android:layout_toStartOf="@id/imgDismiss"
+            android:layout_toEndOf="@id/imgSearch"
+            android:background="@color/colorTransparent"
+            android:hint="Search"
+            android:includeFontPadding="false"
+            android:textColor="#80113A5D"
+            android:textColorHint="#80113A5D" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgDismiss"
+            android:layout_width="@dimen/margin_xxlarge"
+            android:layout_height="@dimen/margin_xxlarge"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/margin_medium_2"
+            app:srcCompat="@drawable/ic_dismiss"
+
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/rlSearch"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/lblGroupCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium_2"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/lbl_active_now"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_regular_2x" />
+
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_medium_2"
+            android:layout_marginHorizontal="@dimen/margin_card_medium_2"
+            >
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgAddNewGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:paddingTop="@dimen/margin_medium"
+                    app:srcCompat="@drawable/ic_add_group" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvGroup"
+                    android:layout_toEndOf="@id/imgAddNewGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/view_holder_group" />
+
+            </RelativeLayout>
+        </HorizontalScrollView>
+
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvContact"
+        android:layout_below="@id/llGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginHorizontal="@dimen/margin_card_medium_2"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/view_holder_contacts_group"
+        />
 
-</FrameLayout>
+    <RelativeLayout
+        android:id="@+id/rlNoGroupFound"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_below="@id/rlSearch">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_no_group"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/lblGroupNotFound"
+            android:layout_marginBottom="@dimen/margin_medium_2"
+            />
+
+        <TextView
+            android:id="@+id/lblGroupNotFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/poppins_regular"
+            android:text="No contact or group with name \n “Aung Naing” exits"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/text_regular_2x" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

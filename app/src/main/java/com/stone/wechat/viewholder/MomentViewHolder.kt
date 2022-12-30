@@ -1,11 +1,14 @@
 package com.stone.wechat.viewholder
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.util.Log
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -34,6 +37,8 @@ class MomentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         itemView.playerMoment.visibility = View.GONE
         itemView.rvMomentContent.visibility = View.GONE
         itemView.imgMoment.visibility = View.GONE
+
+
 
 
         itemView.lblUserName.text = mData.userName

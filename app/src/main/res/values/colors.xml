@@ -19,4 +19,5 @@
     <color name="colorTransparentOverLay">#1a000000</color>
     <color name="colorTransparentOverLayPlayButton">#80000000</color>
     <color name="colorTransparent">#00000000</color>
+    <color name="colorBackgroundSearch">#36113A5D</color>
 </resources>

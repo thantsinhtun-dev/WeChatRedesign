@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/viewFinder"
+        android:translationZ="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgBack"
+        android:layout_width="@dimen/margin_xxlarge"
+        android:layout_height="@dimen/margin_xxlarge"
+        android:padding="@dimen/margin_medium_2"
+        app:srcCompat="@drawable/ic_back"
+        app:tint="@color/white"
+        android:translationZ="@dimen/margin_xlarge"
+        android:clickable="true"
+        android:background="?selectableItemBackgroundBorderless"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginStart="@dimen/margin_medium"/>
+
+    <LinearLayout
+        android:layout_width="@dimen/height_qr"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgBack"
+        android:translationZ="@dimen/margin_medium"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:paddingHorizontal="@dimen/margin_medium"
+        android:paddingVertical="@dimen/margin_medium"
+        android:gravity="center"
+        android:background="@drawable/background_qr">
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_regular_3x"
+            android:gravity="center"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/lbl_tap_to_scan"
+            android:textColor="@color/colorPrimary"/>
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/lbl_share_qr"/>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/overLay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_scan"
+        android:layout_centerInParent="true"
+        android:translationZ="@dimen/margin_card_medium"/>
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationZ="@dimen/margin_medium"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_xxlarge"
+        android:clickable="true"
+        android:background="?selectableItemBackgroundBorderless"
+        app:srcCompat="@drawable/ic_qr_button"/>
+
+
+</RelativeLayout>

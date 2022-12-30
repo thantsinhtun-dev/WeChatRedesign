@@ -51,4 +51,9 @@
     <dimen name="height_toolBar">70dp</dimen>
     <dimen name="create_moment_profile_sixe">50dp</dimen>
     <dimen name="profile_image_size">120dp</dimen>
+    <dimen name="group_item_size">100dp</dimen>
+    <dimen name="height_create_group_name">70dp</dimen>
+    <dimen name="height_qr">250dp</dimen>
+    <dimen name="with_group">90dp</dimen>
+    <dimen name="width_group">105dp</dimen>
 </resources>

@@ -4,9 +4,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+
 
     <application
         android:name=".WeChatApplication"
@@ -20,11 +23,33 @@
         android:theme="@style/Theme.CustomSplashScreenTheme"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activities.CreateMomentActivity"
+            android:name=".ui.activities.AddNewContactActivity"
+            android:theme="@style/Theme.WeChat.translucentScreenTransparentStatusBar"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.activities.CreateNewGroupActivity"
             android:theme="@style/Theme.WeChat.translucentScreenWhiteStatusBar"
             android:exported="false">
-
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
+        <activity
+            android:name=".ui.activities.ChatDetailActivity"
+            android:theme="@style/Theme.WeChat.translucentScreenWhiteStatusBar"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.activities.CreateMomentActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WeChat.translucentScreenWhiteStatusBar" />
         <activity
             android:name=".ui.activities.VerificationActivity"
             android:exported="true"
@@ -44,7 +69,7 @@
         <activity
             android:name=".ui.activities.LandingActivity"
             android:exported="true"
-            android:theme="@style/Theme.WeChat.translucentScreenWhiteStatusBar" >
+            android:theme="@style/Theme.WeChat.translucentScreenWhiteStatusBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,9 +79,7 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.WeChat.translucentScreenWhiteStatusBar">
-
-        </activity>
+            android:theme="@style/Theme.WeChat.translucentScreenWhiteStatusBar" />
     </application>
 
 </manifest>

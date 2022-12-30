@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/margin_xxlarge"
+    android:layout_marginVertical="@dimen/margin_medium"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgContact"
+        android:layout_width="@dimen/margin_xxlarge"
+        android:layout_height="@dimen/margin_xxlarge"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        app:shapeAppearance="@style/ImageView.Corner.medium"
+        app:srcCompat="@drawable/ic_avator" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/imgContact"
+        android:layout_alignBottom="@id/imgContact"
+        app:srcCompat="@drawable/ic_active" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lblContactsName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:layout_toEndOf="@id/imgContact"
+        android:layout_alignTop="@id/imgContact"
+        android:layout_alignBottom="@id/imgContact"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="Favourite"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_regular_2x"
+        android:fontFamily="@font/poppins_medium"
+        />
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/cbContact"
+        android:checked="false"
+        android:button="@drawable/ic_check"
+        android:layout_width="@dimen/margin_xxlarge"
+        android:layout_height="@dimen/margin_xxlarge"
+        android:layout_alignParentEnd="true"
+        />
+
+</RelativeLayout>
