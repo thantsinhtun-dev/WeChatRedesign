@@ -1,8 +1,10 @@
 package com.stone.wechat.mvp.presenters
 
 import DataStoreUtils.userDataStore
+import DataStoreUtils.writeQuick
 import DataStoreUtils.writeToRxDatastore
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.rxjava3.RxDataStore
 import androidx.lifecycle.LifecycleOwner
@@ -11,6 +13,8 @@ import com.stone.wechat.mvp.views.SignUpView
 import com.stone.wechat.networks.*
 import com.stone.wechat.networks.auth.AuthManager
 import com.stone.wechat.networks.auth.FirebaseAuthManager
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class SignUpPresenterImpl : ViewModel(), SignUpPresenter {
 
@@ -83,17 +87,23 @@ class SignUpPresenterImpl : ViewModel(), SignUpPresenter {
     override fun onTapSignUp(phone: String, userId: String) {
 //        mView?.navigateToVerification(name,selectedDay.plus("/").plus(selectedMonth).plus("/").plus(selectedYear),selectedGender,password)
         mAuthManager.createUserWithEmail(phone, password,
-            onSuccess = {
-                saveUserToDatastore(it)
+            onSuccess = { id->
+                Log.i("rx_read", id)
                 mFireBaseApi.createUser(
-                    it,
+                    id,
                     name,
                     phone,
                     selectedDay.plus("/").plus(selectedMonth).plus("/").plus(selectedYear),
                     selectedGender,
                     password,
                     onSuccess = {
-                        mView?.navigateToMainActivity()
+                        dataStore?.writeToRxDatastore(FIRE_STORE_USER_VO_USERID, id)
+//                            ?.subscribeOn(Schedulers.io())
+//                            ?.observeOn(AndroidSchedulers.mainThread())
+//                            ?.subscribe {
+                                mView?.navigateToMainActivity()
+//                            }
+
                     },
                     onFailure = {
                         mView?.showError(it)
@@ -103,7 +113,6 @@ class SignUpPresenterImpl : ViewModel(), SignUpPresenter {
             onError = {
                 mView?.showError(it ?: "error")
             })
-
 
     }
 
@@ -132,6 +141,7 @@ class SignUpPresenterImpl : ViewModel(), SignUpPresenter {
     private fun saveUserToDatastore(
         userId: String
     ) {
+
         dataStore?.writeToRxDatastore(FIRE_STORE_USER_VO_USERID, userId)
     }
 }

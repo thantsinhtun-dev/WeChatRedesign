@@ -1,3 +1,5 @@
+import DataStoreUtils.readFromRxDatastore
+import DataStoreUtils.readQuick
 import android.content.Context
 import android.util.Log
 import androidx.datastore.preferences.core.MutablePreferences
@@ -42,8 +44,20 @@ object DataStoreUtils {
         }.toObservable()
     }
 
+    fun RxDataStore<Preferences>.writeQuick(key: String, value: String,onSuccess: (String) -> Unit){
+        this.writeToRxDatastore(key,value)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+//                this.readQuick(key){
+                    onSuccess("")
+//                }
+            }
+    }
+
     fun RxDataStore<Preferences>.readQuick(key: String, onSuccess : (String) -> Unit){
         Log.d("rx","user")
+
         this.readFromRxDatastore(key)
             ?.first("")
             ?.subscribeOn(Schedulers.io())

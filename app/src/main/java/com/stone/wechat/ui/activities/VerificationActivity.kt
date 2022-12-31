@@ -20,6 +20,7 @@ class VerificationActivity : BaseActivity(), VerificationView{
     private var gender:String = ""
 
     private lateinit var mPresenter: VerificationPresenter
+    override val layoutId: Int = R.layout.activity_verification
 
     companion object{
         private const val EXTRA_NAME = "EXTRA_NAME"
@@ -40,7 +41,6 @@ class VerificationActivity : BaseActivity(), VerificationView{
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_verification)
 
         name = intent.getStringExtra(EXTRA_NAME).toString()
         password = intent.getStringExtra(EXTRA_PASSWORD).toString()
@@ -91,7 +91,7 @@ class VerificationActivity : BaseActivity(), VerificationView{
     override fun navigateToSignUpActivity(phone: String, userId: String) {
         hideLoadingView()
         startActivity(SignUpActivity.getIntent(this,phone,userId))
-        finish()
+
     }
 
     override fun activateOTPButton(activate: Boolean) {

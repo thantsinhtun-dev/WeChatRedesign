@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.stone.wechat.data.vos.ContactVO
 import com.stone.wechat.data.vos.GroupVO
 import com.stone.wechat.mvp.views.ContactView
+import com.stone.wechat.utils.dummyContacts
 
 class ContactPresenterImpl : ViewModel(),ContactPresenter {
     private  var mView:ContactView? = null
@@ -34,7 +35,7 @@ class ContactPresenterImpl : ViewModel(),ContactPresenter {
     }
 
     override fun onUIReady(owner: LifecycleOwner) {
-        mView?.initContacts(arrayListOf())
+        mView?.initContacts(dummyContacts)
         mView?.initGroups(arrayListOf())
     }
 

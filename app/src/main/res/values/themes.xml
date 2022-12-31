@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
         <!-- Customize your theme here. -->
     </style>
     <style name="Theme.WeChat.translucentScreenWhiteStatusBar"  parent="Theme.WeChat">
@@ -61,7 +62,7 @@
 <!--        <item name="windowSplashScreenIconBackgroundColor">@color/colorTransparent</item>-->
         <item name="postSplashScreenTheme">@style/Theme.WeChat</item>
     </style>
-    <style name="CheckBoxStyle" parent="Theme.WeChat">
+    <style name="CheckBoxStyle" parent="Theme.WeChat.translucentScreenTransparentStatusBar">
         <item name="colorAccent">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
     </style>

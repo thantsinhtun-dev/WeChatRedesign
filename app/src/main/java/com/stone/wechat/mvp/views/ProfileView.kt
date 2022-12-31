@@ -9,7 +9,7 @@ interface ProfileView :BaseView{
     fun initBookMarkMoment(moments:List<MomentVO>)
     fun showEditUserInfoDialog(userVO: UserVO)
     fun pickProfileImage()
-    fun showQrCode()
+    fun showQrCode(qrCode: String)
     fun changeProfileImage(url:String)
 
 }

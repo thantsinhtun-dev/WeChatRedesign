@@ -52,7 +52,7 @@ class ProfilePresenterImpl : ViewModel(), ProfilePresenter {
     }
 
     override fun onTapQrCode() {
-        mView?.showQrCode()
+        userVO?.qrCode?.let { mView?.showQrCode(it) }
     }
 
     override fun onUIReady(context: Context, owner: LifecycleOwner) {

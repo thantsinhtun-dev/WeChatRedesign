@@ -10,15 +10,14 @@ import com.stone.wechat.mvp.presenters.LandingPresenterImpl
 import com.stone.wechat.mvp.views.LandingView
 import kotlinx.android.synthetic.main.activity_landing.*
 
-class LandingActivity : AppCompatActivity(),LandingView {
+class LandingActivity : BaseActivity(),LandingView {
     private lateinit var mPresenter: LandingPresenter
     private var keepSplashScreen = true
+    override val layoutId: Int = R.layout.activity_landing
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         splashScreen.setKeepOnScreenCondition{keepSplashScreen}
-
-        setContentView(R.layout.activity_landing)
 
         setUpPresenter()
         setUpListener()

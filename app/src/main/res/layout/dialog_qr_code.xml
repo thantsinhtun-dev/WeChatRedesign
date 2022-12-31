@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_dialog"
+    android:paddingHorizontal="@dimen/margin_medium"
+    android:paddingVertical="@dimen/margin_medium"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgQr"
+        android:layout_width="@dimen/qr_code_size"
+        android:layout_height="@dimen/qr_code_size"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginVertical="@dimen/margin_medium_2"
+        android:scaleType="fitXY"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnClose"
+        android:layout_width="@dimen/qr_code_size"
+        android:layout_height="@dimen/height_spinner"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_below="@id/imgQr"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_centerHorizontal="true"
+        app:backgroundTint="@color/colorPrimary"
+        app:rippleColor="@color/colorPrimaryDark"
+        app:cornerRadius="@dimen/margin_medium"
+        android:textSize="@dimen/text_regular"
+        android:textStyle="bold"
+        android:text="@string/lbl_close"
+        android:textColor="@color/white"/>
+</RelativeLayout>

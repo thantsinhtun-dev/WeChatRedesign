@@ -19,9 +19,11 @@ import com.stone.wechat.R
 import com.stone.wechat.data.vos.MomentVO
 import com.stone.wechat.data.vos.UserVO
 import com.stone.wechat.dialogs.EditProfileDialog
+import com.stone.wechat.dialogs.QRDialog
 import com.stone.wechat.mvp.presenters.ProfilePresenter
 import com.stone.wechat.mvp.presenters.ProfilePresenterImpl
 import com.stone.wechat.mvp.views.ProfileView
+import com.stone.wechat.utils.getQrCodeBitmap
 import com.stone.wechat.utils.loadBitmapFromUri
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -110,7 +112,9 @@ class ProfileFragment : BaseFragment(), ProfileView {
         lblGender.text = userVO.gender
         Glide.with(requireContext())
             .load(userVO.profile)
+            .placeholder(R.drawable.ic_avator)
             .into(imgProfile)
+        imgQr.setImageBitmap(userVO.qrCode?.getQrCodeBitmap())
     }
 
     override fun initBookMarkMoment(moments: List<MomentVO>) {
@@ -128,7 +132,8 @@ class ProfileFragment : BaseFragment(), ProfileView {
         launchContentPicker.launch(intent)
     }
 
-    override fun showQrCode() {
+    override fun showQrCode(qr:String) {
+        QRDialog(qr).show(childFragmentManager.beginTransaction(),"")
     }
 
     override fun changeProfileImage(url: String) {

@@ -12,8 +12,10 @@ import kotlinx.android.synthetic.main.dialog_failure.view.*
 abstract class BaseActivity: AppCompatActivity() {
 
     private var progressDialog: Dialog? = null
+    abstract val layoutId:Int
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(layoutId)
         addProgressBar()
     }
     private fun addProgressBar() {

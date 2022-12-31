@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_alignEnd="@id/imgContact"
         android:layout_alignBottom="@id/imgContact"
+        android:visibility="gone"
         app:srcCompat="@drawable/ic_active" />
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/lblContactsName"

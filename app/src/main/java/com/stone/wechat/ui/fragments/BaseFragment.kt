@@ -40,4 +40,5 @@ abstract class BaseFragment: Fragment() {
         view.btnOK.setOnClickListener { adb.dismiss() }
 
     }
+
 }

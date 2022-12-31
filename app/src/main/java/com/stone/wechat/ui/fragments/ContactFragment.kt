@@ -1,7 +1,6 @@
 package com.stone.wechat.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.stone.wechat.R
 import com.stone.wechat.adapter.ContactAdapter
 import com.stone.wechat.adapter.ContactGroupAdapter
+import com.stone.wechat.adapter.GroupAdapter
 import com.stone.wechat.data.vos.ContactVO
 import com.stone.wechat.data.vos.GroupVO
 import com.stone.wechat.mvp.presenters.ContactPresenter
@@ -23,8 +23,8 @@ class ContactFragment : BaseFragment(),ContactView {
 
     private lateinit var mPresenter:ContactPresenter
 
-    private lateinit var mContactAdapter: ContactAdapter
-    private lateinit var mGroupAdapter: ContactGroupAdapter
+    private lateinit var mContactAdapter: ContactGroupAdapter
+    private lateinit var mGroupAdapter: GroupAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,8 +46,8 @@ class ContactFragment : BaseFragment(),ContactView {
     }
 
     private fun setUpRecyclerView() {
-        mGroupAdapter = ContactGroupAdapter()
-        mContactAdapter = ContactAdapter()
+        mGroupAdapter = GroupAdapter()
+        mContactAdapter = ContactGroupAdapter()
 
         rvGroup.adapter = mGroupAdapter
         rvContact.adapter = mContactAdapter
@@ -76,7 +76,6 @@ class ContactFragment : BaseFragment(),ContactView {
     }
 
     override fun navigateToChat() {
-        TODO("Not yet implemented")
     }
 
     override fun navigateToAddNewGroup() {

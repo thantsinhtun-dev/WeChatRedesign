@@ -3,6 +3,7 @@ package com.stone.wechat.mvp.presenters
 import DataStoreUtils.readQuick
 import DataStoreUtils.userDataStore
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.rxjava3.RxDataStore
 import androidx.lifecycle.LifecycleOwner
@@ -24,7 +25,7 @@ class CreateMomentPresenterImpl : ViewModel(), CreateMomentPresenter {
     private val mFireStoreApi: CloudFireStoreApi = CloudFireStoreFirebaseApiImpl
     private val mProfileModel: ProfileModel = ProfileModelImpl
     private val mAuthModel:AuthModel = AuthModelImpl
-    var dataStore: RxDataStore<Preferences>? = null
+    private var dataStore: RxDataStore<Preferences>? = null
 
 
     private var userVO:UserVO? = null
@@ -62,6 +63,7 @@ class CreateMomentPresenterImpl : ViewModel(), CreateMomentPresenter {
     override fun onUIReady(context: Context, owner: LifecycleOwner) {
         dataStore = context.userDataStore
         dataStore?.readQuick(FIRE_STORE_USER_VO_USERID) {
+            Log.i("user_id",it)
             mAuthModel.getCurrentUserFromFireStore(it,
                 onSuccess = { user ->
                     this.userVO = user

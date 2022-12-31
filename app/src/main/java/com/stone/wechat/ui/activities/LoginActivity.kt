@@ -19,6 +19,8 @@ import kotlinx.android.synthetic.main.activity_verification.*
 
 class LoginActivity : BaseActivity() ,LoginView{
     private lateinit var mPresenter:LoginPresenter
+    override val layoutId: Int = R.layout.activity_login
+
     companion object{
         fun getIntent(context: Context):Intent{
             return Intent(context,LoginActivity::class.java)
@@ -26,7 +28,6 @@ class LoginActivity : BaseActivity() ,LoginView{
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
         setUpPresenter()
         setUpEditText()

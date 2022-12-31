@@ -56,4 +56,5 @@
     <dimen name="height_qr">250dp</dimen>
     <dimen name="with_group">90dp</dimen>
     <dimen name="width_group">105dp</dimen>
+    <dimen name="qr_code_size">300dp</dimen>
 </resources>

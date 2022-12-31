@@ -39,13 +39,15 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-class AddNewContactActivity : AppCompatActivity() {
+class AddNewContactActivity : BaseActivity() {
 
     companion object {
         fun getIntent(context: Context): Intent {
             return Intent(context, AddNewContactActivity::class.java)
         }
     }
+    override val layoutId: Int = R.layout.activity_add_new_contact
+
 
     //    private lateinit var cameraExecutor: ExecutorService
     private lateinit var barcodeScanner: BarcodeScanner

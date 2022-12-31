@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_sign_up.imgBack
 class SignUpActivity : BaseActivity(), SignUpView {
 
     private lateinit var mPresenter: SignUpPresenter
-
+    override val layoutId: Int = R.layout.activity_sign_up
     private var phone:String = ""
     private var userId:String = ""
     companion object{
@@ -36,7 +36,6 @@ class SignUpActivity : BaseActivity(), SignUpView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
 
 
         phone = intent.getStringExtra(EXTRA_PHONE).toString()
@@ -48,6 +47,8 @@ class SignUpActivity : BaseActivity(), SignUpView {
         setUpCheckBox()
         setUpEditText()
         setUpListener()
+
+        mPresenter.onUIReady(this,this)
     }
 
     private fun setUpListener() {

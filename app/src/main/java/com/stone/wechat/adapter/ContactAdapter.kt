@@ -10,25 +10,26 @@ import com.stone.wechat.viewholder.ContactViewHolder
 
 class ContactAdapter: RecyclerView.Adapter<ContactViewHolder>() {
     private var mData :List<ContactVO> = listOf()
+    private var isEdit:Boolean = false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_contact,parent,false)
         return ContactViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-//        if (mData.isNotEmpty()){
-//            holder.bindData(mData[position])
-//        }
+        if (mData.isNotEmpty()){
+            holder.bindData(mData[position],isEdit)
+        }
     }
 
     override fun getItemCount(): Int {
-//        return mData.size
-        return  10
+        return mData.size
     }
 
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setNewData(data:List<ContactVO>){
+    fun setNewData(data:List<ContactVO>,isEdit:Boolean){
+        this.isEdit = isEdit
         mData = data
         notifyDataSetChanged()
     }

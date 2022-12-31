@@ -53,4 +53,5 @@
     <string name="lbl_group_name">Group Name</string>
     <string name="lbl_tap_to_scan">Tap to Scan</string>
     <string name="lbl_share_qr">Scan the QR code to add your friend in contact.</string>
+    <string name="lbl_close">Close</string>
 </resources>

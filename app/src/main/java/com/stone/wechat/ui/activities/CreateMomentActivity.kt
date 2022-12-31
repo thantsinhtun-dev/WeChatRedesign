@@ -39,10 +39,9 @@ class CreateMomentActivity : BaseActivity(), CreateMomentView {
             return Intent(context, CreateMomentActivity::class.java)
         }
     }
-
+    override val layoutId: Int = R.layout.activity_create_moment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_moment)
 
         setUpPresenter()
         setUpListener()

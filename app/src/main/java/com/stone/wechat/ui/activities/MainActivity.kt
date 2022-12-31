@@ -10,7 +10,8 @@ import com.stone.wechat.R
 import com.stone.wechat.ui.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
+    override val layoutId: Int = R.layout.activity_main
     companion object{
         fun getIntent(context: Context):Intent{
             val intent = Intent(context,MainActivity::class.java)
@@ -21,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
 
 
         bottomNavigation.setOnItemSelectedListener { item->
