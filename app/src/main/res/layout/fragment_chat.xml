@@ -33,7 +33,7 @@
                 android:layout_marginHorizontal="@dimen/margin_medium_3"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                app:srcCompat="@drawable/ic_edit" />
+                app:srcCompat="@drawable/ic_search" />
         </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>

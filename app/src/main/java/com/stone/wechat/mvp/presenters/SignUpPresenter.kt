@@ -1,8 +1,11 @@
 package com.stone.wechat.mvp.presenters
 
+import android.content.Context
+import androidx.lifecycle.LifecycleOwner
 import com.stone.wechat.mvp.views.SignUpView
 
 interface SignUpPresenter :BasePresenter{
+    fun onUIReady(context: Context,owner: LifecycleOwner)
     fun initView(view: SignUpView)
     fun onChangeName(text:String)
     fun onChangePassword(text: String)

@@ -78,10 +78,11 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
 
 
     override fun createMoment(
+        userVO: UserVO,
         momentText: String,
         momentContents: List<MomentFileVO>,
-        onSuccess: () -> Unit,
-        onFailure: (errorMessage: String) -> Unit
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
     ) {
         val contentUrlList: ArrayList<String> = arrayListOf()
         if (momentContents.isNotEmpty()) {
@@ -91,18 +92,21 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
                     if (contentUrlList.size == momentContents.size) {
                         Log.i("imageList", contentUrlList.toString())
                         val moments = hashMapOf(
-                            "momentText" to momentText,
-                            "contentList" to contentUrlList,
-                            "isMovie" to momentContents.firstOrNull()?.isMovie,
-                            "name" to "Test",
-                            "time" to System.currentTimeMillis()
+                            FIRE_STORE_MOMENT_VO_USERID to userVO.userId,
+                            FIRE_STORE_MOMENT_VO_USERNAME to userVO.name,
+                            FIRE_STORE_MOMENT_VO_PROFILE to userVO.profile,
+                            FIRE_STORE_MOMENT_VO_TIME to System.currentTimeMillis(),
+                            FIRE_STORE_MOMENT_VO_ISMOVIE to momentContents.firstOrNull()?.isMovie,
+                            FIRE_STORE_MOMENT_VO_CONTENT to contentUrlList,
+                            FIRE_STORE_MOMENT_VO_MOMENTTEXT to momentText,
+                            FIRE_STORE_MOMENT_VO_IMAGE_LIST to contentUrlList
                         )
 
                         Firebase.firestore.collection("moments")
                             .document()
                             .set(moments)
                             .addOnSuccessListener {
-                                onSuccess()
+                                onSuccess("Upload Moment Successfully")
                             }
                             .addOnFailureListener { error ->
                                 onFailure(
@@ -114,6 +118,29 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
                 onFailure = {
                     onFailure(it)
                 })
+        } else {
+            val moments = hashMapOf(
+                FIRE_STORE_MOMENT_VO_USERID to userVO.userId,
+                FIRE_STORE_MOMENT_VO_USERNAME to userVO.name,
+                FIRE_STORE_MOMENT_VO_PROFILE to userVO.profile,
+                FIRE_STORE_MOMENT_VO_TIME to System.currentTimeMillis(),
+                FIRE_STORE_MOMENT_VO_ISMOVIE to momentContents.firstOrNull()?.isMovie,
+                FIRE_STORE_MOMENT_VO_CONTENT to contentUrlList,
+                FIRE_STORE_MOMENT_VO_MOMENTTEXT to momentText,
+                FIRE_STORE_MOMENT_VO_IMAGE_LIST to contentUrlList
+            )
+
+            Firebase.firestore.collection("moments")
+                .document()
+                .set(moments)
+                .addOnSuccessListener {
+                    onSuccess("Upload Moment Successfully")
+                }
+                .addOnFailureListener { error ->
+                    onFailure(
+                        error.localizedMessage ?: "Failed to add moment to fire store."
+                    )
+                }
         }
     }
 
@@ -133,14 +160,14 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
                     for (document in result) {
                         val data = document.data
                         val momentVO = MomentVO(
-                            userId = "",
-                            userName = data?.get("name") as String,
-                            time = data["time"] as Long,
-                            isMovie = data["isMovie"] as Boolean,
-                            momentText = data["momentText"] as String,
-                            content = data["contentList"] as List<String>?,
-                            imageList = data["contentList"] as List<String>?,
-                            profileImage = ""
+                            userId = data?.get("userId") as String?,
+                            userName = data?.get("name") as String?,
+                            time = data?.get(FIRE_STORE_MOMENT_VO_TIME) as Long?,
+                            isMovie = data?.get(FIRE_STORE_MOMENT_VO_ISMOVIE) as Boolean? ?: false,
+                            momentText = data?.get("momentText") as String?,
+                            content = data?.get("contentList") as List<String>?,
+                            imageList = data?.get("contentList") as List<String>?,
+                            profileImage = data?.get("profile") as String?
                         )
                         momentList.add(momentVO)
                     }
@@ -337,3 +364,14 @@ const val FIRE_STORE_USER_VO_DOB = "dob"
 const val FIRE_STORE_USER_VO_PROFILE = "profile"
 const val FIRE_STORE_USER_VO_QRCODE = "qrCode"
 const val FIRE_STORE_USER_VO_USERID = "userId"
+
+
+
+const val FIRE_STORE_MOMENT_VO_USERID = "userId"
+const val FIRE_STORE_MOMENT_VO_USERNAME = "name"
+const val FIRE_STORE_MOMENT_VO_PROFILE = "profile"
+const val FIRE_STORE_MOMENT_VO_TIME = "time"
+const val FIRE_STORE_MOMENT_VO_ISMOVIE = "isMovie"
+const val FIRE_STORE_MOMENT_VO_CONTENT = "contentList"
+const val FIRE_STORE_MOMENT_VO_MOMENTTEXT = "momentText"
+const val FIRE_STORE_MOMENT_VO_IMAGE_LIST = "imageList"

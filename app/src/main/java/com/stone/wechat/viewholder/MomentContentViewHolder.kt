@@ -24,7 +24,7 @@ class MomentContentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
                     if (resource.width > resource.height) {
                         val dimensionInDp = TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_DIP,
-                            350F,
+                            300F,
                             itemView.context.resources.displayMetrics
                         ).toInt()
 

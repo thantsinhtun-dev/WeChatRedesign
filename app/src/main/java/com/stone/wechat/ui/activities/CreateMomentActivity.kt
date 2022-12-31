@@ -6,7 +6,14 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.stone.wechat.R
 import com.stone.wechat.adapter.MomentFileAdapter
 import com.stone.wechat.data.vos.MomentFileVO
@@ -19,6 +26,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_create_moment.*
+import kotlinx.android.synthetic.main.activity_create_moment.imgProfile
 import java.io.IOException
 
 
@@ -39,6 +47,8 @@ class CreateMomentActivity : BaseActivity(), CreateMomentView {
         setUpPresenter()
         setUpListener()
         setUpRecyclerView()
+
+        mPresenter.onUIReady(this,this)
 
     }
 
@@ -130,7 +140,12 @@ class CreateMomentActivity : BaseActivity(), CreateMomentView {
     }
 
     override fun initProfile(userVO: UserVO) {
-        TODO("Not yet implemented")
+
+        lblUserName.text = userVO.name
+        Glide.with(this)
+            .load(userVO.profile)
+            .into(imgProfile)
+
     }
 
     override fun openGallery() {

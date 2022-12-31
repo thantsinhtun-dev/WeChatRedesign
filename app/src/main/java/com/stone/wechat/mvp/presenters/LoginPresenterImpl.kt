@@ -1,5 +1,7 @@
 package com.stone.wechat.mvp.presenters
 
+import DataStoreUtils.userDataStore
+import DataStoreUtils.writeToRxDatastore
 import android.content.Context
 import android.util.Log
 import androidx.datastore.preferences.core.Preferences
@@ -11,8 +13,6 @@ import com.stone.wechat.data.models.AuthModelImpl
 import com.stone.wechat.data.vos.UserVO
 import com.stone.wechat.mvp.views.LoginView
 import com.stone.wechat.networks.*
-import com.stone.wechat.utils.DataStoreUtils.userDataStore
-import com.stone.wechat.utils.DataStoreUtils.writeToRxDatastore
 
 class LoginPresenterImpl : ViewModel(), LoginPresenter {
     private var mView: LoginView? = null

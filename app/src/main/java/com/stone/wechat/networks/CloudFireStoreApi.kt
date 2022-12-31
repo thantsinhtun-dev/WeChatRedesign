@@ -29,10 +29,11 @@ interface CloudFireStoreApi {
         onFailure: (message:String) -> Unit
     )
     fun createMoment(
-        momentText:String,
-        momentContents:List<MomentFileVO>,
-        onSuccess: () -> Unit,
-        onFailure: (errorMessage:String) -> Unit
+        userVO: UserVO,
+        momentText: String,
+        momentContents: List<MomentFileVO>,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
     )
     fun getMoments(
         onSuccess: (List<MomentVO>) -> Unit,

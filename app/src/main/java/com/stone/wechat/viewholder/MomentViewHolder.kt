@@ -24,6 +24,7 @@ import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSource
 import com.snov.timeagolibrary.PrettyTimeAgo
+import com.stone.wechat.R
 import com.stone.wechat.adapter.MomentContentAdapter
 import com.stone.wechat.data.vos.MomentVO
 import kotlinx.android.synthetic.main.view_holder_moments.view.*
@@ -43,7 +44,11 @@ class MomentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         itemView.lblUserName.text = mData.userName
         itemView.lblMomentText.text = mData.momentText
-        itemView.lblMomentTime.text = PrettyTimeAgo.getTimeAgo(mData.time)
+        itemView.lblMomentTime.text = mData.time?.let { PrettyTimeAgo.getTimeAgo(it) }
+        Glide.with(itemView.context)
+            .load(mData.profileImage)
+            .placeholder(R.drawable.ic_avator)
+            .into(itemView.imgProfile)
 
         if(mData.isMovie){
             itemView.playerMoment.visibility = View.VISIBLE
@@ -96,10 +101,7 @@ class MomentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .setMediaSourceFactory(mediaSourceFactory)
             .build()
 
-        val videoSize = simpleExoPlayer.videoSize
-        if (videoSize.width > videoSize.height){
-            itemView.playerMoment.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH
-        }else itemView.playerMoment.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
+
 
 
         simpleExoPlayer.addMediaSource(mediaSource)
@@ -110,5 +112,10 @@ class MomentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         itemView.playerMoment.player = simpleExoPlayer
         itemView.playerMoment.requestFocus()
+//        val videoSize = simpleExoPlayer.videoSize
+//        Log.i("video_size",videoSize.width.toString().plus("  --   ").plus(videoSize.height))
+//        if (videoSize.width > videoSize.height){
+//            itemView.playerMoment.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH
+//        }else itemView.playerMoment.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
     }
 }
