@@ -61,7 +61,6 @@ class LoginActivity : BaseActivity() ,LoginView{
     override fun navigateToMainActivity() {
         hideLoadingView()
         startActivity(MainActivity.getIntent(this))
-        finish()
 
     }
 

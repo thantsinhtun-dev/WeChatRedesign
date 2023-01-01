@@ -57,6 +57,7 @@
                 android:layout_width="@dimen/profile_image_size"
                 android:layout_height="@dimen/profile_image_size"
                 android:padding="@dimen/margin_small"
+                android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/ImageView.Corner.medium"
                 app:srcCompat="@drawable/ic_avator" />
 

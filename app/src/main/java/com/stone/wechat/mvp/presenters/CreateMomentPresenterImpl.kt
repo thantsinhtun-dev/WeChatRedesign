@@ -78,8 +78,7 @@ class CreateMomentPresenterImpl : ViewModel(), CreateMomentPresenter {
     }
 
 
-    override fun onUIReady(owner: LifecycleOwner) {
-    }
+
 
     override fun onTapBackButton() {
         mView?.onTapBack()

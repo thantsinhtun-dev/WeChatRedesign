@@ -6,10 +6,14 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.stone.wechat.data.vos.ContactVO
 import com.stone.wechat.data.vos.MomentFileVO
 import com.stone.wechat.data.vos.MomentVO
 import com.stone.wechat.data.vos.UserVO
 import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl.storageReference
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Observable
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
@@ -216,18 +220,17 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
                 error?.let {
                     onFailure(error.localizedMessage ?: error.message ?: "Oops something wrong")
                 } ?: run {
-
 //                    val data = snap.data
                     if (snap != null) {
                         val user = UserVO(
-                            name = snap.get(FIRE_STORE_USER_VO_NAME) as String,
-                            phone = snap.get(FIRE_STORE_USER_VO_PHONE) as String,
-                            password = snap.get(FIRE_STORE_USER_VO_PASSWORD) as String,
-                            dob = snap.get(FIRE_STORE_USER_VO_DOB) as String,
-                            gender = snap.get(FIRE_STORE_USER_VO_GENDER) as String,
-                            userId = snap.get(FIRE_STORE_USER_VO_USERID) as String,
-                            qrCode = snap.get(FIRE_STORE_USER_VO_QRCODE) as String,
-                            profile = snap.get(FIRE_STORE_USER_VO_PROFILE) as String
+                            name = snap.get(FIRE_STORE_USER_VO_NAME) as String?,
+                            phone = snap.get(FIRE_STORE_USER_VO_PHONE) as String?,
+                            password = snap.get(FIRE_STORE_USER_VO_PASSWORD) as String?,
+                            dob = snap.get(FIRE_STORE_USER_VO_DOB) as String?,
+                            gender = snap.get(FIRE_STORE_USER_VO_GENDER) as String?,
+                            userId = snap.get(FIRE_STORE_USER_VO_USERID) as String?,
+                            qrCode = snap.get(FIRE_STORE_USER_VO_QRCODE) as String?,
+                            profile = snap.get(FIRE_STORE_USER_VO_PROFILE) as String?
                         )
                         onSuccess(user)
                     }
@@ -309,6 +312,114 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
         }
     }
 
+    override fun addContacts(
+        currentUserId: String,
+        addUserId: String,
+        onSuccess: (List<ContactVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        val user = hashMapOf<String, Any>(
+            FIRE_STORE_USER_VO_USERID to currentUserId,
+        )
+        val addUser = hashMapOf<String, Any>(
+            FIRE_STORE_USER_VO_USERID to addUserId
+        )
+        Firebase.firestore
+            .collection(FIRE_STORE_USER_COLLECTION).document(currentUserId)
+            .collection(FIRE_STORE_CONTACTS_COLLECTION)
+            .document(addUserId)
+//            .document(addUserId)
+            .set(addUser)
+            .addOnSuccessListener {
+                onSuccess(arrayListOf())
+            }.addOnFailureListener { onFailure(it.localizedMessage ?: "Fail to add contact") }
+        Firebase.firestore
+            .collection(FIRE_STORE_USER_COLLECTION).document(addUserId)
+            .collection(FIRE_STORE_CONTACTS_COLLECTION)
+            .document(currentUserId)
+            .set(user)
+            .addOnSuccessListener {
+                onSuccess(arrayListOf())
+            }.addOnFailureListener { onFailure(it.localizedMessage ?: "Fail to add contact") }
+    }
+
+    override fun getAllContacts(
+        currentUserId: String,
+        onSuccess: (List<ContactVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        Firebase.firestore.collection(FIRE_STORE_USER_COLLECTION)
+            .document(currentUserId)
+            .collection(FIRE_STORE_CONTACTS_COLLECTION)
+            .addSnapshotListener { snap, error ->
+                error?.let {
+                    onFailure(error.localizedMessage ?: error.message ?: "Oops something wrong")
+                } ?: run {
+                    val result = snap?.documents ?: arrayListOf()
+                    val contactList:MutableList<ContactVO> = mutableListOf()
+                    val contactIdList:MutableList<String> = mutableListOf()
+//
+                    result.map {
+                        val contactUserId = it?.get(FIRE_STORE_USER_VO_USERID) as String
+                        loadProfileData(contactUserId,onSuccess={userVo->
+                            val contactVO = ContactVO(
+                                contactUserId,
+                                userVo.name ?: "",
+                                userVo.profile ?: "",
+                                isFavourite = "false"
+                            )
+                            contactList.add(contactVO)
+                            if(contactList.size == result.size){
+                                onSuccess(contactList)
+                            }
+                        },onFailure={
+
+                        })
+
+                    }.apply {
+                        Log.i("contact_list_count",contactList.count().toString())
+//                        onSuccess(this)
+//                        contactsList.add(ContactVO(contactUserId, "Kyaw", "gg", ""))
+                    }
+//                    Observable.just(result)
+//                        .map { it
+//                            val contactsList: MutableList<ContactVO> = mutableListOf()
+//                            for (document in it) {
+//                                val data = document.data
+//                                val contactUserId = data?.get(FIRE_STORE_USER_VO_USERID) as String
+//
+////                                contactsList.add(ContactVO(contactUserId, "Kyaw", "gg", ""))
+//                                getProfileData(
+//                                    contactUserId,
+//                                    onSuccess = { userVo ->
+//                                        Log.i("contact_user_id", userVo.name ?: "notfound")
+//                                        val contactVO = ContactVO(
+//                                            contactUserId,
+//                                            userVo.name ?: "",
+//                                            userVo.profile ?: "",
+//                                            isFavourite = "false"
+//                                        )
+//                                        contactsList.add(contactVO)
+//                                    }, onFailure = {
+//                                        onFailure(it)
+//                                    })
+//
+//                            }
+//                            contactsList
+//
+//                        }
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe {
+//                            Log.i("contact_list_in_rx",it.count().toString())
+//                            onSuccess(it)
+//                        }
+
+
+                }
+            }
+    }
+
 
     private fun uploadFile(
         momentFileVO: List<MomentFileVO>,
@@ -321,7 +432,9 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
                 val videoRef = storageReference.child("videos/${UUID.randomUUID()}")
                 val uploadTask = it.moviePath?.let { movie -> videoRef.putFile(movie) }
                 uploadTask?.addOnFailureListener { error ->
-                    onFailure(error.localizedMessage ?: "Upload video to firebase storage failed.")
+                    onFailure(
+                        error.localizedMessage ?: "Upload video to firebase storage failed."
+                    )
                 }?.addOnSuccessListener { taskSnapshot ->
 
                 }
@@ -354,7 +467,39 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
 
 
     }
+    private fun loadProfileData(
+        userId: String,
+        onSuccess: (UserVO) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        Firebase.firestore.collection(FIRE_STORE_USER_COLLECTION)
+            .document(userId)
+            .get()
+            .addOnSuccessListener {
+                val snap = it.data
+                if (snap != null) {
+                    val user = UserVO(
+                        name = snap[FIRE_STORE_USER_VO_NAME] as String,
+                        phone = snap[FIRE_STORE_USER_VO_PHONE] as String,
+                        password = snap[FIRE_STORE_USER_VO_PASSWORD] as String,
+                        dob = snap[FIRE_STORE_USER_VO_DOB] as String,
+                        gender = snap[FIRE_STORE_USER_VO_GENDER] as String,
+                        userId = snap[FIRE_STORE_USER_VO_USERID] as String,
+                        qrCode = snap[FIRE_STORE_USER_VO_QRCODE] as String,
+                        profile = snap[FIRE_STORE_USER_VO_PROFILE] as String
+                    )
+                    onSuccess(user)
+                }
+            }.addOnFailureListener {
+                onFailure(it.localizedMessage ?: "load profile fail")
+            }
+
+    }
 }
+
+const val FIRE_STORE_USER_COLLECTION = "users"
+const val FIRE_STORE_CONTACTS_COLLECTION = "contacts"
+
 
 const val FIRE_STORE_USER_VO_NAME = "name"
 const val FIRE_STORE_USER_VO_PHONE = "phone"
@@ -364,7 +509,6 @@ const val FIRE_STORE_USER_VO_DOB = "dob"
 const val FIRE_STORE_USER_VO_PROFILE = "profile"
 const val FIRE_STORE_USER_VO_QRCODE = "qrCode"
 const val FIRE_STORE_USER_VO_USERID = "userId"
-
 
 
 const val FIRE_STORE_MOMENT_VO_USERID = "userId"

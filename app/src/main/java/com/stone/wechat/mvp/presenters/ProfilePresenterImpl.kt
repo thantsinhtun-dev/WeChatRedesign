@@ -1,12 +1,12 @@
 package com.stone.wechat.mvp.presenters
 
-import DataStoreUtils.readQuick
 import DataStoreUtils.userDataStore
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.rxjava3.RxDataStore
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.stone.wechat.data.models.ProfileModel
@@ -42,8 +42,8 @@ class ProfilePresenterImpl : ViewModel(), ProfilePresenter {
             mProfileModel.updateProfileImage(
                 bitmap,
                 it,
-                onSuccess = {
-
+                onSuccess = { success->
+//                            mView?.showError(success)
                 },
                 onFailure = { error->
                     mView?.showError(error)
@@ -52,12 +52,28 @@ class ProfilePresenterImpl : ViewModel(), ProfilePresenter {
     }
 
     override fun onTapQrCode() {
-        userVO?.qrCode?.let { mView?.showQrCode(it) }
+        userVO?.userId?.let { mView?.showQrCode(it) }
     }
 
     override fun onUIReady(context: Context, owner: LifecycleOwner) {
+
         dataStore = context.userDataStore
-        getUserDataFromStore()
+        mProfileModel.getProfileData(
+            "it",
+            onSuccess = { user ->
+                this.userVO = user
+
+                if(owner.lifecycle.currentState == Lifecycle.State.RESUMED){
+                    Log.i("lifecycle_state", owner.lifecycle.currentState.name)
+                    Log.i("profile_data",user.toString())
+                    mView?.initProfile(user)
+                }
+            },
+            onFailure = { error ->
+                mView?.showError(error)
+            }
+        )
+//        getUserDataFromStore()
     }
 
     override fun onUIReady(owner: LifecycleOwner) {
@@ -71,19 +87,10 @@ class ProfilePresenterImpl : ViewModel(), ProfilePresenter {
     private fun getUserDataFromStore() {
 
 
-        dataStore?.readQuick(FIRE_STORE_USER_VO_USERID) {
-            Log.d("rx_read", it)
-            mProfileModel.getProfileData(
-                it,
-                onSuccess = { user ->
-                    this.userVO = user
-                    mView?.initProfile(user)
-                },
-                onFailure = { error ->
-                    mView?.showError(error)
-                }
-            )
-        }
+//        dataStore?.readQuick(FIRE_STORE_USER_VO_USERID) {
+//            Log.d("rx_read", it)
+
+//        }
 
 
     }

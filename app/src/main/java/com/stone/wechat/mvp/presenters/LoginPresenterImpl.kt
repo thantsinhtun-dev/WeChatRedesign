@@ -63,9 +63,6 @@ class LoginPresenterImpl : ViewModel(), LoginPresenter {
 
     }
 
-    override fun onUIReady(owner: LifecycleOwner) {
-
-    }
 
     override fun onTapBackButton() {
         mView?.onTapBack()

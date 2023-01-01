@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.stone.wechat.R
 import com.stone.wechat.data.vos.MomentVO
 import com.stone.wechat.data.vos.UserVO
+import com.stone.wechat.databinding.FragmentProfileBinding
 import com.stone.wechat.dialogs.EditProfileDialog
 import com.stone.wechat.dialogs.QRDialog
 import com.stone.wechat.mvp.presenters.ProfilePresenter

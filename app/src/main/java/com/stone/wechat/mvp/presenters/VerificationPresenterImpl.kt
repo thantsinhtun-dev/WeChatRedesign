@@ -5,18 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.google.firebase.FirebaseException
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.stone.wechat.mvp.views.VerificationView
 import com.stone.wechat.networks.CloudFireStoreApi
 import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl
-import com.stone.wechat.networks.auth.AuthManager
-import com.stone.wechat.networks.auth.FirebaseAuthManager
+import com.stone.wechat.networks.auth.FirebaseAuthManagerImpl
 
 class VerificationPresenterImpl : ViewModel(), VerificationPresenter {
     private var mView: VerificationView? = null
-    private var mAuthManager: AuthManager = FirebaseAuthManager
+    private var mAuthManager: FirebaseAuthManagerImpl =
+        FirebaseAuthManagerImpl
     private var mFireBaseApi: CloudFireStoreApi = CloudFireStoreFirebaseApiImpl
 
     private var phone: String = ""

@@ -54,6 +54,7 @@
         android:layout_below="@id/imgBack"
         android:layout_marginVertical="@dimen/margin_medium_3"
         android:layout_marginStart="@dimen/margin_medium_3"
+        android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/ImageView.Corner.medium"
         app:srcCompat="@drawable/ic_avator" />
 

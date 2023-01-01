@@ -1,7 +1,6 @@
 package com.stone.wechat.mvp.presenters
 
 import DataStoreUtils.userDataStore
-import DataStoreUtils.writeQuick
 import DataStoreUtils.writeToRxDatastore
 import android.content.Context
 import android.util.Log
@@ -11,16 +10,14 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.stone.wechat.mvp.views.SignUpView
 import com.stone.wechat.networks.*
-import com.stone.wechat.networks.auth.AuthManager
-import com.stone.wechat.networks.auth.FirebaseAuthManager
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
+import com.stone.wechat.networks.auth.FirebaseAuthManagerImpl
 
 class SignUpPresenterImpl : ViewModel(), SignUpPresenter {
 
     private var mView: SignUpView? = null
     private var mFireBaseApi: CloudFireStoreApi = CloudFireStoreFirebaseApiImpl
-    private var mAuthManager: AuthManager = FirebaseAuthManager
+    private var mAuthManager: FirebaseAuthManagerImpl =
+        FirebaseAuthManagerImpl
 
     var dataStore: RxDataStore<Preferences>? = null
 
@@ -124,9 +121,7 @@ class SignUpPresenterImpl : ViewModel(), SignUpPresenter {
 
     }
 
-    override fun onUIReady(owner: LifecycleOwner) {
-        TODO("Not yet implemented")
-    }
+
 
     override fun onTapBackButton() {
         mView?.onTapBack()

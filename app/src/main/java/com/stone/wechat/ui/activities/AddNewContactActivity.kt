@@ -38,6 +38,7 @@ import kotlin.math.ln
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+const val EXTRA_CONTACT_USER = "contactUser"
 
 class AddNewContactActivity : BaseActivity() {
 
@@ -49,48 +50,18 @@ class AddNewContactActivity : BaseActivity() {
     override val layoutId: Int = R.layout.activity_add_new_contact
 
 
-    //    private lateinit var cameraExecutor: ExecutorService
     private lateinit var barcodeScanner: BarcodeScanner
-    val DESIRED_WIDTH_CROP_PERCENT = 8
-    val DESIRED_HEIGHT_CROP_PERCENT = 74
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_new_contact)
         makeStatusBarTransparent()
 
 
-//        Log.i("xy",overLay.y.toString())
 
         viewFinder.post {
             startCamera()
         }
-//        overLay.apply {
-//            setZOrderOnTop(true)
-//            holder.setFormat(PixelFormat.TRANSPARENT)
-//            holder.addCallback(object : SurfaceHolder.Callback {
-//                override fun surfaceChanged(
-//                    holder: SurfaceHolder,
-//                    format: Int,
-//                    width: Int,
-//                    height: Int
-//                ) {
-//                }
-//
-//                override fun surfaceDestroyed(holder: SurfaceHolder) {}
-//
-//                override fun surfaceCreated(holder: SurfaceHolder) {
-//                    holder?.let {
-//                        drawOverlay(
-//                            it,
-//                            DESIRED_HEIGHT_CROP_PERCENT,
-//                            DESIRED_WIDTH_CROP_PERCENT
-//                        )
-//                    }
-//                }
-//            })
-//
-//
-//        }
+
 
         imgBack.setOnClickListener { onBackPressed() }
 
@@ -132,14 +103,17 @@ class AddNewContactActivity : BaseActivity() {
                     && 200 < qrCodeViewModel.boundingRect.left && 850 > qrCodeViewModel.boundingRect.right
                      ) {
 
-
                     val qrCodeDrawable = QrCodeDrawable(qrCodeViewModel)
                     previewView.overlay.clear()
                     previewView.overlay.add(qrCodeDrawable)
+                    Log.i("qr_content",qrCodeViewModel.qrContent)
+
+
+                    val intent = Intent()
+                    intent.putExtra(EXTRA_CONTACT_USER,qrCodeViewModel.qrContent)
+                    setResult(RESULT_OK, intent)
+                    finish()
                 }
-//
-//                previewView.setOnTouchListener(qrCodeViewModel.qrCodeTouchCallback)
-//                Toast.makeText(this, barcodeResults[0].url!!.url!!, Toast.LENGTH_SHORT).show()
 
             }
         )
@@ -427,7 +401,7 @@ class QrCodeViewModel(barcode: Barcode) {
             // Add other QR Code types here to handle other types of data,
             // like Wifi credentials.
             else -> {
-                qrContent = "Unsupported data type: ${barcode.rawValue.toString()}"
+                qrContent = barcode.rawValue.toString()
             }
         }
     }

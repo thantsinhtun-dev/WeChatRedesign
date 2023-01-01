@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.stone.wechat.R
 import com.stone.wechat.data.vos.ContactVO
@@ -24,14 +26,17 @@ class ContactGroupAdapter : RecyclerView.Adapter<ContactGroupViewHolder>() {
         val list = mData.sortedBy { it.contactName }.getContacts(position)
 
 
-            Log.i("contacts",list.count().toString())
-        Log.i("contacts",list.isNotEmpty().toString())
+
 
 
         if (list.isNotEmpty()) {
             holder.itemView.visibility = View.VISIBLE
+            val params = holder.itemView.layoutParams
+            params.height = RelativeLayout.LayoutParams.WRAP_CONTENT
+            params.width = RelativeLayout.LayoutParams.MATCH_PARENT
+            holder.itemView.layoutParams = params
             holder.bindData(list, position.getChar())
-        }else{
+        } else {
             holder.itemView.visibility = View.GONE
             val params = holder.itemView.layoutParams
             params.height = 0
@@ -40,7 +45,6 @@ class ContactGroupAdapter : RecyclerView.Adapter<ContactGroupViewHolder>() {
         }
 
 //        else holder.itemView.layoutParams = holder.
-
 
 
     }

@@ -4,15 +4,14 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import com.stone.wechat.data.models.AuthModelImpl.mCloudFireStoreApi
 import com.stone.wechat.data.vos.UserVO
 import com.stone.wechat.networks.CloudFireStoreApi
 import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl
-import com.stone.wechat.networks.auth.AuthManager
-import com.stone.wechat.networks.auth.FirebaseAuthManager
+import com.stone.wechat.networks.auth.FirebaseAuthManagerImpl
 
 object AuthModelImpl :AuthModel{
-    override var mAuthManager: AuthManager = FirebaseAuthManager
+    override var mAuthManager: FirebaseAuthManagerImpl =
+        FirebaseAuthManagerImpl
     override var mCloudFireStoreApi: CloudFireStoreApi = CloudFireStoreFirebaseApiImpl
 
     override fun sendVerificationCode(

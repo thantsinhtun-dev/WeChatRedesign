@@ -1,6 +1,7 @@
 package com.stone.wechat.networks
 
 import android.graphics.Bitmap
+import com.stone.wechat.data.vos.ContactVO
 import com.stone.wechat.data.vos.MomentFileVO
 import com.stone.wechat.data.vos.MomentVO
 import com.stone.wechat.data.vos.UserVO
@@ -42,9 +43,14 @@ interface CloudFireStoreApi {
     fun getCurrentUserFromFireStore(userId:String, onSuccess: (UserVO) -> Unit, onError: (errorMessage: String?) -> Unit)
 
 
+    ///profile
     fun getProfileData(userId: String, onSuccess: (UserVO) -> Unit, onFailure: (String) -> Unit)
     fun updateProfileData(userVO: UserVO,onSuccess: (String) -> Unit,onFailure: (String) -> Unit)
     fun updateProfileImage(image: Bitmap, userVO: UserVO, onSuccess: (String) -> Unit, onFailure: (String) -> Unit)
+
+    fun addContacts(currentUserId:String,addUserId:String,onSuccess: (List<ContactVO>) -> Unit,onFailure: (String) -> Unit)
+    fun getAllContacts(currentUserId:String,onSuccess: (List<ContactVO>)->Unit,onFailure:(String)->Unit)
+
 
 
 

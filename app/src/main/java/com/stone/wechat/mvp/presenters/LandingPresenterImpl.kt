@@ -3,12 +3,12 @@ package com.stone.wechat.mvp.presenters
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.stone.wechat.mvp.views.LandingView
-import com.stone.wechat.networks.auth.AuthManager
-import com.stone.wechat.networks.auth.FirebaseAuthManager
+import com.stone.wechat.networks.auth.FirebaseAuthManagerImpl
 
 class LandingPresenterImpl: ViewModel(),LandingPresenter {
     private var mView:LandingView? = null
-    private var mAuthManager: AuthManager = FirebaseAuthManager
+    private var mAuthManager: FirebaseAuthManagerImpl =
+        FirebaseAuthManagerImpl
     override fun initView(view: LandingView) {
         mView = view
     }

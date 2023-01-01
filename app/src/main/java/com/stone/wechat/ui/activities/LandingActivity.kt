@@ -1,5 +1,7 @@
 package com.stone.wechat.ui.activities
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -14,6 +16,12 @@ class LandingActivity : BaseActivity(),LandingView {
     private lateinit var mPresenter: LandingPresenter
     private var keepSplashScreen = true
     override val layoutId: Int = R.layout.activity_landing
+
+    companion object{
+        fun getIntent(context: Context):Intent{
+            return Intent(context,LandingActivity::class.java)
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)

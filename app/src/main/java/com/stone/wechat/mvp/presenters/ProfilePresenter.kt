@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.stone.wechat.mvp.views.ProfileView
 
 interface ProfilePresenter:BasePresenter {
+    fun onUIReady(owner: LifecycleOwner)
     fun onUIReady(context: Context,owner: LifecycleOwner)
     fun initView(view:ProfileView)
     fun onTapEditUserInfo()

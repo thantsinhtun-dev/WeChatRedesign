@@ -1,9 +1,14 @@
 package com.stone.wechat.ui.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import com.stone.wechat.R
 import com.stone.wechat.adapter.ContactAdapter
@@ -16,6 +21,7 @@ import com.stone.wechat.mvp.presenters.ContactPresenterImpl
 import com.stone.wechat.mvp.views.ContactView
 import com.stone.wechat.ui.activities.AddNewContactActivity
 import com.stone.wechat.ui.activities.CreateNewGroupActivity
+import com.stone.wechat.ui.activities.EXTRA_CONTACT_USER
 import kotlinx.android.synthetic.main.fragment_contact.*
 
 
@@ -45,6 +51,24 @@ class ContactFragment : BaseFragment(),ContactView {
         mPresenter.onUIReady(this)
     }
 
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // There are no request codes
+                val data: Intent? = result.data
+                val contactUserId = data?.getStringExtra(EXTRA_CONTACT_USER)
+                Log.i("contactUserId",contactUserId.toString())
+                if (contactUserId != null) {
+
+                    showLoadingView()
+                    mPresenter.addContact(contactUserId)
+                }
+            }else{
+                Log.i("contactUserId","fail")
+
+            }
+        }
+
     private fun setUpRecyclerView() {
         mGroupAdapter = GroupAdapter()
         mContactAdapter = ContactGroupAdapter()
@@ -54,7 +78,7 @@ class ContactFragment : BaseFragment(),ContactView {
     }
 
     private fun setUpPresenter() {
-        mPresenter = ViewModelProvider(this)[ContactPresenterImpl::class.java]
+        mPresenter = ViewModelProvider(requireActivity())[ContactPresenterImpl::class.java]
         mPresenter.initView(this)
     }
 
@@ -75,7 +99,8 @@ class ContactFragment : BaseFragment(),ContactView {
         mContactAdapter.setNewData(contacts)
     }
 
-    override fun navigateToChat() {
+    override fun hideLoading() {
+        hideLoadingView()
     }
 
     override fun navigateToAddNewGroup() {
@@ -84,7 +109,14 @@ class ContactFragment : BaseFragment(),ContactView {
     }
 
     override fun navigateToQrScanner() {
-        startActivity(AddNewContactActivity.getIntent(requireContext()))
+        resultLauncher.launch(AddNewContactActivity.getIntent(requireContext()))
+    }
+
+    override fun showError(error: String) {
+        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onTapBack() {
     }
 
 }

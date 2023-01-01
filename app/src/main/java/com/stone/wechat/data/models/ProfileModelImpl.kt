@@ -4,16 +4,26 @@ import android.graphics.Bitmap
 import com.stone.wechat.data.vos.UserVO
 import com.stone.wechat.networks.CloudFireStoreApi
 import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl
+import com.stone.wechat.networks.auth.FirebaseAuthManager
+import com.stone.wechat.networks.auth.FirebaseAuthManagerImpl
 
-object ProfileModelImpl :ProfileModel{
+object ProfileModelImpl : ProfileModel {
     override var mFireStoreApi: CloudFireStoreApi = CloudFireStoreFirebaseApiImpl
+    override var mAuthManager: FirebaseAuthManager = FirebaseAuthManagerImpl
 
     override fun getProfileData(
         userId: String,
         onSuccess: (UserVO) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        mFireStoreApi.getProfileData(userId, onSuccess, onFailure)
+        mAuthManager.getCurrentUser(
+            onSuccess = {
+                mFireStoreApi.getProfileData(it, onSuccess, onFailure)
+            },
+            onError = {
+                onFailure(it)
+            }
+        )
     }
 
     override fun updateProfileData(
@@ -30,6 +40,6 @@ object ProfileModelImpl :ProfileModel{
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        mFireStoreApi.updateProfileImage(image,  userVO, onSuccess, onFailure)
+        mFireStoreApi.updateProfileImage(image, userVO, onSuccess, onFailure)
     }
 }
