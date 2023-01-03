@@ -106,13 +106,17 @@
         android:layout_height="match_parent"
         android:layout_below="@id/appBarMoment"
         android:layout_above="@id/rlSendMessage"
+        app:stackFromEnd="true"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/view_holder_messages"
         />
     <RelativeLayout
         android:id="@+id/rlSendMessage"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_xxlarge"
         android:minHeight="@dimen/margin_medium_2"
-        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:paddingHorizontal="@dimen/margin_medium_2"
         android:layout_above="@id/cardBottom">
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/editMessage"
@@ -130,6 +134,8 @@
             android:layout_width="@dimen/margin_xxlarge"
             android:layout_height="@dimen/margin_xxlarge"
             android:padding="@dimen/margin_small"
+            android:clickable="true"
+            android:background="?selectableItemBackgroundBorderless"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             app:srcCompat="@drawable/ic_send"
@@ -139,6 +145,7 @@
         android:id="@+id/cardBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/margin_medium"
         android:layout_alignParentBottom="true">
 
         <LinearLayout
@@ -153,18 +160,19 @@
                 android:gravity="center">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/imgChoosePhoto"
                     android:layout_width="@dimen/margin_xxlarge"
                     android:layout_height="@dimen/margin_xxlarge"
                     app:cardCornerRadius="@dimen/margin_small"
-                    android:clickable="true"
-                    android:background="?selectableItemBackgroundBorderless"
                     app:cardUseCompatPadding="true">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/imgChoosePhoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:padding="@dimen/margin_medium"
+                        android:clickable="true"
+                        android:background="?selectableItemBackgroundBorderless"
                         app:srcCompat="@drawable/ic_upload_profile"
                         app:tint="@color/colorPrimary" />
                 </androidx.cardview.widget.CardView>
@@ -177,7 +185,6 @@
                 android:gravity="center">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/imgTakePhoto"
                     android:layout_width="@dimen/margin_xxlarge"
                     android:layout_height="@dimen/margin_xxlarge"
                     app:cardCornerRadius="@dimen/margin_small"
@@ -186,9 +193,13 @@
                     app:cardUseCompatPadding="true">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/imgTakePhoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:padding="@dimen/margin_medium"
+                        android:clickable="true"
+                        android:background="?selectableItemBackgroundBorderless"
                         app:srcCompat="@drawable/ic_take_photo"
                         app:tint="@color/colorPrimary" />
                 </androidx.cardview.widget.CardView>
@@ -201,7 +212,6 @@
                 android:gravity="center">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/imgChooseGif"
                     android:layout_width="@dimen/margin_xxlarge"
                     android:layout_height="@dimen/margin_xxlarge"
                     app:cardCornerRadius="@dimen/margin_small"
@@ -210,9 +220,13 @@
                     app:cardUseCompatPadding="true">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/imgChooseGif"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:padding="@dimen/margin_medium"
+                        android:clickable="true"
+                        android:background="?selectableItemBackgroundBorderless"
                         app:srcCompat="@drawable/ic_gif"
                         app:tint="@color/colorPrimary" />
                 </androidx.cardview.widget.CardView>
@@ -225,7 +239,6 @@
                 android:gravity="center">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/imgLocation"
                     android:layout_width="@dimen/margin_xxlarge"
                     android:layout_height="@dimen/margin_xxlarge"
                     app:cardCornerRadius="@dimen/margin_small"
@@ -234,9 +247,13 @@
                     app:cardUseCompatPadding="true">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/imgLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:padding="@dimen/margin_medium"
+                        android:clickable="true"
+                        android:background="?selectableItemBackgroundBorderless"
                         app:srcCompat="@drawable/ic_location"
                         app:tint="@color/colorPrimary" />
                 </androidx.cardview.widget.CardView>
@@ -249,7 +266,6 @@
                 android:gravity="center">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/imgMice"
                     android:layout_width="@dimen/margin_xxlarge"
                     android:layout_height="@dimen/margin_xxlarge"
                     app:cardCornerRadius="@dimen/margin_small"
@@ -258,9 +274,13 @@
                     app:cardUseCompatPadding="true">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/imgMice"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:padding="@dimen/margin_medium"
+                        android:clickable="true"
+                        android:background="?selectableItemBackgroundBorderless"
                         app:srcCompat="@drawable/ic_mice"
                         app:tint="@color/colorPrimary" />
                 </androidx.cardview.widget.CardView>

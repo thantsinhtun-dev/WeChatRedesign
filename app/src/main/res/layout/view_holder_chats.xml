@@ -48,11 +48,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/poppins_medium"
                 android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:includeFontPadding="false"
-                android:text="Mical"
-                android:textSize="@dimen/text_smaller" />
+                android:textColor="@color/colorPrimary"
+                android:text="Mical" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,16 +68,17 @@
                     android:fontFamily="@font/poppins_regular"
                     android:gravity="center"
                     android:text="Mical : "
-                    android:textSize="@dimen/text_smaller" />
+                    android:textColor="@color/colorPrimaryDark"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/lblLastMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:maxLines="1"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="Where are you?"
-                    android:textSize="@dimen/text_smaller" />
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="Where are you?" />
 
             </LinearLayout>
 
@@ -95,10 +98,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/poppins_medium"
                 android:gravity="center"
+                android:includeFontPadding="false"
                 android:text="12/5/2022"
-                android:textSize="@dimen/text_smaller" />
+                android:textSize="@dimen/text_small" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgStatus"
@@ -107,7 +111,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:layout_weight="1"
-                android:visibility="gone"
+                android:visibility="invisible"
                 app:srcCompat="@drawable/ic_avator" />
         </LinearLayout>
     </RelativeLayout>

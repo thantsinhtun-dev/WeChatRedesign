@@ -1,25 +1,24 @@
 package com.stone.wechat.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.stone.wechat.R
 import com.stone.wechat.data.vos.ContactVO
+import com.stone.wechat.delegates.ContactDelegate
 import com.stone.wechat.utils.getChar
 import com.stone.wechat.viewholder.ContactGroupViewHolder
 import kotlinx.android.synthetic.main.view_holder_contacts_group.view.*
 
-class ContactGroupAdapter : RecyclerView.Adapter<ContactGroupViewHolder>() {
+class ContactGroupAdapter(private val mDelegate: ContactDelegate,private  val isEditMode:Boolean = false) : RecyclerView.Adapter<ContactGroupViewHolder>() {
     private var mData: List<ContactVO> = listOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactGroupViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.view_holder_contacts_group, parent, false)
-        return ContactGroupViewHolder(view)
+        return ContactGroupViewHolder(view,isEditMode)
     }
 
     override fun onBindViewHolder(holder: ContactGroupViewHolder, position: Int) {
@@ -35,7 +34,7 @@ class ContactGroupAdapter : RecyclerView.Adapter<ContactGroupViewHolder>() {
             params.height = RelativeLayout.LayoutParams.WRAP_CONTENT
             params.width = RelativeLayout.LayoutParams.MATCH_PARENT
             holder.itemView.layoutParams = params
-            holder.bindData(list, position.getChar())
+            holder.bindData(list, position.getChar(),mDelegate)
         } else {
             holder.itemView.visibility = View.GONE
             val params = holder.itemView.layoutParams

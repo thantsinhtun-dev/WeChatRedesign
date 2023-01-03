@@ -38,7 +38,9 @@
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/cbContact"
         android:checked="false"
-        android:button="@drawable/ic_check"
+        android:buttonTint="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimary"
+        android:button="@drawable/background_check_box"
         android:layout_width="@dimen/margin_xxlarge"
         android:layout_height="@dimen/margin_xxlarge"
         android:layout_alignParentEnd="true"

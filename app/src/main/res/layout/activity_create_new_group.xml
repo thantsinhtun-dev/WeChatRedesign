@@ -87,7 +87,7 @@
             android:textSize="@dimen/text_regular_2x"
             android:text="@string/lbl_group_name"/>
         <androidx.appcompat.widget.AppCompatEditText
-
+            android:id="@+id/editGroupName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblGroupName"
@@ -120,6 +120,7 @@
             android:layout_toStartOf="@id/imgDismiss"
             android:layout_toEndOf="@id/imgSearch"
             android:background="@color/colorTransparent"
+            android:maxLines="1"
             android:hint="Search"
             android:includeFontPadding="false"
             android:textColor="#80113A5D"
@@ -145,18 +146,19 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvGroup"
+            android:id="@+id/rvSelectedContacts"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:orientation="horizontal"
             android:paddingStart="@dimen/margin_small"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/view_holder_create_group" />
+            tools:listitem="@layout/view_holder_selected_contacts" />
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAllContacts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/llGroup"

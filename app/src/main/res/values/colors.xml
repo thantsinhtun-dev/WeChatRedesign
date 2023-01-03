@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="backgroundColor">#CCE9F9F9</color>
+    <color name="backgroundContactMessageColor">#F3F3F3</color>
     <color name="colorPrimary">#113A5D</color>
     <color name="colorPrimaryBackground">#E6FFFFFF</color>
     <color name="colorPrimaryDark">#999999</color>
@@ -20,4 +22,5 @@
     <color name="colorTransparentOverLayPlayButton">#80000000</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorBackgroundSearch">#36113A5D</color>
+    <color name="n">#1E1E1E</color>
 </resources>

@@ -9,5 +9,6 @@ interface ContactView:BaseView {
     fun hideLoading()
     fun navigateToAddNewGroup()
     fun navigateToQrScanner()
+    fun navigateToChatDetails(contactVO: ContactVO,isGroup:Boolean)
 
 }

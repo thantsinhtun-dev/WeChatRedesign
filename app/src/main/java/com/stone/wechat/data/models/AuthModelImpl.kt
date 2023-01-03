@@ -65,4 +65,11 @@ object AuthModelImpl :AuthModel{
     ) {
         mCloudFireStoreApi.getCurrentUserFromFireStore(userId, onSuccess, onError)
     }
+
+    override fun getCurrentUser(
+        onSuccess: (String) -> Unit,
+        onError: (errorMessage: String) -> Unit
+    ) {
+        mAuthManager.getCurrentUser(onSuccess, onError)
+    }
 }

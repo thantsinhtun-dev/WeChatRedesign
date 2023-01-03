@@ -9,6 +9,9 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 import com.stone.wechat.WeChatApplication
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun getString(id:Int): String{
    return WeChatApplication().resources.getString(id)
@@ -36,4 +39,8 @@ fun String.getQrCodeBitmap(): Bitmap {
 }
 fun Int.getChar():String{
   return (this+65).toChar().toString()
+}
+
+fun Long.formatDate(): String {
+   return SimpleDateFormat("HH:mm a", Locale.US).format(Date(this)).toString()
 }

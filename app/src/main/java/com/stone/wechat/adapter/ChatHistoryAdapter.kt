@@ -22,13 +22,13 @@ class ChatHistoryAdapter: RecyclerView.Adapter<ChatHistoryViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-//        return mData.size
-        return 10
+        return mData.size
+//        return 10
     }
 
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setNewData(data:List<ChatHistoryVO>){
+    fun setNewData(data: List<ChatHistoryVO>){
         mData = data
         notifyDataSetChanged()
     }

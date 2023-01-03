@@ -6,17 +6,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.stone.wechat.R
 import com.stone.wechat.data.vos.ContactVO
-import com.stone.wechat.delegates.ContactDelegate
-import com.stone.wechat.viewholder.ContactViewHolder
+import com.stone.wechat.delegates.SelectedContactDelegate
+import com.stone.wechat.viewholder.SelectedContactViewHolder
 
-class ContactAdapter(private val mDelegate: ContactDelegate,private val isEdit: Boolean) : RecyclerView.Adapter<ContactViewHolder>() {
+class SelectedContactAdapter(private val mDelegate: SelectedContactDelegate): RecyclerView.Adapter<SelectedContactViewHolder>() {
     private var mData :List<ContactVO> = listOf()
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_contact,parent,false)
-        return ContactViewHolder(view,mDelegate,isEdit)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectedContactViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_selected_contacts,parent,false)
+
+        return SelectedContactViewHolder(view,mDelegate)
     }
 
-    override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SelectedContactViewHolder, position: Int) {
         if (mData.isNotEmpty()){
             holder.bindData(mData[position])
         }

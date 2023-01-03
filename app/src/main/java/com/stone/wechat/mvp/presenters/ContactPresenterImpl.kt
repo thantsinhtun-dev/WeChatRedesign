@@ -27,14 +27,6 @@ class ContactPresenterImpl : ViewModel(), ContactPresenter {
         mView?.navigateToAddNewGroup()
     }
 
-    override fun onTapGroupItem(groupVO: GroupVO) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onTapContactItem(contactVO: ContactVO) {
-        TODO("Not yet implemented")
-    }
-
     override fun addContact(contactUserId: String) {
         mContactModel.addContacts(contactUserId, onSuccess = {
                                                              mView?.hideLoading()
@@ -42,9 +34,13 @@ class ContactPresenterImpl : ViewModel(), ContactPresenter {
             mView?.showError(it)
         })
     }
+    override fun onTapGroup(groupVO: GroupVO) {
+        val contactVO = ContactVO(groupVO.groupId,groupVO.groupName,groupVO.groupPhoto,"true")
+        mView?.navigateToChatDetails(contactVO,isGroup = true)
+    }
 
     override fun onSearchItem(string: String) {
-        TODO("Not yet implemented")
+
     }
 
     override fun onUIReady(owner: LifecycleOwner) {
@@ -56,10 +52,25 @@ class ContactPresenterImpl : ViewModel(), ContactPresenter {
             }, onFailure = {
                 mView?.showError(it)
             })
-        mView?.initGroups(arrayListOf())
+        mContactModel.getAllGroups(
+            onSuccess = {
+                mView?.initGroups(it)
+            }, onFailure = {
+                mView?.showError(it)
+            }
+        )
     }
 
     override fun onTapBackButton() {
 
     }
+
+    override fun onTapContact(contactVO: ContactVO) {
+        mView?.navigateToChatDetails(contactVO,isGroup = false)
+    }
+
+    override fun onTapCheckBox(contactVO: ContactVO) {
+    }
+
+
 }

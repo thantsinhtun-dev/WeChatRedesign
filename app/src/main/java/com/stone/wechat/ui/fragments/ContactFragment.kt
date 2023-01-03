@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import com.stone.wechat.R
-import com.stone.wechat.adapter.ContactAdapter
 import com.stone.wechat.adapter.ContactGroupAdapter
 import com.stone.wechat.adapter.GroupAdapter
 import com.stone.wechat.data.vos.ContactVO
@@ -20,6 +19,7 @@ import com.stone.wechat.mvp.presenters.ContactPresenter
 import com.stone.wechat.mvp.presenters.ContactPresenterImpl
 import com.stone.wechat.mvp.views.ContactView
 import com.stone.wechat.ui.activities.AddNewContactActivity
+import com.stone.wechat.ui.activities.ChatDetailActivity
 import com.stone.wechat.ui.activities.CreateNewGroupActivity
 import com.stone.wechat.ui.activities.EXTRA_CONTACT_USER
 import kotlinx.android.synthetic.main.fragment_contact.*
@@ -70,8 +70,8 @@ class ContactFragment : BaseFragment(),ContactView {
         }
 
     private fun setUpRecyclerView() {
-        mGroupAdapter = GroupAdapter()
-        mContactAdapter = ContactGroupAdapter()
+        mGroupAdapter = GroupAdapter(mPresenter)
+        mContactAdapter = ContactGroupAdapter(mPresenter)
 
         rvGroup.adapter = mGroupAdapter
         rvContact.adapter = mContactAdapter
@@ -110,6 +110,10 @@ class ContactFragment : BaseFragment(),ContactView {
 
     override fun navigateToQrScanner() {
         resultLauncher.launch(AddNewContactActivity.getIntent(requireContext()))
+    }
+
+    override fun navigateToChatDetails(contactVO: ContactVO, isGroup: Boolean) {
+        startActivity(ChatDetailActivity.getIntent(requireContext(),contactVO,isGroup))
     }
 
     override fun showError(error: String) {

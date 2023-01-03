@@ -18,6 +18,7 @@
     <dimen name="margin_large_n">-24dp</dimen>
     <dimen name="margin_xlarge_n">-32dp</dimen>
 
+    <dimen name="text_smallest">8sp</dimen>
     <dimen name="text_smaller">10sp</dimen>
     <dimen name="text_small">12sp</dimen>
     <dimen name="text_regular">14sp</dimen>
@@ -57,4 +58,5 @@
     <dimen name="with_group">90dp</dimen>
     <dimen name="width_group">105dp</dimen>
     <dimen name="qr_code_size">300dp</dimen>
+    <dimen name="width_chat_message">270dp</dimen>
 </resources>

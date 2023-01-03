@@ -15,25 +15,30 @@
     android:background="?selectableItemBackgroundBorderless"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:id="@+id/rlHeader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:background="?selectableItemBackgroundBorderless"
+        android:gravity="center"
         >
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgGroupPhoto"
             android:layout_width="@dimen/margin_xxlarge"
             android:layout_height="@dimen/margin_xxlarge"
+            android:scaleType="centerCrop"
             app:shapeAppearance="@style/ImageView.Corner.small"
             app:srcCompat="@drawable/ic_avator"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/lblGroupName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/margin_xxlarge"
             android:layout_below="@id/imgGroupPhoto"
             android:layout_alignStart="@id/imgGroupPhoto"
             android:layout_alignEnd="@id/imgGroupPhoto"
             android:gravity="center"
             android:ellipsize="end"
+            android:maxLines="2"
             android:text="Mical"
             android:textSize="@dimen/text_small"
             android:fontFamily="@font/poppins_regular"
