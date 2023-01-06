@@ -58,13 +58,13 @@ object FirebaseAuthManagerImpl : FirebaseAuthManager {
 
     override fun checkCurrentUser(
         onSuccess: (String) -> Unit,
-        onError: (errorMessage: String?) -> Unit
+        onFailure: (errorMessage: String?) -> Unit
     ) {
         val user = mFirebaseAuth.currentUser
         if (user != null){
             onSuccess("exists")
         }else{
-            onError("not exists")
+            onFailure("not exists")
         }
     }
 
@@ -109,13 +109,13 @@ object FirebaseAuthManagerImpl : FirebaseAuthManager {
 
     override fun getCurrentUser(
         onSuccess: (String) -> Unit,
-        onError: (errorMessage: String) -> Unit
+        onFailure: (errorMessage: String) -> Unit
     ) {
         val user = mFirebaseAuth.currentUser
         if (user != null){
             onSuccess(user.uid)
         }else{
-            onError("user not exists")
+            onFailure("user not exists")
         }
 
     }

@@ -20,7 +20,7 @@ object ProfileModelImpl : ProfileModel {
             onSuccess = {
                 mFireStoreApi.getProfileData(it, onSuccess, onFailure)
             },
-            onError = {
+            onFailure = {
                 onFailure(it)
             }
         )

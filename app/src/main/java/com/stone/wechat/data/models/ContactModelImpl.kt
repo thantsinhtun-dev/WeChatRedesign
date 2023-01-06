@@ -24,7 +24,7 @@ object ContactModelImpl : ContactModel {
                 Log.i("currentUserId", it)
                 mFireStoreApi.addContacts(it, contactUserId, onSuccess, onFailure)
             },
-            onError = {
+            onFailure = {
                 onFailure(it)
             }
         )
@@ -35,7 +35,7 @@ object ContactModelImpl : ContactModel {
             onSuccess = {
                 mFireStoreApi.getAllContacts(it, onSuccess, onFailure)
             },
-            onError = {
+            onFailure = {
                 onFailure(it)
             }
         )
@@ -52,7 +52,7 @@ object ContactModelImpl : ContactModel {
             onSuccess = {
                 database.createGroup(it, groupName, groupPhoto, memberList, onSuccess, onFailure)
             },
-            onError = {
+            onFailure = {
                 onFailure(it)
             }
         )
@@ -62,7 +62,7 @@ object ContactModelImpl : ContactModel {
         mAuthManager.getCurrentUser(
             onSuccess = {
                 database.getAllGroups(currentUserId = it, onSuccess, onFailure)
-            }, onError = {
+            }, onFailure = {
                 onFailure(it)
             }
         )

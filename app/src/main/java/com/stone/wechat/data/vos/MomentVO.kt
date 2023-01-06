@@ -1,13 +1,18 @@
 package com.stone.wechat.data.vos
 
 data class MomentVO(
-    val userId:String?,
-    val userName:String?,
-    val profileImage:String?,
-    val time: Long?,
-    val isMovie:Boolean = false,
-    val content: List<String>?,
-    val momentText:String?,
-    val imageList:List<String>?,
+    var momentId:String = "",
+    var userId:String? = "",
+    var userName:String? = "",
+    var profileImage:String? = "",
+    var time: Long? = 0,
+    var isMovie:Boolean = false,
+    var content: List<String>? = null,
+    var momentText:String? = "",
+    var imageList:List<String>? = null,
+    var likeCount:Int = 0,
+    var commentCount:Int = 0,
+    var isLiked:Boolean = false,
+    var isSaved:Boolean = false
 
     )

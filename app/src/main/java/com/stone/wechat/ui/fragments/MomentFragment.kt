@@ -54,7 +54,7 @@ class MomentFragment : BaseFragment(),MomentView {
         }
     }
     private fun setUpRecyclerView() {
-        mMomentAdapter = MomentAdapter()
+        mMomentAdapter = MomentAdapter(mPresenter)
         rvMoment.adapter = mMomentAdapter
     }
 
@@ -64,6 +64,10 @@ class MomentFragment : BaseFragment(),MomentView {
 
     override fun navigateToCreateMoment() {
         startActivity(CreateMomentActivity.getIntent(requireContext()))
+    }
+
+    override fun updateLikeCount(moments: List<MomentVO>, position: Int) {
+        mMomentAdapter.updateData(moments,position)
     }
 
     override fun showError(error: String) {

@@ -1,7 +1,10 @@
 package com.stone.wechat.mvp.presenters
 
+import android.os.Build.VERSION_CODES.M
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
+import com.stone.wechat.data.models.MomentModel
+import com.stone.wechat.data.models.MomentModelImpl
 import com.stone.wechat.mvp.views.LandingView
 import com.stone.wechat.networks.auth.FirebaseAuthManagerImpl
 
@@ -26,7 +29,7 @@ class LandingPresenterImpl: ViewModel(),LandingPresenter {
             onSuccess = {
                 mView?.userAlreadyExists()
             },
-            onError = {
+            onFailure = {
                 mView?.userDoesNotExists()
             }
         )
