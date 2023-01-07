@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorTransparent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/rlChatOfContactUser"
         android:layout_width="@dimen/width_chat_message"
         android:layout_height="wrap_content"
@@ -20,6 +21,7 @@
             app:srcCompat="@drawable/ic_avator"
             />
         <LinearLayout
+            android:id="@+id/llContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -49,6 +51,19 @@
             android:fontFamily="@font/poppins_light"
             />
         </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvContactChatMessageFile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_toEndOf="@id/imgContactUserProfile"
+            android:layout_below="@id/llContact"
+            android:orientation="vertical"
+            android:clipToPadding="true"
+            android:layout_marginStart="@dimen/margin_medium"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/view_holder_chat_message_image"
+            />
 
     </RelativeLayout>
     <RelativeLayout
@@ -59,6 +74,7 @@
         android:layout_marginVertical="@dimen/margin_small"
         android:layout_marginHorizontal="@dimen/margin_medium_2">
         <LinearLayout
+            android:id="@+id/llSender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -91,6 +107,18 @@
                 android:fontFamily="@font/poppins_light"
                 />
         </LinearLayout>
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSenderChatMessageFile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/llSender"
+            android:layout_marginTop="@dimen/margin_small"
+            android:orientation="vertical"
+            android:clipToPadding="true"
+            android:layout_marginStart="@dimen/margin_medium"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/view_holder_chat_message_image"
+            />
     </RelativeLayout>
 </RelativeLayout>

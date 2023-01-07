@@ -28,4 +28,15 @@ interface MomentModel {
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit,
     )
+    fun saveMoment(
+        momentId: String,
+        isSaveMoment:Boolean,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    )
+    fun getAllSaveMoments(
+        onTapLikeCallBack: (MomentVO) -> Unit,
+        onSuccess: (List<MomentVO>) -> Unit,
+        onFailure: (String) -> Unit
+    )
 }

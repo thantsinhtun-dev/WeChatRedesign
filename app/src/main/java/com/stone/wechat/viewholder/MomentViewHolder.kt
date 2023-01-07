@@ -45,6 +45,9 @@ class MomentViewHolder(itemView: View, mDelegate: MomentDelegate) :
         if (mData.isLiked) {
             itemView.imgMomentLike.setImageResource(R.drawable.ic_enable_like)
         } else itemView.imgMomentLike.setImageResource(R.drawable.ic_disable_like)
+        if (mData.isSaved) {
+            itemView.imgMomentBookMark.setImageResource(R.drawable.ic_enable_book_mark)
+        } else itemView.imgMomentBookMark.setImageResource(R.drawable.ic_disable_book_mark)
         itemView.lblMomentLikeCount.text = mData.likeCount.toString()
     }
 
@@ -64,7 +67,9 @@ class MomentViewHolder(itemView: View, mDelegate: MomentDelegate) :
         itemView.lblMomentLikeCount.text = mData.likeCount.toString()
 
 
-
+        if (mData.isSaved) {
+            itemView.imgMomentBookMark.setImageResource(R.drawable.ic_enable_book_mark)
+        } else itemView.imgMomentBookMark.setImageResource(R.drawable.ic_disable_book_mark)
 
 
         Glide.with(itemView.context)

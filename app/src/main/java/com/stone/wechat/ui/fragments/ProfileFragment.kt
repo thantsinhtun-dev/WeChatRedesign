@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.stone.wechat.R
+import com.stone.wechat.adapter.MomentAdapter
 import com.stone.wechat.data.vos.MomentVO
 import com.stone.wechat.data.vos.UserVO
 import com.stone.wechat.databinding.FragmentProfileBinding
@@ -36,6 +37,7 @@ import java.io.IOException
 class ProfileFragment : BaseFragment(), ProfileView {
 
     private lateinit var mPresenter: ProfilePresenter
+    private lateinit var mMomentAdapter: MomentAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,6 +56,7 @@ class ProfileFragment : BaseFragment(), ProfileView {
 
         setUpPresenter()
         setUpListener()
+        setUpRecyclerView()
         mPresenter.onUIReady(requireContext(), this)
     }
 
@@ -72,6 +75,10 @@ class ProfileFragment : BaseFragment(), ProfileView {
         imgQr.setOnClickListener {
             mPresenter.onTapQrCode()
         }
+    }
+    private fun setUpRecyclerView(){
+        mMomentAdapter = MomentAdapter(mPresenter)
+        rvBookMarkMoment.adapter = mMomentAdapter
     }
 
     private var launchContentPicker = registerForActivityResult(
@@ -148,6 +155,14 @@ class ProfileFragment : BaseFragment(), ProfileView {
                     .transform(CenterCrop(), RoundedCorners(1000))
             )
             .into(imgProfile)
+    }
+
+    override fun initMoment(moments: List<MomentVO>) {
+        mMomentAdapter.setNewData(moments)
+    }
+
+    override fun updateLikeCount(moments: List<MomentVO>, position: Int) {
+        mMomentAdapter.updateData(moments,position)
     }
 
     override fun showError(error: String) {

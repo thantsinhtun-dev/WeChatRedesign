@@ -2,6 +2,7 @@ package com.stone.wechat.data.models
 
 import com.stone.wechat.data.vos.ChatHistoryVO
 import com.stone.wechat.data.vos.MessagesVO
+import com.stone.wechat.data.vos.MomentFileVO
 import com.stone.wechat.networks.auth.FirebaseAuthManager
 import com.stone.wechat.networks.auth.FirebaseAuthManagerImpl
 import com.stone.wechat.networks.realtime.FirebaseRealTimeDB
@@ -30,20 +31,22 @@ object ChatsModelImpl:ChatsModel {
     override fun sendMessages(
         currentUserId: String,
         contactUserId: String,
+        files: List<MomentFileVO>,
         messages: MessagesVO,
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        database.sendMessages(currentUserId, contactUserId, messages, onSuccess, onFailure)
+        database.sendMessages(currentUserId, contactUserId,files, messages, onSuccess, onFailure)
     }
 
     override fun sendGroupMessages(
         groupId:String,
         messages: MessagesVO,
+        files:List<MomentFileVO>,
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     ) {
-       database.sendGroupMessages(groupId, messages, onSuccess, onFailure)
+       database.sendGroupMessages(groupId, messages,files, onSuccess, onFailure)
     }
 
     override fun getAllGroupMessages(

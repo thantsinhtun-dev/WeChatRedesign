@@ -11,5 +11,7 @@ interface ProfileView :BaseView{
     fun pickProfileImage()
     fun showQrCode(qrCode: String)
     fun changeProfileImage(url:String)
+    fun initMoment(moments: List<MomentVO>)
+    fun updateLikeCount(moments: List<MomentVO>, position: Int)
 
 }

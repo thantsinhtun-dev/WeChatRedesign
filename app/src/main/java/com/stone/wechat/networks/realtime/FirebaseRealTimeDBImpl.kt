@@ -1,5 +1,6 @@
 package com.stone.wechat.networks.realtime
 
+import android.graphics.Bitmap
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -7,13 +8,18 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.stone.wechat.data.vos.ChatHistoryVO
 import com.stone.wechat.data.vos.GroupVO
 import com.stone.wechat.data.vos.MessagesVO
+import com.stone.wechat.data.vos.MomentFileVO
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 object FirebaseRealTimeDBImpl : FirebaseRealTimeDB {
     override val database: DatabaseReference = Firebase.database.reference
-
+    private val storage = FirebaseStorage.getInstance()
+    private val storageReference = storage.reference
     override fun getAllChatsMessages(
         senderId: String,
         onSuccess: (List<ChatHistoryVO>) -> Unit,
@@ -72,20 +78,46 @@ object FirebaseRealTimeDBImpl : FirebaseRealTimeDB {
     override fun sendMessages(
         currentUserId: String,
         contactUserId: String,
+        files: List<MomentFileVO>,
         messages: MessagesVO,
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        database.child(FIREBASE_MESSAGE_COLLECTION)
-            .child(currentUserId)
-            .child(contactUserId)
-            .child(System.currentTimeMillis().toString())
-            .setValue(messages)
-        database.child(FIREBASE_MESSAGE_COLLECTION)
-            .child(contactUserId)
-            .child(currentUserId)
-            .child(System.currentTimeMillis().toString())
-            .setValue(messages)
+        val filesList :MutableList<String> = mutableListOf()
+        if (files.isNotEmpty()){
+            uploadFile(
+                files,
+                onSuccess = {
+                    filesList.add(it)
+                    if (files.size == filesList.size){
+                        messages.file = filesList
+                        database.child(FIREBASE_MESSAGE_COLLECTION)
+                            .child(currentUserId)
+                            .child(contactUserId)
+                            .child(System.currentTimeMillis().toString())
+                            .setValue(messages)
+                        database.child(FIREBASE_MESSAGE_COLLECTION)
+                            .child(contactUserId)
+                            .child(currentUserId)
+                            .child(System.currentTimeMillis().toString())
+                            .setValue(messages)
+                    }
+                }, onFailure = {
+                    onFailure
+                }
+            )
+        }else {
+            database.child(FIREBASE_MESSAGE_COLLECTION)
+                .child(currentUserId)
+                .child(contactUserId)
+                .child(System.currentTimeMillis().toString())
+                .setValue(messages)
+            database.child(FIREBASE_MESSAGE_COLLECTION)
+                .child(contactUserId)
+                .child(currentUserId)
+                .child(System.currentTimeMillis().toString())
+                .setValue(messages)
+        }
     }
 
     override fun createGroup(
@@ -151,16 +183,38 @@ object FirebaseRealTimeDBImpl : FirebaseRealTimeDB {
     override fun sendGroupMessages(
         groupId: String,
         messages: MessagesVO,
+        files: List<MomentFileVO>,
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        val ref = database.child(FIREBASE_GROUP_COLLECTION)
-            .child(groupId)
-            .child(FIREBASE_MESSAGE_COLLECTION)
-            .child(System.currentTimeMillis().toString())
-            .setValue(messages)
+        val filesList :MutableList<String> = mutableListOf()
 
-        Log.i("ref",ref.toString())
+        if (files.isNotEmpty()){
+            uploadFile(
+                files,
+                onSuccess = {
+                    filesList.add(it)
+                    if (files.size == filesList.size){
+                        messages.file = filesList
+                        val ref = database.child(FIREBASE_GROUP_COLLECTION)
+                            .child(groupId)
+                            .child(FIREBASE_MESSAGE_COLLECTION)
+                            .child(System.currentTimeMillis().toString())
+                            .setValue(messages)
+                    }
+                }, onFailure = {
+                    onFailure(it)
+                }
+            )
+        }else {
+            val ref = database.child(FIREBASE_GROUP_COLLECTION)
+                .child(groupId)
+                .child(FIREBASE_MESSAGE_COLLECTION)
+                .child(System.currentTimeMillis().toString())
+                .setValue(messages)
+
+            Log.i("ref", ref.toString())
+        }
 
     }
 
@@ -186,6 +240,52 @@ object FirebaseRealTimeDBImpl : FirebaseRealTimeDB {
                     onFailure(error.message)
                 }
             })
+
+    }
+    private fun uploadFile(
+        momentFileVO: List<MomentFileVO>,
+        onSuccess: (String) -> Unit,
+        onFailure: (errorMessage: String) -> Unit
+    ) {
+
+        momentFileVO.forEach {
+            if (it.isMovie) {
+                val videoRef = storageReference.child("videos/${UUID.randomUUID()}")
+                val uploadTask = it.moviePath?.let { movie -> videoRef.putFile(movie) }
+                uploadTask?.addOnFailureListener { error ->
+                    onFailure(
+                        error.localizedMessage ?: "Upload video to firebase storage failed."
+                    )
+                }?.addOnSuccessListener { taskSnapshot ->
+
+                }
+                val urlTask = uploadTask?.continueWithTask {
+                    return@continueWithTask videoRef.downloadUrl
+                }?.addOnCompleteListener { task ->
+                    val movieUrl = task.result?.toString()
+                    onSuccess(movieUrl.toString())
+                }
+            } else {
+                val baos = ByteArrayOutputStream()
+                it.content.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                val data = baos.toByteArray()
+
+                val imageRef = storageReference.child("images/${UUID.randomUUID()}")
+                val uploadTask = imageRef.putBytes(data)
+                uploadTask.addOnFailureListener {
+                    onFailure(it.message ?: "Upload image to firebase storage failed.")
+                }.addOnSuccessListener { taskSnapshot ->
+
+                }
+                val urlTask = uploadTask.continueWithTask {
+                    return@continueWithTask imageRef.downloadUrl
+                }.addOnCompleteListener { task ->
+                    val imageUrl = task.result?.toString()
+                    onSuccess(imageUrl.toString())
+                }
+            }
+        }
+
 
     }
 }

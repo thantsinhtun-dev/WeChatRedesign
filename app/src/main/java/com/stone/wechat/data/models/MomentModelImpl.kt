@@ -1,5 +1,6 @@
 package com.stone.wechat.data.models
 
+import android.util.Log
 import com.stone.wechat.data.vos.MomentFileVO
 import com.stone.wechat.data.vos.MomentVO
 import com.stone.wechat.data.vos.UserVO
@@ -45,7 +46,47 @@ object MomentModelImpl : MomentModel {
     ) {
         mAuthManager.getCurrentUser(
             onSuccess = { userId ->
+                Log.i("current_user_id",userId)
                 mFireStoreApi.handleLike(userId, isRemoveLike, momentId, onSuccess, onFailure)
+            },
+            onFailure = {
+                onFailure(it)
+            }
+        )
+    }
+
+    override fun saveMoment(
+        momentId: String,
+        isSaveMoment: Boolean,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mAuthManager.getCurrentUser(
+            onSuccess = { userId ->
+                mFireStoreApi.saveMoment(userId, momentId, isSaveMoment, onSuccess, onFailure)
+            },
+            onFailure = {
+                onFailure(it)
+            }
+        )
+    }
+
+    override fun getAllSaveMoments(
+        onTapLikeCallBack: (MomentVO) -> Unit,
+        onSuccess: (List<MomentVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mAuthManager.getCurrentUser(
+
+            onSuccess = { userId ->
+                mFireStoreApi.getAllMoments(
+                    userId,
+                    onTapLikeCallBack,
+                    onSuccess = { moments ->
+
+                        onSuccess(moments.filter{ it.isSaved })
+                    }, onFailure
+                )
             },
             onFailure = {
                 onFailure(it)

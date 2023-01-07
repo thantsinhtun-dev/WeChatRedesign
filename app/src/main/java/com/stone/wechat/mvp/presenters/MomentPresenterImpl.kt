@@ -25,17 +25,17 @@ class MomentPresenterImpl : ViewModel(), MomentPresenter {
 
     override fun onTapLike(mMomentVO: MomentVO, absoluteAdapterPosition: Int) {
 
-        allMoment.map {
-
-            if (it.momentId == mMomentVO.momentId) {
-                it.isLiked = !mMomentVO.isLiked
-            }
-        }
+//        allMoment.map {
+//
+//            if (it.momentId == mMomentVO.momentId) {
+//                it.isLiked = !mMomentVO.isLiked
+//            }
+//        }
 //        mView?.updateLikeCount(allMoment,absoluteAdapterPosition)
 
             momentModel.handleLike(
                 mMomentVO.momentId,
-                !mMomentVO.isLiked,
+                mMomentVO.isLiked,
                 onSuccess = {
 
                 },
@@ -53,22 +53,22 @@ class MomentPresenterImpl : ViewModel(), MomentPresenter {
     }
 
     override fun onTapBookMark(vo: MomentVO, absoluteAdapterPosition: Int) {
-        TODO("Not yet implemented")
+        momentModel.saveMoment(
+            momentId = vo.momentId,
+            isSaveMoment = !vo.isSaved,
+            onSuccess = {
+
+            }, onFailure = {
+
+            }
+        )
     }
 
     override fun onTapImage() {
-        TODO("Not yet implemented")
     }
 
     override fun onUIReady(owner: LifecycleOwner) {
-//        mFireStoreApi.getMoments(
-//            onSuccess = {
-//                mView?.initMoment(it)
-//            },
-//            onFailure = {
-//                mView?.showError(it)
-//            }
-//        )
+
         momentModel.getAllMoments(
             onTapLikeCallBack = { vo->
                 allMoment.map {
@@ -77,12 +77,14 @@ class MomentPresenterImpl : ViewModel(), MomentPresenter {
                         it.likeCount = vo.likeCount
                     }
                 }
-
                 mView?.updateLikeCount(allMoment,allMoment.indexOf(vo))
             },
-            onSuccess = {
-                this.allMoment = it
-                mView?.initMoment(it)
+            onSuccess = { moments ->
+                moments.sortedByDescending {
+                    it.time
+                }
+                this.allMoment = moments
+                mView?.initMoment(moments)
             }, onFailure = {
                 mView?.showError(it)
             }
@@ -91,6 +93,5 @@ class MomentPresenterImpl : ViewModel(), MomentPresenter {
     }
 
     override fun onTapBackButton() {
-        TODO("Not yet implemented")
     }
 }

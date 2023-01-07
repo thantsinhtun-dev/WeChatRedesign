@@ -4,6 +4,7 @@ import com.google.firebase.database.DatabaseReference
 import com.stone.wechat.data.vos.ChatHistoryVO
 import com.stone.wechat.data.vos.GroupVO
 import com.stone.wechat.data.vos.MessagesVO
+import com.stone.wechat.data.vos.MomentFileVO
 
 interface FirebaseRealTimeDB {
     val database: DatabaseReference
@@ -22,6 +23,7 @@ interface FirebaseRealTimeDB {
     fun sendMessages(
         currentUserId: String,
         contactUserId: String,
+        files:List<MomentFileVO>,
         messages:MessagesVO,
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
@@ -38,6 +40,7 @@ interface FirebaseRealTimeDB {
     fun sendGroupMessages(
         groupId:String,
         messages:MessagesVO,
+        files:List<MomentFileVO>,
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     )

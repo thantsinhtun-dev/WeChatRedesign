@@ -182,8 +182,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/lblBookMarked"
-            android:clipToPadding="false"
-            android:paddingStart="@dimen/margin_medium_2"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/view_holder_moments"/>
     </RelativeLayout>

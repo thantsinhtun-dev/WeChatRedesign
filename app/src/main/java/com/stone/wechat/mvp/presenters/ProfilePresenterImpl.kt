@@ -9,20 +9,24 @@ import androidx.datastore.rxjava3.RxDataStore
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
+import com.stone.wechat.data.models.MomentModel
+import com.stone.wechat.data.models.MomentModelImpl
 import com.stone.wechat.data.models.ProfileModel
 import com.stone.wechat.data.models.ProfileModelImpl
+import com.stone.wechat.data.vos.MomentVO
 import com.stone.wechat.data.vos.UserVO
 import com.stone.wechat.mvp.views.ProfileView
 import com.stone.wechat.networks.*
 
 class ProfilePresenterImpl : ViewModel(), ProfilePresenter {
     private var mView: ProfileView? = null
-    private var dataStore: RxDataStore<Preferences>? = null
     private var userVO: UserVO? = null
 
 
     private val mProfileModel: ProfileModel = ProfileModelImpl
+    private val mMomentModel: MomentModel = MomentModelImpl
 
+    private var allSavesMoments: List<MomentVO> = arrayListOf()
     override fun initView(view: ProfileView) {
         mView = view
     }
@@ -42,10 +46,10 @@ class ProfilePresenterImpl : ViewModel(), ProfilePresenter {
             mProfileModel.updateProfileImage(
                 bitmap,
                 it,
-                onSuccess = { success->
+                onSuccess = { success ->
 //                            mView?.showError(success)
                 },
-                onFailure = { error->
+                onFailure = { error ->
                     mView?.showError(error)
                 })
         }
@@ -57,15 +61,14 @@ class ProfilePresenterImpl : ViewModel(), ProfilePresenter {
 
     override fun onUIReady(context: Context, owner: LifecycleOwner) {
 
-        dataStore = context.userDataStore
         mProfileModel.getProfileData(
             "it",
             onSuccess = { user ->
                 this.userVO = user
 
-                if(owner.lifecycle.currentState == Lifecycle.State.RESUMED){
+                if (owner.lifecycle.currentState == Lifecycle.State.RESUMED) {
                     Log.i("lifecycle_state", owner.lifecycle.currentState.name)
-                    Log.i("profile_data",user.toString())
+                    Log.i("profile_data", user.toString())
                     mView?.initProfile(user)
                 }
             },
@@ -73,6 +76,28 @@ class ProfilePresenterImpl : ViewModel(), ProfilePresenter {
                 mView?.showError(error)
             }
         )
+        mMomentModel.getAllSaveMoments(
+            onTapLikeCallBack = { vo ->
+                allSavesMoments.map {
+                    if (it.momentId == vo.momentId) {
+                        it.isLiked = vo.isLiked
+                        it.likeCount = vo.likeCount
+                    }
+                }
+                mView?.updateLikeCount(allSavesMoments, allSavesMoments.indexOf(vo))
+            },
+            onSuccess = { moments ->
+                moments.sortedByDescending {
+                    it.time
+                }
+                allSavesMoments = moments
+                mView?.initMoment(moments)
+
+            }, onFailure = {
+
+            }
+        )
+
 //        getUserDataFromStore()
     }
 
@@ -81,6 +106,38 @@ class ProfilePresenterImpl : ViewModel(), ProfilePresenter {
     }
 
     override fun onTapBackButton() {
+
+    }
+
+    override fun onTapLike(mMomentVO: MomentVO, absoluteAdapterPosition: Int) {
+        mMomentModel.handleLike(
+            mMomentVO.momentId,
+            !mMomentVO.isLiked,
+            onSuccess = {
+
+            },
+            onFailure = {
+
+            },
+        )
+    }
+
+    override fun onTapComment() {
+    }
+
+    override fun onTapBookMark(vo: MomentVO, absoluteAdapterPosition: Int) {
+        mMomentModel.saveMoment(
+            momentId = vo.momentId,
+            isSaveMoment = !vo.isSaved,
+            onSuccess = {
+
+            }, onFailure = {
+
+            }
+        )
+    }
+
+    override fun onTapImage() {
 
     }
 

@@ -87,6 +87,14 @@ interface CloudFireStoreApi {
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit,
     )
+    fun saveMoment(
+        userId: String,
+        momentId: String,
+        isSaveMoment:Boolean,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
 
 
 }

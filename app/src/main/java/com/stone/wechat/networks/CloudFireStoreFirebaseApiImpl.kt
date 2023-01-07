@@ -2,7 +2,6 @@ package com.stone.wechat.networks
 
 import android.graphics.Bitmap
 import android.util.Log
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -357,12 +356,12 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
                     onFailure(error.localizedMessage ?: error.message ?: "Oops something wrong")
                 } ?: run {
                     val result = snap?.documents ?: arrayListOf()
-                    val contactList:MutableList<ContactVO> = mutableListOf()
-                    val contactIdList:MutableList<String> = mutableListOf()
+                    val contactList: MutableList<ContactVO> = mutableListOf()
+                    val contactIdList: MutableList<String> = mutableListOf()
 //
                     result.map {
                         val contactUserId = it?.get(FIRE_STORE_USER_VO_USERID) as String
-                        loadProfileData(contactUserId,onSuccess={userVo->
+                        loadProfileData(contactUserId, onSuccess = { userVo ->
                             val contactVO = ContactVO(
                                 contactUserId,
                                 userVo.name ?: "",
@@ -370,15 +369,15 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
                                 isFavourite = "false"
                             )
                             contactList.add(contactVO)
-                            if(contactList.size == result.size){
+                            if (contactList.size == result.size) {
                                 onSuccess(contactList)
                             }
-                        },onFailure={
+                        }, onFailure = {
 
                         })
 
                     }.apply {
-                        Log.i("contact_list_count",contactList.count().toString())
+                        Log.i("contact_list_count", contactList.count().toString())
 //                        onSuccess(this)
 //                        contactsList.add(ContactVO(contactUserId, "Kyaw", "gg", ""))
                     }
@@ -436,48 +435,61 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
                     val momentList: MutableList<MomentVO> = mutableListOf()
                     momentList.clear()
                     val result = snap?.documents ?: arrayListOf()
-                    Log.i("moment_size",result.size.toString())
+                    Log.i("moment_size", result.size.toString())
                     for (document in result) {
-//                        val likeUser = document.id
 
 
-                        loadLikeCount(document.id,onFailure = {
-                            onFailure(it)
-                        }, onSuccess = { userList->
-                            val data = document.data
-                            val momentVO = MomentVO(
-                                momentId = document.id,
-                                userId = data?.get("userId") as String?,
-                                userName = data?.get("name") as String?,
-                                time = data?.get(FIRE_STORE_MOMENT_VO_TIME) as Long?,
-                                isMovie = data?.get(FIRE_STORE_MOMENT_VO_ISMOVIE) as Boolean? ?: false,
-                                momentText = data?.get("momentText") as String?,
-                                content = data?.get("contentList") as List<String>?,
-                                imageList = data?.get("contentList") as List<String>?,
-                                profileImage = data?.get("profile") as String?,
-                                likeCount = userList.size ?: 0,
-                                commentCount = data?.get("comment") as Int? ?: 0,
-                                isLiked = userList.contains(userId),
-                                isSaved = data?.get("isSaved") as Boolean? ?: false
-                            )
-                            Log.i("moment_size_result",result.size.toString())
-                            Log.i("moment_size_moment",momentList.size.toString())
+                        ///load like
+                        loadLikeCount(document.id,
+                            onFailure = {
+                                onFailure(it)
+                            },
+                            onSuccess = { userList ->
 
-                            val filter = momentList.filter {
-                                it.momentId == momentVO.momentId
-                            }
-                            if (filter.isNotEmpty()){
-                                filter[0].likeCount = userList.size
-                                filter[0].isLiked = userList.contains(userId)
-                                onTapLikeCallBack(momentVO)
+                                //check is save
+                                checkSave(userId, document.id, onSuccess = { isSave ->
+
+                                    val data = document.data
+                                    val momentVO = MomentVO(
+                                        momentId = document.id,
+                                        userId = data?.get("userId") as String?,
+                                        userName = data?.get("name") as String?,
+                                        time = data?.get(FIRE_STORE_MOMENT_VO_TIME) as Long?,
+                                        isMovie = data?.get(FIRE_STORE_MOMENT_VO_ISMOVIE) as Boolean?
+                                            ?: false,
+                                        momentText = data?.get("momentText") as String?,
+                                        content = data?.get("contentList") as List<String>?,
+                                        imageList = data?.get("contentList") as List<String>?,
+                                        profileImage = data?.get("profile") as String?,
+                                        likeCount = userList.size ?: 0,
+                                        commentCount = data?.get("comment") as Int? ?: 0,
+                                        isLiked = userList.contains(userId),
+                                        isSaved = isSave ?: false
+                                    )
+                                    Log.i("moment_size_result", result.size.toString())
+                                    Log.i("moment_size_moment", momentList.size.toString())
+
+                                    val filter = momentList.filter {
+                                        it.momentId == momentVO.momentId
+                                    }
+                                    if (filter.isNotEmpty()) {
+                                        filter[0].likeCount = userList.size
+                                        filter[0].isLiked = userList.contains(userId)
+                                        filter[0].isSaved = isSave
+                                        onTapLikeCallBack(momentVO)
 //                                onSuccess(momentList)
-                            }else{
-                                momentList.add(momentVO)
-                            }
-                            if(momentList.size >= result.size){
-                                onSuccess(momentList)
-                            }
-                        })
+                                    } else {
+                                        momentList.add(momentVO)
+                                    }
+                                    if (momentList.size >= result.size) {
+                                        onSuccess(momentList)
+                                    }
+
+                                }, onFailure = {
+
+                                })
+                            })
+
                     }
 
                 }
@@ -491,16 +503,17 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        if (isRemoveLike){
+        if (isRemoveLike) {
 
             Firebase.firestore.collection(FIRE_STORE_MOMENTS_COLLECTION)
                 .document(momentId)
                 .collection(FIRE_STORE_LIKE_COLLECTION)
                 .document(userId)
                 .delete()
-        }else{
+        } else {
             val user = hashMapOf(
-                FIRE_STORE_MOMENT_VO_USERID to userId)
+                FIRE_STORE_MOMENT_VO_USERID to userId
+            )
             Firebase.firestore.collection(FIRE_STORE_MOMENTS_COLLECTION)
                 .document(momentId)
                 .collection(FIRE_STORE_LIKE_COLLECTION)
@@ -510,29 +523,58 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
 
     }
 
-    private fun loadLikeCount(momentId: String,onSuccess: (List<String>) -> Unit,onFailure: (String) -> Unit){
+    override fun saveMoment(
+        userId: String,
+        momentId: String,
+        isSaveMoment: Boolean,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        if (isSaveMoment) {
+            val user = hashMapOf(
+                FIRE_STORE_MOMENT_VO_USERID to userId
+            )
+            Firebase.firestore.collection(FIRE_STORE_MOMENTS_COLLECTION)
+                .document(momentId)
+                .collection(FIRE_STORE_SAVE_COLLECTION)
+                .document(userId)
+                .set(user)
+        } else {
+            Firebase.firestore.collection(FIRE_STORE_MOMENTS_COLLECTION)
+                .document(momentId)
+                .collection(FIRE_STORE_SAVE_COLLECTION)
+                .document(userId)
+                .delete()
+        }
+    }
 
-      Firebase.firestore.collection(FIRE_STORE_MOMENTS_COLLECTION)
-          .document(momentId)
-          .collection(FIRE_STORE_LIKE_COLLECTION)
+    private fun loadLikeCount(
+        momentId: String,
+        onSuccess: (List<String>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+
+        Firebase.firestore.collection(FIRE_STORE_MOMENTS_COLLECTION)
+            .document(momentId)
+            .collection(FIRE_STORE_LIKE_COLLECTION)
             .addSnapshotListener { snap, error ->
                 error?.let {
                     onFailure(it.localizedMessage ?: "")
                 } ?: run {
-                   val snapCount =  snap?.documents?.size
-                    Log.i("user_id",snap?.documents.toString())
-                    Log.i("user_id",snapCount.toString())
-                    if (snapCount == 0){
+                    val snapCount = snap?.documents?.size
+                    Log.i("user_id", snap?.documents.toString())
+                    Log.i("user_id", snapCount.toString())
+                    if (snapCount == 0) {
                         onSuccess(arrayListOf())
                     }
 //                    Log.i(momentid)
-                    val list:MutableList<String> = mutableListOf()
+                    val list: MutableList<String> = mutableListOf()
                     val result = snap?.documents ?: arrayListOf()
                     for (document in result) {
                         val data = document.data
                         val user = data?.get(FIRE_STORE_MOMENT_VO_USERID) as String?
                         list.add(user.toString())
-                        if(list.size == result.size){
+                        if (list.size == result.size) {
                             onSuccess(list)
                         }
                     }
@@ -540,6 +582,29 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
             }
 
 
+    }
+
+    private fun checkSave(
+        userId: String,
+        momentId: String,
+        onSuccess: (Boolean) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        Firebase.firestore.collection(FIRE_STORE_MOMENTS_COLLECTION)
+            .document(momentId)
+            .collection(FIRE_STORE_SAVE_COLLECTION)
+            .addSnapshotListener { snap, error ->
+                error?.let {
+                    onFailure(it.localizedMessage ?: "")
+                } ?: run {
+                    val documents = snap?.documents.toString()
+                    if (documents.contains(userId)) {
+                        onSuccess(true)
+                    } else {
+                        onSuccess(false)
+                    }
+                }
+            }
     }
 
     private fun uploadFile(
@@ -588,6 +653,7 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
 
 
     }
+
     private fun loadProfileData(
         userId: String,
         onSuccess: (UserVO) -> Unit,
@@ -614,7 +680,6 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
             }.addOnFailureListener {
                 onFailure(it.localizedMessage ?: "load profile fail")
             }
-
     }
 }
 
@@ -622,6 +687,7 @@ const val FIRE_STORE_USER_COLLECTION = "users"
 const val FIRE_STORE_CONTACTS_COLLECTION = "contacts"
 const val FIRE_STORE_MOMENTS_COLLECTION = "moments"
 const val FIRE_STORE_LIKE_COLLECTION = "likes"
+const val FIRE_STORE_SAVE_COLLECTION = "saves"
 
 
 const val FIRE_STORE_USER_VO_NAME = "name"

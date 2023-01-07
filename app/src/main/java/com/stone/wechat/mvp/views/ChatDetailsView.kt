@@ -7,7 +7,7 @@ import com.stone.wechat.data.vos.MomentFileVO
 interface ChatDetailsView:BaseView {
     fun initChats(messages:List<MessagesVO>,currentUserId:String)
     fun showFailureMessages(messages:String)
-    fun showGallery()
+    fun showGallery(isMovie:Boolean)
     fun showSelectedContents(selectedContents:List<MomentFileVO>)
     fun initContact(contactVO: ContactVO)
 
