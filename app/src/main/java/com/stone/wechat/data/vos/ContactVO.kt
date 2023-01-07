@@ -7,5 +7,7 @@ data class ContactVO(
     val contactName:String,
     val contactImage:String,
     val isFavourite:String,
-    var isSelected:Boolean = false
+    var isSelected:Boolean = false,
+    var onlineStatus:Boolean = false,
+    var lastOnlineTime:Long = 0
 ):Serializable

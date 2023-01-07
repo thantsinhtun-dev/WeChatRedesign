@@ -9,7 +9,6 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 import com.stone.wechat.WeChatApplication
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,4 +42,40 @@ fun Int.getChar():String{
 
 fun Long.formatDate(): String {
    return SimpleDateFormat("HH:mm a", Locale.US).format(Date(this)).toString()
+}
+private const val SECOND_MILLIS = 1000
+private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
+private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
+private const val DAY_MILLIS = 24 * HOUR_MILLIS
+
+
+fun Long.getTimeAgo(): String? {
+   var time = this
+   if (time < 1000000000000L) {
+      // if timestamp given in seconds, convert to millis
+      time *= 1000
+   }
+   val now: Long = System.currentTimeMillis()
+   if (time > now || time <= 0) {
+      return null
+   }
+
+   // TODO: localize
+   val diff = now - time
+   return if (diff < MINUTE_MILLIS) {
+      "a moment ago"
+   } else if (diff < 2 * MINUTE_MILLIS) {
+      "a minute ago"
+   } else if (diff < 50 * MINUTE_MILLIS) {
+      (diff / MINUTE_MILLIS).toString() + " minutes ago"
+   } else if (diff < 90 * MINUTE_MILLIS) {
+      "an hour ago"
+   } else if (diff < 24 * HOUR_MILLIS) {
+
+      (diff/HOUR_MILLIS).toString() + " hours ago"
+   } else if (diff < 48 * HOUR_MILLIS) {
+      "yesterday"
+   } else {
+      (diff / DAY_MILLIS).toString() + " days ago"
+   }
 }

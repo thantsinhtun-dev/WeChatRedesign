@@ -112,7 +112,7 @@ class ProfilePresenterImpl : ViewModel(), ProfilePresenter {
     override fun onTapLike(mMomentVO: MomentVO, absoluteAdapterPosition: Int) {
         mMomentModel.handleLike(
             mMomentVO.momentId,
-            !mMomentVO.isLiked,
+            mMomentVO.isLiked,
             onSuccess = {
 
             },

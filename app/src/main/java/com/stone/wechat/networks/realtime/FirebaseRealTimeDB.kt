@@ -31,9 +31,9 @@ interface FirebaseRealTimeDB {
     fun createGroup(
         currentUserId:String,
         groupName:String,
-        groupPhoto:String,
+        groupPhoto: MomentFileVO?,
         memberList:List<String>,
-        onSuccess: (String)->Unit,onFailure:(String)->Unit
+        onSuccess: (String)->Unit, onFailure:(String)->Unit
     )
     fun getAllGroups( currentUserId: String,onSuccess: (List<GroupVO>)->Unit, onFailure:(String)->Unit)
 

@@ -8,5 +8,8 @@ data class UserVO(
     var password:String? = "",
     var userId:String? = "",
     var qrCode:String? = "",
-    var profile:String? = ""
+    var profile:String? = "",
+    var onlineStatus:Boolean = false,
+    var lastOnlineTime:Long = 0
+
 )

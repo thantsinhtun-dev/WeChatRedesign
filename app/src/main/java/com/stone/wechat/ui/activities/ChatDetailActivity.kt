@@ -4,10 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.snov.timeagolibrary.PrettyTimeAgo
 import com.stone.wechat.R
 import com.stone.wechat.adapter.MessageAdapter
 import com.stone.wechat.data.vos.ContactVO
@@ -16,6 +20,7 @@ import com.stone.wechat.data.vos.MomentFileVO
 import com.stone.wechat.mvp.presenters.ChatsDetailsPresenter
 import com.stone.wechat.mvp.presenters.ChatsDetailsPresenterImpl
 import com.stone.wechat.mvp.views.ChatDetailsView
+import com.stone.wechat.utils.getTimeAgo
 import com.stone.wechat.utils.loadBitmapFromUri
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -47,6 +52,9 @@ class ChatDetailActivity : BaseActivity(), ChatDetailsView {
 
         val contactVO = intent.getSerializableExtra(EXTRA_CONTACT) as ContactVO
         val isGroup = intent.getBooleanExtra(EXTRA_IS_GROUP, false)
+        if (isGroup){
+            lblOnlineStatus.visibility = View.GONE
+        }
 
         setUpPresenter()
         setUpListener()
@@ -133,6 +141,9 @@ class ChatDetailActivity : BaseActivity(), ChatDetailsView {
         imgChoosePhoto.setOnClickListener {
             mPresenter.onChooseImage()
         }
+        imgBack.setOnClickListener {
+            mPresenter.onTapBackButton()
+        }
 
     }
 
@@ -165,7 +176,20 @@ class ChatDetailActivity : BaseActivity(), ChatDetailsView {
     }
 
     override fun initContact(contactVO: ContactVO) {
+        Log.i("Gooo",contactVO.toString())
         lblUserName.text = contactVO.contactName
+        Glide.with(this)
+            .load(contactVO.contactImage)
+            .placeholder(R.drawable.ic_avator)
+            .into(imgChatIcon)
+        if(contactVO.onlineStatus ){
+            lblOnlineStatus.text = "online"
+            imgOnlineStatusIcon.setImageResource(R.drawable.ic_active)
+        }else{
+            lblOnlineStatus.text = contactVO.lastOnlineTime.getTimeAgo()
+            imgOnlineStatusIcon.setImageResource(R.drawable.ic_inactive)
+        }
+
     }
 
     override fun showError(error: String) {

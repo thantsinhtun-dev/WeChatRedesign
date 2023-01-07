@@ -23,10 +23,12 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgBack"
-                    android:layout_width="@dimen/margin_xlarge"
-                    android:layout_height="@dimen/margin_xlarge"
+                    android:layout_width="@dimen/margin_xxlarge"
+                    android:layout_height="@dimen/margin_xxlarge"
                     android:layout_centerVertical="true"
-                    android:padding="@dimen/margin_medium"
+                    android:padding="@dimen/margin_card_medium_3"
+                    android:clickable="true"
+                    android:background="?selectableItemBackgroundBorderless"
                     app:srcCompat="@drawable/ic_back" />
 
 
@@ -36,10 +38,12 @@
                     android:layout_height="@dimen/margin_xxlarge"
                     android:layout_marginHorizontal="@dimen/margin_medium"
                     android:layout_toEndOf="@id/imgBack"
+                    android:scaleType="centerCrop"
                     app:shapeAppearance="@style/ImageView.Corner.medium"
                     app:srcCompat="@drawable/ic_avator" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgOnlineStatusIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignEnd="@id/imgChatIcon"

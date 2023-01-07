@@ -5,6 +5,7 @@
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="margin_medium_2">16dp</dimen>
     <dimen name="margin_card_medium_2">12dp</dimen>
+    <dimen name="margin_card_medium_3">14dp</dimen>
     <dimen name="margin_medium_3">20dp</dimen>
     <dimen name="margin_large">24dp</dimen>
     <dimen name="margin_xlarge">32dp</dimen>

@@ -3,6 +3,7 @@ package com.stone.wechat.data.models
 import android.util.Log
 import com.stone.wechat.data.vos.ContactVO
 import com.stone.wechat.data.vos.GroupVO
+import com.stone.wechat.data.vos.MomentFileVO
 import com.stone.wechat.networks.CloudFireStoreApi
 import com.stone.wechat.networks.CloudFireStoreFirebaseApiImpl
 import com.stone.wechat.networks.auth.FirebaseAuthManagerImpl
@@ -43,7 +44,7 @@ object ContactModelImpl : ContactModel {
 
     override fun createGroup(
         groupName: String,
-        groupPhoto: String,
+        groupPhoto: MomentFileVO?,
         memberList: List<String>,
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
@@ -62,6 +63,22 @@ object ContactModelImpl : ContactModel {
         mAuthManager.getCurrentUser(
             onSuccess = {
                 database.getAllGroups(currentUserId = it, onSuccess, onFailure)
+            }, onFailure = {
+                onFailure(it)
+            }
+        )
+    }
+
+    override fun changeOnlineStatus(
+        isOnline: Boolean,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mAuthManager.getCurrentUser(
+            onSuccess = {userId->
+
+                  mFireStoreApi.changeOnlineStatus(userId,isOnline, onSuccess, onFailure)
+
             }, onFailure = {
                 onFailure(it)
             }

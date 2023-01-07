@@ -246,21 +246,24 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
         onFailure: (String) -> Unit
     ) {
         userVO.userId?.let {
-
             val user = hashMapOf(
-                "userId" to userVO.userId,
-                "name" to userVO.name,
-                "phone" to userVO.phone,
-                "dob" to userVO.dob,
-                "gender" to userVO.gender,
-                "password" to userVO.password,
-                "profile" to userVO.profile,
-                "qrCode" to userVO.qrCode,
+                FIRE_STORE_USER_VO_USERID to userVO.userId,
+                FIRE_STORE_USER_VO_NAME to userVO.name,
+                FIRE_STORE_USER_VO_PHONE to userVO.phone,
+                FIRE_STORE_USER_VO_DOB to userVO.dob,
+                FIRE_STORE_USER_VO_GENDER to userVO.gender,
+                FIRE_STORE_USER_VO_PASSWORD to userVO.password,
+                FIRE_STORE_USER_VO_PROFILE to userVO.profile,
+                FIRE_STORE_USER_VO_QRCODE to userVO.qrCode,
+                FIRE_STORE_MOMENT_VO_IS_ONLINE to true,
+                FIRE_STORE_MOMENT_VO_LAST_ONLINE_TIME to userVO.lastOnlineTime
             )
-            Firebase.firestore.collection("users").document(it).set(user).addOnSuccessListener {
-                onSuccess("success")
 
-            }.addOnFailureListener {
+            Firebase.firestore.collection(FIRE_STORE_USER_COLLECTION).document(it).set(user)
+                .addOnSuccessListener {
+                    onSuccess("success")
+
+                }.addOnFailureListener {
                 onFailure(it.localizedMessage ?: "Update Profile Fail")
             }
         }
@@ -290,16 +293,17 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
             val imageUrl = task.result?.toString()
 
             userVO.userId?.let {
-
                 val user = hashMapOf(
-                    "userId" to userVO.userId,
-                    "name" to userVO.name,
-                    "phone" to userVO.phone,
-                    "dob" to userVO.dob,
-                    "gender" to userVO.gender,
-                    "password" to userVO.password,
-                    "profile" to imageUrl,
-                    "qrCode" to userVO.qrCode,
+                    FIRE_STORE_USER_VO_USERID to userVO.userId,
+                    FIRE_STORE_USER_VO_NAME to userVO.name,
+                    FIRE_STORE_USER_VO_PHONE to userVO.phone,
+                    FIRE_STORE_USER_VO_DOB to userVO.dob,
+                    FIRE_STORE_USER_VO_GENDER to userVO.gender,
+                    FIRE_STORE_USER_VO_PASSWORD to userVO.password,
+                    FIRE_STORE_USER_VO_PROFILE to imageUrl,
+                    FIRE_STORE_USER_VO_QRCODE to userVO.qrCode,
+                    FIRE_STORE_MOMENT_VO_IS_ONLINE to true,
+                    FIRE_STORE_MOMENT_VO_LAST_ONLINE_TIME to System.currentTimeMillis()
                 )
                 Firebase.firestore.collection("users").document(it).set(user).addOnSuccessListener {
                     onSuccess("success")
@@ -328,7 +332,6 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
             .collection(FIRE_STORE_USER_COLLECTION).document(currentUserId)
             .collection(FIRE_STORE_CONTACTS_COLLECTION)
             .document(addUserId)
-//            .document(addUserId)
             .set(addUser)
             .addOnSuccessListener {
                 onSuccess(arrayListOf())
@@ -357,8 +360,7 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
                 } ?: run {
                     val result = snap?.documents ?: arrayListOf()
                     val contactList: MutableList<ContactVO> = mutableListOf()
-                    val contactIdList: MutableList<String> = mutableListOf()
-//
+
                     result.map {
                         val contactUserId = it?.get(FIRE_STORE_USER_VO_USERID) as String
                         loadProfileData(contactUserId, onSuccess = { userVo ->
@@ -366,7 +368,9 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
                                 contactUserId,
                                 userVo.name ?: "",
                                 userVo.profile ?: "",
-                                isFavourite = "false"
+                                isFavourite = "false",
+                                onlineStatus = userVo.onlineStatus,
+                                lastOnlineTime = userVo.lastOnlineTime
                             )
                             contactList.add(contactVO)
                             if (contactList.size == result.size) {
@@ -376,46 +380,7 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
 
                         })
 
-                    }.apply {
-                        Log.i("contact_list_count", contactList.count().toString())
-//                        onSuccess(this)
-//                        contactsList.add(ContactVO(contactUserId, "Kyaw", "gg", ""))
                     }
-//                    Observable.just(result)
-//                        .map { it
-//                            val contactsList: MutableList<ContactVO> = mutableListOf()
-//                            for (document in it) {
-//                                val data = document.data
-//                                val contactUserId = data?.get(FIRE_STORE_USER_VO_USERID) as String
-//
-////                                contactsList.add(ContactVO(contactUserId, "Kyaw", "gg", ""))
-//                                getProfileData(
-//                                    contactUserId,
-//                                    onSuccess = { userVo ->
-//                                        Log.i("contact_user_id", userVo.name ?: "notfound")
-//                                        val contactVO = ContactVO(
-//                                            contactUserId,
-//                                            userVo.name ?: "",
-//                                            userVo.profile ?: "",
-//                                            isFavourite = "false"
-//                                        )
-//                                        contactsList.add(contactVO)
-//                                    }, onFailure = {
-//                                        onFailure(it)
-//                                    })
-//
-//                            }
-//                            contactsList
-//
-//                        }
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe {
-//                            Log.i("contact_list_in_rx",it.count().toString())
-//                            onSuccess(it)
-//                        }
-
-
                 }
             }
     }
@@ -548,6 +513,41 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
         }
     }
 
+    override fun changeOnlineStatus(
+        userId: String,
+        isOnline: Boolean,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        loadProfileData(userId, onSuccess = { userVO ->
+            userVO.userId?.let {
+
+                val user = hashMapOf(
+                    FIRE_STORE_USER_VO_USERID to userVO.userId,
+                    FIRE_STORE_USER_VO_NAME to userVO.name,
+                    FIRE_STORE_USER_VO_PHONE to userVO.phone,
+                    FIRE_STORE_USER_VO_DOB to userVO.dob,
+                    FIRE_STORE_USER_VO_GENDER to userVO.gender,
+                    FIRE_STORE_USER_VO_PASSWORD to userVO.password,
+                    FIRE_STORE_USER_VO_PROFILE to userVO.profile,
+                    FIRE_STORE_USER_VO_QRCODE to userVO.qrCode,
+                    FIRE_STORE_MOMENT_VO_IS_ONLINE to isOnline,
+                    FIRE_STORE_MOMENT_VO_LAST_ONLINE_TIME to System.currentTimeMillis()
+                )
+                Firebase.firestore.collection("users").document(it).set(user).addOnSuccessListener {
+                    onSuccess("success")
+
+                }.addOnFailureListener {
+                    onFailure(it.localizedMessage ?: "Update Profile Fail")
+                }
+            }
+        }, onFailure = {
+
+        })
+
+
+    }
+
     private fun loadLikeCount(
         momentId: String,
         onSuccess: (List<String>) -> Unit,
@@ -673,7 +673,9 @@ object CloudFireStoreFirebaseApiImpl : CloudFireStoreApi {
                         gender = snap[FIRE_STORE_USER_VO_GENDER] as String,
                         userId = snap[FIRE_STORE_USER_VO_USERID] as String,
                         qrCode = snap[FIRE_STORE_USER_VO_QRCODE] as String,
-                        profile = snap[FIRE_STORE_USER_VO_PROFILE] as String
+                        profile = snap[FIRE_STORE_USER_VO_PROFILE] as String,
+                        onlineStatus = snap[FIRE_STORE_MOMENT_VO_IS_ONLINE] as Boolean,
+                        lastOnlineTime = snap[FIRE_STORE_MOMENT_VO_LAST_ONLINE_TIME]  as Long,
                     )
                     onSuccess(user)
                 }
@@ -708,3 +710,5 @@ const val FIRE_STORE_MOMENT_VO_ISMOVIE = "isMovie"
 const val FIRE_STORE_MOMENT_VO_CONTENT = "contentList"
 const val FIRE_STORE_MOMENT_VO_MOMENTTEXT = "momentText"
 const val FIRE_STORE_MOMENT_VO_IMAGE_LIST = "imageList"
+const val FIRE_STORE_MOMENT_VO_IS_ONLINE = "isOnline"
+const val FIRE_STORE_MOMENT_VO_LAST_ONLINE_TIME = "lastOnlineTime"

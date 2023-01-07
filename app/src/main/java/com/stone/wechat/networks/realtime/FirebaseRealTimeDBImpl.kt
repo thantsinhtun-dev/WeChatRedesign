@@ -69,6 +69,7 @@ object FirebaseRealTimeDBImpl : FirebaseRealTimeDB {
                         dataSnapshot.getValue(MessagesVO::class.java)?.let {
                             chatHistory.add(it)
                         }
+
                     }
                     onSuccess(chatHistory)
                 }
@@ -123,7 +124,7 @@ object FirebaseRealTimeDBImpl : FirebaseRealTimeDB {
     override fun createGroup(
         currentUserId: String,
         groupName: String,
-        groupPhoto: String,
+        groupPhoto: MomentFileVO?,
         memberList: List<String>,
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
@@ -134,18 +135,33 @@ object FirebaseRealTimeDBImpl : FirebaseRealTimeDB {
         allMember.add(currentUserId)
 
         val groupId = System.currentTimeMillis().toString()
-
-            val groupVO = GroupVO(groupId, groupName, groupPhoto, allMember)
+        groupPhoto?.let {
+            uploadFile(arrayListOf(it),onSuccess={
+                val groupVO = GroupVO(groupId, groupName, it, allMember)
+                database.child(FIREBASE_GROUP_COLLECTION)
+                    .child(groupId)
+                    .setValue(groupVO)
+                    .addOnSuccessListener {
+                        onSuccess("")
+                    }.addOnFailureListener {
+                        onFailure(it.localizedMessage ?: "Fail to create group")
+                    }
+            },onFailure={
+                onFailure(it)
+            })
+        } ?: run {
+            val groupVO = GroupVO(groupId, groupName, "", allMember)
             database.child(FIREBASE_GROUP_COLLECTION)
                 .child(groupId)
                 .setValue(groupVO)
                 .addOnSuccessListener {
-
+                    onSuccess("")
                 }.addOnFailureListener {
                     onFailure(it.localizedMessage ?: "Fail to create group")
-                }.continueWith {
-
                 }
+        }
+
+
 
 
 

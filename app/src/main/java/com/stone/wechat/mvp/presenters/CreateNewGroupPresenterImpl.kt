@@ -2,11 +2,10 @@ package com.stone.wechat.mvp.presenters
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
-import com.stone.wechat.data.models.AuthModel
-import com.stone.wechat.data.models.AuthModelImpl
 import com.stone.wechat.data.models.ContactModel
 import com.stone.wechat.data.models.ContactModelImpl
 import com.stone.wechat.data.vos.ContactVO
+import com.stone.wechat.data.vos.MomentFileVO
 import com.stone.wechat.mvp.views.CreateNewGroupView
 
 class CreateNewGroupPresenterImpl : ViewModel(), CreateNewGroupPresenter {
@@ -18,6 +17,7 @@ class CreateNewGroupPresenterImpl : ViewModel(), CreateNewGroupPresenter {
 
     private var mContactList: MutableList<ContactVO> = mutableListOf()
     private var mSelectedContacts: MutableList<ContactVO> = mutableListOf()
+    private var fileVO:MomentFileVO? = null
 
 
     private var groupPhotoUrl = ""
@@ -89,15 +89,23 @@ class CreateNewGroupPresenterImpl : ViewModel(), CreateNewGroupPresenter {
 
         mContactModel.createGroup(
             groupName = groupName,
-            groupPhoto = groupPhotoUrl,
+            groupPhoto = fileVO,
             memberList = mSelectedContacts.map { it.contactId },
             onSuccess = {
                 mView?.onTapBack()
-            },
-            onFailure = {
-                mView?.showError(it)
             }
-        )
+        ) {
+            mView?.showError(it)
+        }
+    }
+
+    override fun onTapGroupImage() {
+        mView?.openGallery()
+    }
+
+    override fun selectedGroupImage(file: MomentFileVO) {
+        this.fileVO = file
+        mView?.showGroupIcon(file.content)
     }
 
     override fun onTapBackButton() {

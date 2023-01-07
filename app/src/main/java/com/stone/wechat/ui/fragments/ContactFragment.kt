@@ -23,6 +23,7 @@ import com.stone.wechat.ui.activities.ChatDetailActivity
 import com.stone.wechat.ui.activities.CreateNewGroupActivity
 import com.stone.wechat.ui.activities.EXTRA_CONTACT_USER
 import kotlinx.android.synthetic.main.fragment_contact.*
+import java.util.jar.Manifest
 
 
 class ContactFragment : BaseFragment(),ContactView {
@@ -68,6 +69,15 @@ class ContactFragment : BaseFragment(),ContactView {
 
             }
         }
+    private val requestCameraPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){
+        if (it){
+            mPresenter.onTapNewContact()
+        }else{
+            Toast.makeText(context, "Need to access camera for this feature", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
 
     private fun setUpRecyclerView() {
         mGroupAdapter = GroupAdapter(mPresenter)
@@ -84,7 +94,7 @@ class ContactFragment : BaseFragment(),ContactView {
 
     private fun setUpListener() {
         imgAddUser.setOnClickListener {
-            mPresenter.onTapNewContact()
+            requestCameraPermission.launch(android.Manifest.permission.CAMERA)
         }
         imgAddNewGroup.setOnClickListener {
             mPresenter.onTapNewGroup()

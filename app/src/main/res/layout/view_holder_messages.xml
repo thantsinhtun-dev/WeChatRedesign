@@ -6,7 +6,6 @@
     android:background="@color/colorTransparent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/rlChatOfContactUser"
         android:layout_width="@dimen/width_chat_message"
         android:layout_height="wrap_content"

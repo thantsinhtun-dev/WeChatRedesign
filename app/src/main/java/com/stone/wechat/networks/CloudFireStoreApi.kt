@@ -94,6 +94,8 @@ interface CloudFireStoreApi {
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     )
+    fun changeOnlineStatus(userId: String,        isOnline: Boolean,onSuccess: (String) -> Unit,onFailure: (String) -> Unit)
+
 
 
 

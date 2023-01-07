@@ -137,7 +137,7 @@
                     android:id="@+id/imgAddNewGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="?selectableItemBackgroundBorderless"
+                    android:background="?selectableItemBackground"
                     android:clickable="true"
                     android:paddingTop="@dimen/margin_medium"
                     app:srcCompat="@drawable/ic_add_group" />

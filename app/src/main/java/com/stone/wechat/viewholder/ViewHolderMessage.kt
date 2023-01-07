@@ -2,6 +2,8 @@ package com.stone.wechat.viewholder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.stone.wechat.R
 import com.stone.wechat.adapter.ChatMessagesFileAdapter
 import com.stone.wechat.data.vos.MessagesVO
 import com.stone.wechat.utils.formatDate
@@ -38,7 +40,10 @@ class ViewHolderMessage(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         }else{
             itemView.rlChatOfContactUser.visibility = View.VISIBLE
-
+            Glide.with(itemView.context)
+                .load(mData.senderProfile)
+                .placeholder(R.drawable.ic_avator)
+                .into(itemView.imgContactUserProfile)
             if (mData.message?.isNotEmpty() == true) {
                 itemView.llContact.visibility = View.VISIBLE
                 itemView.lblContactMessage.text = mData.message
